@@ -5,7 +5,15 @@
 
 #define PI 3.14159
 
+// __________________________________________________________________
+// __________________________________________________________________
+// _______ mutoy methods ____________________________________________
+// _______ Douglas Davis ____________________________________________
+// __________________________________________________________________
+
 evg::evg() {}  // Default constructor -- not used
+
+// __________________________________________________________________
 
 evg::evg(std::string file_name, int n_events)
 {
@@ -19,7 +27,11 @@ evg::evg(std::string file_name, int n_events)
   fTree->Branch("SimFibers",   fSimFibers,  "SimFibers[1024]/I");
 }
 
+// __________________________________________________________________
+
 evg::~evg() {} // Default destructor
+
+// __________________________________________________________________
 
 void evg::Multiplex(int fiberid, std::vector<int> *ids)
 {
@@ -70,6 +82,8 @@ void evg::Multiplex(int fiberid, std::vector<int> *ids)
   }
   return;
 }
+
+// __________________________________________________________________
 
 bool evg::Intersection(double fx, double fy, double fz,
 		       bool yzView, double tx, double ty, double tz,
@@ -125,6 +139,8 @@ bool evg::Intersection(double fx, double fy, double fz,
     return false;
   return true;
 }
+
+// __________________________________________________________________
 
 int evg::GetFiberInView(int irow, int ifiber, bool YZview)
 {
