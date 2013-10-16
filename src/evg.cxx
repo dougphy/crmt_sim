@@ -6,6 +6,7 @@
 // _______ Fall 2013 ________________________________________________
 // __________________________________________________________________
 
+#include <iostream>
 #include <map>
 #include <vector>
 #include <cmath>
@@ -32,6 +33,70 @@ evg::evg(std::string file_name, int n_events)
 // __________________________________________________________________
 
 evg::~evg() {} // Default destructor
+
+// __________________________________________________________________
+
+void evg::ReadParameters()
+{
+  fConfigFile.open("Parameters.cfg");
+  std::string label;
+  double param;
+  std::vector<double> param_vec;
+  param_vec.reserve(20);
+  while (fConfigFile >> label >> param)
+    param_vec.push_back(param);
+  if (param_vec[0] == 0)  { fOriginUniformDist = false; }
+  else                    { fOriginUniformDist = true; }
+  if (param_vec[1] == 0)  { fOriginDefined = false; }
+  else                    { fOriginDefined = true; }
+  if (param_vec[2] == 0)  { fAnglesGaussian = false; }
+  else                    { fAnglesGaussian = true; }
+  if (param_vec[3] == 0)  { fAnglesUniformDist = false; }
+  else                    { fAnglesUniformDist = true; }
+  if (param_vec[4] == 0)  { fAnglesDefined = false; }
+  else                    { fAnglesDefined = true; }
+  fOriginUniformDistXmin = param_vec[5];
+  fOriginUniformDistXmax = param_vec[6];
+  fOriginUniformDistYmin = param_vec[7];
+  fOriginUniformDistYmax = param_vec[8];
+  fOriginDefinedX        = param_vec[9];
+  fOriginDefinedY        = param_vec[10];
+  fAnglesGaussianCenter  = param_vec[11];
+  fAnglesGaussianSigma   = param_vec[12];
+  fAnglesUniformDistXmin = param_vec[13];
+  fAnglesUniformDistXmax = param_vec[14];
+  fAnglesUniformDistYmin = param_vec[15];
+  fAnglesUniformDistYmax = param_vec[16];
+  fAnglesDefinedX        = param_vec[17];
+  fAnglesDefinedY        = param_vec[18];
+  fGap                   = param_vec[19];
+}
+
+// __________________________________________________________________
+
+void evg::CheckParameters()
+{
+  std::cout << "fOriginUniformDist     = " << fOriginUniformDist     << std::endl;
+  std::cout << "fOriginDefined         = " << fOriginDefined         << std::endl;
+  std::cout << "fAnglesGaussian        = " << fAnglesGaussian        << std::endl;
+  std::cout << "fAnglesUniformDist     = " << fAnglesUniformDist     << std::endl;
+  std::cout << "fAnglesDefined         = " << fAnglesDefined         << std::endl;
+  std::cout << "fOriginUniformDistXmin = " << fOriginUniformDistXmin << std::endl;
+  std::cout << "fOriginUniformDistXmax = " << fOriginUniformDistXmax << std::endl;
+  std::cout << "fOriginUniformDistYmin = " << fOriginUniformDistYmin << std::endl;
+  std::cout << "fOriginUniformDistYmax = " << fOriginUniformDistYmax << std::endl;
+  std::cout << "fOriginDefinedX        = " << fOriginDefinedX        << std::endl;
+  std::cout << "fOriginDefinedY        = " << fOriginDefinedY        << std::endl;
+  std::cout << "fAnglesGaussianCenter  = " << fAnglesGaussianCenter  << std::endl;
+  std::cout << "fAnglesGaussianSigma   = " << fAnglesGaussianSigma   << std::endl;
+  std::cout << "fAnglesUniformDistXmin = " << fAnglesUniformDistXmin << std::endl;
+  std::cout << "fAnglesUniformDistXmax = " << fAnglesUniformDistXmax << std::endl;
+  std::cout << "fAnglesUniformDistYmin = " << fAnglesUniformDistYmin << std::endl;
+  std::cout << "fAnglesUniformDistYmax = " << fAnglesUniformDistYmax << std::endl;
+  std::cout << "fAnglesDefinedX        = " << fAnglesDefinedX        << std::endl;
+  std::cout << "fAnglesDefinedY        = " << fAnglesDefinedY        << std::endl;
+  std::cout << "fGap                   = " << fGap                   << std::endl;
+}
 
 // __________________________________________________________________
 

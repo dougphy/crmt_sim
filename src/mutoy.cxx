@@ -9,9 +9,11 @@ void usage()
 
 int main(int argc, const char *argv[])
 {
-  std::cout << "Based God Simulation" << std::endl;
-  std::string file_name = argv[1];
-  evg *event_set = new evg(file_name.c_str(),55);
+  std::cout << "Based God Simulation Under Construction" << std::endl;
+
+  evg *event_set = new evg("file.root",55);
+  event_set->ReadParameters();
+  event_set->CheckParameters();
   event_set->SaveFile();
 }
 
