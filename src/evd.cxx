@@ -7,9 +7,15 @@
 // __________________________________________________________________
 
 #include <iostream>
+#include "evg.h"
 #include "evd.h"
 
 evd::evd() {}
 
 evd::~evd() {}
 
+void evd::InitData(std::string file_name)
+{
+  fFile = new TFile(file_name.c_str());
+  fTree = (TTree*)fFile->Get("SimulationTree");
+}
