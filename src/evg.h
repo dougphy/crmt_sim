@@ -3,6 +3,7 @@
 
 #include "TFile.h"
 #include "TTree.h"
+#include "TVector3.h"
 #include <vector>
 #include <string>
 #include <fstream>
@@ -35,11 +36,21 @@ private:
   int               fNEvents;
   double            fGap;
   int               fEventID;
+  double            fInitialX;
+  double            fInitialY;
+  double            fInitialZ;
+  double            fTraj[3];
   double            fThetaXZ;
   double            fThetaYZ;
   int               fTrueFibers[1024];
   int               fSimFibers[1024];
   std::vector<int>  fIDs;
+  const double      fScintWidth  = 10.4;
+  const double      fScintHeight = 30.8;
+  const double      fScintLength = 650.0;
+  const double      fStripShift  = 3.333;
+  const double      fScintGap    = 4.8;
+  const double      fModGap      = 6.4;
   
 public:
   evg();
@@ -48,7 +59,6 @@ public:
   void ReadParameters();
   void CheckParameters();
   void Multiplex(int fiberid, std::vector<int> *ids);
-  void RunEvent();
   bool Intersection(double fx, double fy, double fz,
 		    bool yzView, double tx, double ty, double tz,
 		    double thetaxz, double thetayz,

@@ -24,8 +24,12 @@ evg::evg(std::string file_name, int n_events)
   fFile     = new TFile(file_name.c_str(),"RECREATE");
   fTree     = new TTree("SimulationTree","SimulationTree");
   fTree->Branch("EventID",    &fEventID,    "EventID/I");
+  fTree->Branch("InitialX",   &fInitialX,   "InitialX/D");
+  fTree->Branch("InitialY",   &fInitialY,   "InitialY/D");
+  fTree->Branch("InitialZ",   &fInitialZ,   "InitialZ/D");
   fTree->Branch("ThetaXZ",    &fThetaXZ,    "ThetaXZ/D");
   fTree->Branch("ThetaYZ",    &fThetaYZ,    "ThetaYZ/D");
+  fTree->Branch("Traj",        fTraj,       "Traj/D");
   fTree->Branch("TrueFibers",  fTrueFibers, "TrueFibers[1024]/I");
   fTree->Branch("SimFibers",   fSimFibers,  "SimFibers[1024]/I");
 }
@@ -76,26 +80,26 @@ void evg::ReadParameters()
 
 void evg::CheckParameters()
 {
-  std::cout << "fOriginUniformDist     = " << fOriginUniformDist     << std::endl;
-  std::cout << "fOriginDefined         = " << fOriginDefined         << std::endl;
-  std::cout << "fAnglesGaussian        = " << fAnglesGaussian        << std::endl;
-  std::cout << "fAnglesUniformDist     = " << fAnglesUniformDist     << std::endl;
-  std::cout << "fAnglesDefined         = " << fAnglesDefined         << std::endl;
-  std::cout << "fOriginUniformDistXmin = " << fOriginUniformDistXmin << std::endl;
-  std::cout << "fOriginUniformDistXmax = " << fOriginUniformDistXmax << std::endl;
-  std::cout << "fOriginUniformDistYmin = " << fOriginUniformDistYmin << std::endl;
-  std::cout << "fOriginUniformDistYmax = " << fOriginUniformDistYmax << std::endl;
-  std::cout << "fOriginDefinedX        = " << fOriginDefinedX        << std::endl;
-  std::cout << "fOriginDefinedY        = " << fOriginDefinedY        << std::endl;
-  std::cout << "fAnglesGaussianCenter  = " << fAnglesGaussianCenter  << std::endl;
-  std::cout << "fAnglesGaussianSigma   = " << fAnglesGaussianSigma   << std::endl;
-  std::cout << "fAnglesUniformDistXmin = " << fAnglesUniformDistXmin << std::endl;
-  std::cout << "fAnglesUniformDistXmax = " << fAnglesUniformDistXmax << std::endl;
-  std::cout << "fAnglesUniformDistYmin = " << fAnglesUniformDistYmin << std::endl;
-  std::cout << "fAnglesUniformDistYmax = " << fAnglesUniformDistYmax << std::endl;
-  std::cout << "fAnglesDefinedX        = " << fAnglesDefinedX        << std::endl;
-  std::cout << "fAnglesDefinedY        = " << fAnglesDefinedY        << std::endl;
-  std::cout << "fGap                   = " << fGap                   << std::endl;
+  std::cout << "fOriginUniformDist     = " << std::boolalpha << fOriginUniformDist     << std::endl;
+  std::cout << "fOriginDefined         = " << std::boolalpha << fOriginDefined         << std::endl;
+  std::cout << "fAnglesGaussian        = " << std::boolalpha << fAnglesGaussian        << std::endl;
+  std::cout << "fAnglesUniformDist     = " << std::boolalpha << fAnglesUniformDist     << std::endl;
+  std::cout << "fAnglesDefined         = " << std::boolalpha << fAnglesDefined         << std::endl;
+  std::cout << "fOriginUniformDistXmin = "                   << fOriginUniformDistXmin << std::endl;
+  std::cout << "fOriginUniformDistXmax = "                   << fOriginUniformDistXmax << std::endl;
+  std::cout << "fOriginUniformDistYmin = "                   << fOriginUniformDistYmin << std::endl;
+  std::cout << "fOriginUniformDistYmax = "                   << fOriginUniformDistYmax << std::endl;
+  std::cout << "fOriginDefinedX        = "                   << fOriginDefinedX        << std::endl;
+  std::cout << "fOriginDefinedY        = "                   << fOriginDefinedY        << std::endl;
+  std::cout << "fAnglesGaussianCenter  = "                   << fAnglesGaussianCenter  << std::endl;
+  std::cout << "fAnglesGaussianSigma   = "                   << fAnglesGaussianSigma   << std::endl;
+  std::cout << "fAnglesUniformDistXmin = "                   << fAnglesUniformDistXmin << std::endl;
+  std::cout << "fAnglesUniformDistXmax = "                   << fAnglesUniformDistXmax << std::endl;
+  std::cout << "fAnglesUniformDistYmin = "                   << fAnglesUniformDistYmin << std::endl;
+  std::cout << "fAnglesUniformDistYmax = "                   << fAnglesUniformDistYmax << std::endl;
+  std::cout << "fAnglesDefinedX        = "                   << fAnglesDefinedX        << std::endl;
+  std::cout << "fAnglesDefinedY        = "                   << fAnglesDefinedY        << std::endl;
+  std::cout << "fGap                   = "                   << fGap                   << std::endl;
 }
 
 // __________________________________________________________________
