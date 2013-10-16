@@ -58,6 +58,7 @@ public:
   ~evg();
   void ReadParameters();
   void CheckParameters();
+  void RunEvents();
   void Multiplex(int fiberid, std::vector<int> *ids);
   bool Intersection(double fx, double fy, double fz,
 		    bool yzView, double tx, double ty, double tz,

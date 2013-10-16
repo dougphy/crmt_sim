@@ -11,6 +11,7 @@
 #include <vector>
 #include <cmath>
 #include "evg.h"
+#include "TRandom.h"
 
 #define PI 3.14159
 
@@ -29,7 +30,7 @@ evg::evg(std::string file_name, int n_events)
   fTree->Branch("InitialZ",   &fInitialZ,   "InitialZ/D");
   fTree->Branch("ThetaXZ",    &fThetaXZ,    "ThetaXZ/D");
   fTree->Branch("ThetaYZ",    &fThetaYZ,    "ThetaYZ/D");
-  fTree->Branch("Traj",        fTraj,       "Traj/D");
+  fTree->Branch("Traj",        fTraj,       "Traj[3]/D");
   fTree->Branch("TrueFibers",  fTrueFibers, "TrueFibers[1024]/I");
   fTree->Branch("SimFibers",   fSimFibers,  "SimFibers[1024]/I");
 }
@@ -103,6 +104,243 @@ void evg::CheckParameters()
 }
 
 // __________________________________________________________________
+
+void evg::RunEvents()
+{
+  double z_start = 310 + fGap;
+  double x_start, y_start, thetaXZ, thetaYZ, theta, phi;
+
+  double m1_z[4];
+  m1_z[0] = 162.8;
+  m1_z[1] = 198.4;
+  m1_z[2] = 234.0;
+  m1_z[3] = 269.6;
+
+  bool on_fibers_xz[8][64];
+  bool on_fibers_yz[6][64];
+
+  int count_xz = 0;
+  int count_yz = 0;
+
+  int irow, icolumn, jrow;
+  bool YZview, YZview2;
+  double strip_z;
+
+  std::vector<int> ids;
+  double fiber_x, fiber_y, fiber_z;
+  int ifiber_in_view;
+  int kfiber_in_view;
+
+  double FibLoc[1024][4] = {0};
+  for (int ifiber = 0; ifiber < 1024; ifiber++) {
+    irow = (int)((double)ifiber/64);
+    fiber_z = m1_z[3] - irow*(fScintGap + fScintHeight);
+    YZview = false;
+    if (irow < 4 || (irow > 7 && irow < 12))
+      YZview = true;
+    icolumn = ifiber - irow*64;
+    if(YZview) {
+      fiber_x = 0.0;
+      fiber_y = -32.0*fScintWidth + icolumn*fScintWidth;
+      
+      if (irow == 1) {
+        fiber_y += 3.333;
+        fiber_z += fGap;
+        FibLoc[ifiber][0] = ifiber;
+        FibLoc[ifiber][1] = fiber_x;
+        FibLoc[ifiber][2] = fiber_y;
+        FibLoc[ifiber][3] = fiber_z;
+      }
+      else if (irow == 9) {
+        fiber_y += 3.333;
+        FibLoc[ifiber][0] = ifiber;
+        FibLoc[ifiber][1] = fiber_x;
+        FibLoc[ifiber][2] = fiber_y;
+        FibLoc[ifiber][3] = fiber_z;
+        
+      }
+      else if (irow == 3) {
+        fiber_y -= 3.333;
+        fiber_z += fGap;
+        FibLoc[ifiber][0] = ifiber;
+        FibLoc[ifiber][1] = fiber_x;
+        FibLoc[ifiber][2] = fiber_y;
+        FibLoc[ifiber][3] = fiber_z;
+      }
+      else if (irow == 11) {
+        fiber_y -= 3.333;
+        FibLoc[ifiber][0] = ifiber;
+        FibLoc[ifiber][1] = fiber_x;
+        FibLoc[ifiber][2] = fiber_y;
+        FibLoc[ifiber][3] = fiber_z;
+      }
+      else if (irow == 0) {
+        fiber_z += fGap;
+        FibLoc[ifiber][0] = ifiber;
+        FibLoc[ifiber][1] = fiber_x;
+        FibLoc[ifiber][2] = fiber_y;
+        FibLoc[ifiber][3] = fiber_z;
+      }
+      else if (irow==2) {                     
+        fiber_z += fGap;
+        FibLoc[ifiber][0] = ifiber;
+        FibLoc[ifiber][1] = fiber_x;
+        FibLoc[ifiber][2] = fiber_y;
+        FibLoc[ifiber][3] = fiber_z;
+      }
+      else if (irow == 8) {
+        FibLoc[ifiber][0] = ifiber;
+        FibLoc[ifiber][1] = fiber_x;
+        FibLoc[ifiber][2] = fiber_y;
+        FibLoc[ifiber][3] = fiber_z;
+      }
+      else if (irow == 10) {
+        FibLoc[ifiber][0] = ifiber;
+        FibLoc[ifiber][1] = fiber_x;
+        FibLoc[ifiber][2] = fiber_y;
+        FibLoc[ifiber][3] = fiber_z;
+      }          
+    }
+    else {
+      fiber_y = 0.0;
+      fiber_x = - 32*fScintWidth + icolumn*fScintWidth;
+      if (irow == 5) {
+        fiber_x += 3.333;
+        fiber_z += fGap;
+        FibLoc[ifiber][0] = ifiber;
+        FibLoc[ifiber][1] = fiber_x;
+        FibLoc[ifiber][2] = fiber_y;
+        FibLoc[ifiber][3] = fiber_z;
+      }
+      else if (irow==13) {
+        fiber_x += 3.333;
+        FibLoc[ifiber][0] = ifiber;
+        FibLoc[ifiber][1] = fiber_x;
+        FibLoc[ifiber][2] = fiber_y;
+        FibLoc[ifiber][3] = fiber_z;
+      }
+      else if (irow == 7) {
+        fiber_x -= 3.333;
+        fiber_z += fGap;
+        FibLoc[ifiber][0] = ifiber;
+        FibLoc[ifiber][1] = fiber_x;
+        FibLoc[ifiber][2] = fiber_y;
+        FibLoc[ifiber][3] = fiber_z;
+      }
+      else if (irow == 15) {
+        fiber_x -= 3.333;
+        FibLoc[ifiber][0] = ifiber;
+        FibLoc[ifiber][1] = fiber_x;
+        FibLoc[ifiber][2] = fiber_y;
+        FibLoc[ifiber][3] = fiber_z;
+      }
+      else if (irow == 4) {
+        fiber_z += fGap;
+        FibLoc[ifiber][0] = ifiber;
+        FibLoc[ifiber][1] = fiber_x;
+        FibLoc[ifiber][2] = fiber_y;
+        FibLoc[ifiber][3] = fiber_z;
+      }
+      else if (irow == 6) {
+        fiber_z += fGap;
+        FibLoc[ifiber][0] = ifiber;
+        FibLoc[ifiber][1] = fiber_x;
+        FibLoc[ifiber][2] = fiber_y;
+        FibLoc[ifiber][3] = fiber_z;
+      }
+      else if (irow == 12) {
+        FibLoc[ifiber][0] = ifiber;
+        FibLoc[ifiber][1] = fiber_x;
+        FibLoc[ifiber][2] = fiber_y;
+        FibLoc[ifiber][3] = fiber_z;
+      }
+      else if (irow == 14) {
+        FibLoc[ifiber][0] = ifiber;
+        FibLoc[ifiber][1] = fiber_x;
+        FibLoc[ifiber][2] = fiber_y;
+        FibLoc[ifiber][3] = fiber_z;
+      }
+    }
+  }
+  double yz_max;
+  int event_count = 0;
+  while ( event_count < fNEvents ){
+    fEventID = event_count;
+    if (fOriginUniformDist) {
+      gRandom->SetSeed(0);
+      x_start = gRandom->Uniform(fOriginUniformDistXmin,fOriginUniformDistXmax);
+      y_start = gRandom->Uniform(fOriginUniformDistYmin,fOriginUniformDistYmax);
+    }
+    else if (fOriginDefined) {
+      x_start = fOriginDefinedX;
+      y_start = fOriginDefinedY;
+    }
+    else
+      std::cout << "Something went wrong with the origin choice" << std::endl;
+    
+    if (fAnglesGaussian) { 
+      gRandom->SetSeed(0);
+      thetaXZ = gRandom->Gaus(fAnglesGaussianCenter,fAnglesGaussianSigma);
+      yz_max = asin(sqrt(1.-pow(sin(thetaXZ/180.*PI),2)))*180./PI;
+      thetaYZ = yz_max + 1;
+      while ( fabs(thetaXZ) > yz_max ) {
+	thetaYZ = gRandom->Gaus(fAnglesGaussianCenter,fAnglesGaussianSigma);
+      }
+    }
+    else if (fAnglesDefined) {
+      thetaYZ = -1*fAnglesDefinedX;
+      thetaXZ = -1*fAnglesDefinedY;
+    }
+    else if (fAnglesUniformDist) {
+      gRandom->SetSeed(0);
+      thetaXZ = gRandom->Uniform(fAnglesUniformDistXmin,fAnglesUniformDistXmax);
+      thetaYZ = gRandom->Uniform(fAnglesUniformDistYmin,fAnglesUniformDistYmax);
+    }
+    else 
+      std::cout << "Something went wrong with the angle choice" << std::endl;
+
+    fInitialX = x_start;
+    fInitialY = y_start;
+    fInitialZ = z_start;
+    fTraj[0]  = sin(thetaYZ*PI/180.);
+    fTraj[1]  = sin(thetaXZ*PI/180.);
+    fTraj[2]  = sqrt(1-pow(fTraj[0],2)-pow(fTraj[1],2));
+    fThetaYZ  = -thetaXZ; // Not a typo -- will fix this later
+    fThetaXZ  = -thetaYZ; // Not a typo -- will fix this later
+
+    for (int kfiber = 0; kfiber < 1024; kfiber++) {
+      jrow = (int)((double)kfiber/64.);
+      YZview2 = false;
+      
+      if ( jrow < 4 || ( jrow > 7 && jrow < 12 ) )
+	YZview2 = true;
+      if(Intersection(FibLoc[kfiber][1],FibLoc[kfiber][2],FibLoc[kfiber][3],
+		      YZview2,x_start,y_start,z_start,thetaXZ,thetaYZ,
+		      fScintWidth,fScintWidth,fScintHeight)) {
+	fTrueFibers[kfiber] = true;
+	ids.clear();
+	Multiplex(kfiber, &ids);
+	for (int j = 0; j < ids.size(); j++) {
+	  kfiber_in_view = GetFiberInView(jrow,ids[j],YZview2);
+	  fSimFibers[ids[j]] = true;
+	}
+      }
+    }
+    fTree->Fill();
+    event_count++;
+
+    for (int ii = 0; ii < 1024; ii++) {
+      fTrueFibers[ii] = 0;
+      fSimFibers[ii]  = 0;
+    }
+    fThetaXZ  = 0;
+    fThetaYZ  = 0;
+    fInitialX = 0;
+    fTraj[0]  = 0;
+    fTraj[1]  = 0;
+    fTraj[2]  = 0;
+  }
+}
 
 void evg::Multiplex(int fiberid, std::vector<int> *ids)
 {
