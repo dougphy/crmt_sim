@@ -1,5 +1,6 @@
-mytoy
+mutoy is ...
 
-Rewrite of MT_Toy (which is poorly written for CINT)
+-- A rewrite of MT_Toy (which is poorly written for CINT)
+-- A way to seperate event generation and simulated event display
 
 Under construction
