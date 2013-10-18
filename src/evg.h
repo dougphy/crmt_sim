@@ -61,7 +61,7 @@ protected:
   const double      fStripShift  = 3.333;
   const double      fScintGap    = 4.8;
   const double      fModGap      = 6.4;
-  std::map<int, std::vector<double> > fFibMap;
+  std::map<int[4][256],double[3]> fFibMap;
   
 public:
   evg();
@@ -69,6 +69,7 @@ public:
   ~evg();
   void ReadParameters();
   void CheckParameters();
+  void SetFibLoc();
   void RunEvents();
   void Multiplex(int fiberid, std::vector<int> *ids);
   bool Intersection(double fx, double fy, double fz,
