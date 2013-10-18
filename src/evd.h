@@ -16,17 +16,18 @@
 class evd : public evg {
 
 private:
-  double fSlopeXZ;
-  double fSloptYZ;
-  TApplication *fApp;
+  int               fSelectedEventID;
+  double            fSlopeXZ;
+  double            fSloptYZ;
+  TApplication     *fApp;
 
 public:
   evd();
   ~evd();
-  void InitData(std::string file_name);
-  void InitValues();
-  void Draw();
-  
+  void InitData(std::string file_name, int event_number);
+  void RawDumpTrue();
+  void RawDumpSim();
+  void DrawTrue(int argc, char *argv[]);
 };
 
 #endif
