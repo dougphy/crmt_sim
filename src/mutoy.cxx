@@ -13,7 +13,6 @@ int main(int argc, char *argv[])
   evg *event_set = new evg("file.root",100);
   event_set->ReadParameters();
   event_set->CheckParameters();
-  event_set->SetFibLoc();
   event_set->RunEvents();
   event_set->SaveFile();
   

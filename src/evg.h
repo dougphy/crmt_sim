@@ -68,7 +68,6 @@ public:
   ~evg();
   void ReadParameters();
   void CheckParameters();
-  void SetFibLoc();
   void RunEvents();
   void Multiplex(int fiberid, std::vector<int> *ids);
   bool Intersection(double fx, double fy, double fz,

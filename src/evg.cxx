@@ -105,21 +105,6 @@ void evg::CheckParameters()
 
 // __________________________________________________________________
 
-void evg::SetFibLoc()
-{
-  
-
-
-  for ( auto fibloc : fFibMap ) {
-    std::cout << fibloc.first 
-	      << " " << fibloc.second[0] 
-	      << " " << fibloc.second[1] 
-	      << " " << fibloc.second[2] 
-	      << std::endl;
-  }  
-}
-
-// __________________________________________________________________
 
 void evg::RunEvents()
 {
