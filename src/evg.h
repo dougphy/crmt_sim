@@ -19,8 +19,7 @@
 class evg {
   
 protected:
-  TFile            *fFile;
-  TTree            *fTree;
+  // event options from config file
   std::ifstream     fConfigFile;
   bool              fOriginUniformDist;
   bool              fOriginDefined;
@@ -42,6 +41,9 @@ protected:
   double            fAnglesDefinedX;
   double            fAnglesDefinedY;
   int               fNEvents;
+  // Attributes of the events
+  TFile            *fFile;
+  TTree            *fTree;
   double            fGap;
   int               fEventID;
   double            fInitialX;
@@ -52,13 +54,14 @@ protected:
   double            fThetaYZ;
   int               fTrueFibers[1024];
   int               fSimFibers[1024];
-  std::vector<int>  fIDs;
+  // Attributes of the detector
   const double      fScintWidth  = 10.4;
   const double      fScintHeight = 30.8;
   const double      fScintLength = 650.0;
   const double      fStripShift  = 3.333;
   const double      fScintGap    = 4.8;
   const double      fModGap      = 6.4;
+  std::map<int, std::vector<double> > fFibMap;
   
 public:
   evg();
