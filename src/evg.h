@@ -61,7 +61,6 @@ protected:
   const double      fStripShift  = 3.333;
   const double      fScintGap    = 4.8;
   const double      fModGap      = 6.4;
-  std::map<int[4][256],double[3]> fFibMap;
   
 public:
   evg();
