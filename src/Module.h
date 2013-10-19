@@ -15,12 +15,13 @@ private:
   const double fModGap      = 6.40;
   double       fGap;
   
-  std::map<int[256], std::vector<double> > fFibMap;
+  std::map<int, std::pair<double,double> > fFiberMap;
   
 public:
   Module();
   Module(int type);
   ~Module();
+  std::map<int, std::pair<double,double> > GetMap();
 };
 
 #endif
