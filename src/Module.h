@@ -21,7 +21,8 @@ public:
   Module();
   Module(int type);
   ~Module();
-  std::map<int, std::pair<double,double> > GetMap();
+  std::map<int, std::pair<double,double> > GetMap() { return fFiberMap; }
+  int GetModuleType() { return fModuleType; }
 };
 
 #endif
