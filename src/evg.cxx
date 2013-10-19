@@ -106,7 +106,65 @@ void evg::CheckParameters()
 // __________________________________________________________________
 
 
-void evg::RunEvents()
+void evg::MakeLine()
+{
+  if ( fOriginUniformDist ) {
+    fInitialX = gRandom->Uniform(fOriginUniformDistXmin,
+				 fOriginUniformDistXmax);
+    fInitialY = gRandom->Uniform(fOriginUniformDistYmin,
+				 fOriginUniformDistYmax);
+    fInitialZ = fGap + 16*fScintHeight + 4*fModGap + 12*fScintGap;
+  }
+  else if ( fOriginDefined ) {
+    fInitialX = fOriginDefinedX;
+    fInitialY = fOriginDefinedY;
+    fInitialZ = fGap + 16*fScintHeight + 4*fModGap + 12*fScintGap;
+  }
+  else {
+    std::cout << "Something went wrong with origin definition" << std::endl;
+  }
+
+
+  if ( fAnglesGaussian ) {
+    gRandom->SetSeed(0);
+    fThetaXZ = gRandom->Gaus(fAnglesGaussianCenter,fAnglesGaussianSigma);
+    double y_max = asin(sqrt(1.-pow(sin(fThetaXZ/180.*3.14159),2)))*180./3.14159;
+    fThetaYZ = y_max+1;
+    while ( abs(fThetaYZ) > y_max )
+      fThetaYZ = gRandom->Gaus(fAnglesGaussianCenter,fAnglesGaussianSigma);
+  }
+  else if ( fAnglesUniformDist ) {
+    fThetaXZ = gRandom->Uniform(fAnglesUniformDistXmin,fAnglesUniformDistXmax);
+    fThetaYZ = gRandom->Uniform(fAnglesUniformDistYmin,fAnglesUniformDistYmax);
+  }
+  else {
+    std::cout << "Something went wrong with the angles definition" << std::endl;
+  }
+}
+
+
+
+
+
+
+
+
+void evg::SaveFile()
+{
+  fTree->Write();
+  fFile->Close();
+}
+
+
+// -----------------
+// -----------------
+// -----------------
+// ALL THE OLD STUFF 
+// -----------------
+// -----------------
+// -----------------
+
+void evg::OldRunEvents()
 {
   double z_start = 310 + fGap;
   double x_start, y_start, thetaXZ, thetaYZ, theta, phi;
@@ -315,14 +373,14 @@ void evg::RunEvents()
       
       if ( jrow < 4 || ( jrow > 7 && jrow < 12 ) )
 	YZview2 = true;
-      if(Intersection(FibLoc[kfiber][1],FibLoc[kfiber][2],FibLoc[kfiber][3],
+      if(OldIntersection(FibLoc[kfiber][1],FibLoc[kfiber][2],FibLoc[kfiber][3],
 		      YZview2,x_start,y_start,z_start,thetaXZ,thetaYZ,
 		      fScintWidth,fScintWidth,fScintHeight)) {
 	fTrueFibers[kfiber] = true;
 	ids.clear();
-	Multiplex(kfiber, &ids);
+	OldMultiplex(kfiber, &ids);
 	for (int j = 0; j < ids.size(); j++) {
-	  kfiber_in_view = GetFiberInView(jrow,ids[j],YZview2);
+	  kfiber_in_view = OldGetFiberInView(jrow,ids[j],YZview2);
 	  fSimFibers[ids[j]] = true;
 	}
       }
@@ -343,7 +401,7 @@ void evg::RunEvents()
   }
 }
 
-void evg::Multiplex(int fiberid, std::vector<int> *ids)
+void evg::OldMultiplex(int fiberid, std::vector<int> *ids)
 {
   int r_num, c_num;
   r_num = (int)((double)fiberid/64.0);
@@ -395,7 +453,7 @@ void evg::Multiplex(int fiberid, std::vector<int> *ids)
 
 // __________________________________________________________________
 
-bool evg::Intersection(double fx, double fy, double fz,
+bool evg::OldIntersection(double fx, double fy, double fz,
 		       bool yzView, double tx, double ty, double tz,
 		       double thetaxz, double thetayz,
 		       double sigma_x, double sigma_y, double sigma_z)
@@ -452,7 +510,7 @@ bool evg::Intersection(double fx, double fy, double fz,
 
 // __________________________________________________________________
 
-int evg::GetFiberInView(int irow, int ifiber, bool YZview)
+int evg::OldGetFiberInView(int irow, int ifiber, bool YZview)
 {
   int imodule = (int)((double)irow/4.);
   int ifiber_in_view = ifiber;
@@ -468,8 +526,3 @@ int evg::GetFiberInView(int irow, int ifiber, bool YZview)
   return ifiber_in_view;
 }
 
-void evg::SaveFile()
-{
-  fTree->Write();
-  fFile->Close();
-}

@@ -10,14 +10,18 @@ void usage()
 
 int main(int argc, char *argv[])
 {
-  /*
   std::cout << "Based God Simulation Under Construction" << std::endl;
   evg *event_set = new evg("file.root",100);
   event_set->ReadParameters();
   event_set->CheckParameters();
+  event_set->MakeLine();
+  /*
   event_set->RunEvents();
-  event_set->SaveFile();
   */
+  event_set->SaveFile();
+
+
+  /*
   double gap   = 100;
   Module *mod0 = new Module(0,gap);
   Module *mod1 = new Module(1,gap);
@@ -49,7 +53,7 @@ int main(int argc, char *argv[])
     std::cout << moditr.first << " " 
 	      << moditr.second.first << " " 
 	      << moditr.second.second << std::endl; }
-
+  */
   return 0;
   /*
   evd *disp = new evd();

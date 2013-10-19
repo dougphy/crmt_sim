@@ -68,14 +68,20 @@ public:
   ~evg();
   void ReadParameters();
   void CheckParameters();
-  void RunEvents();
-  void Multiplex(int fiberid, std::vector<int> *ids);
-  bool Intersection(double fx, double fy, double fz,
+  void MakeLine();
+
+  void SaveFile();
+
+
+
+  void OldRunEvents();
+  void OldMultiplex(int fiberid, std::vector<int> *ids);
+  bool OldIntersection(double fx, double fy, double fz,
 		    bool yzView, double tx, double ty, double tz,
 		    double thetaxz, double thetayz,
 		    double sigma_x, double sigma_y, double sigma_z);  
-  int GetFiberInView(int irow, int ifiber, bool YZview);
-  void SaveFile();
+  int OldGetFiberInView(int irow, int ifiber, bool YZview);
+
 };
 
 #endif
