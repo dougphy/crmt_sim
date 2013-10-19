@@ -1,6 +1,7 @@
 #include <iostream>
 #include "evd.h"
 #include "evg.h"
+#include "Module.h"
 
 void usage()
 {
@@ -9,14 +10,31 @@ void usage()
 
 int main(int argc, char *argv[])
 {
+  /*
   std::cout << "Based God Simulation Under Construction" << std::endl;
   evg *event_set = new evg("file.root",100);
   event_set->ReadParameters();
   event_set->CheckParameters();
   event_set->RunEvents();
   event_set->SaveFile();
-  
-  
+  */
+
+  Module *mod0 = new Module(0);
+  Module *mod1 = new Module(1);
+  Module *mod2 = new Module(2);
+  Module *mod3 = new Module(3);
+
+  std::map<int, std::pair<double,double> > mod0fibs = mod0->GetMap();
+  std::map<int, std::pair<double,double> > mod1fibs = mod1->GetMap();
+  std::map<int, std::pair<double,double> > mod2fibs = mod2->GetMap();
+  std::map<int, std::pair<double,double> > mod3fibs = mod3->GetMap();
+
+  for ( auto moditr : mod0fibs ) {
+    std::cout << moditr.first << " " 
+	      << moditr.second.first << " " 
+	      << moditr.second.second << std::endl; }
+
+  return 0;
   /*
   evd *disp = new evd();
   disp->InitData("file.root",55);
