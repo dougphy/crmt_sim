@@ -14,7 +14,7 @@
 #include "TRandom.h"
 #include "TF1.h"
 
-#define PI 3.14159
+#define PI 3.1415926536
 
 evg::evg() {}  // Default constructor -- not used
 
@@ -52,15 +52,15 @@ void evg::ReadParameters()
   while (fConfigFile >> label >> param)
     param_vec.push_back(param);
   if (param_vec[0] == 0)  { fOriginUniformDist = false; }
-  else                    { fOriginUniformDist = true; }
-  if (param_vec[1] == 0)  { fOriginDefined = false; }
-  else                    { fOriginDefined = true; }
-  if (param_vec[2] == 0)  { fAnglesGaussian = false; }
-  else                    { fAnglesGaussian = true; }
+  else                    { fOriginUniformDist = true;  }
+  if (param_vec[1] == 0)  { fOriginDefined     = false; }
+  else                    { fOriginDefined     = true;  }
+  if (param_vec[2] == 0)  { fAnglesGaussian    = false; }
+  else                    { fAnglesGaussian    = true;  }
   if (param_vec[3] == 0)  { fAnglesUniformDist = false; }
-  else                    { fAnglesUniformDist = true; }
-  if (param_vec[4] == 0)  { fAnglesCosineSq = false; }
-  else                    { fAnglesCosineSq = true; }
+  else                    { fAnglesUniformDist = true;  }
+  if (param_vec[4] == 0)  { fAnglesCosineSq    = false; }
+  else                    { fAnglesCosineSq    = true;  }
   fOriginUniformDistXmin = param_vec[5];
   fOriginUniformDistXmax = param_vec[6];
   fOriginUniformDistYmin = param_vec[7];
@@ -107,10 +107,6 @@ void evg::CheckParameters()
 // __________________________________________________________________
 
 
-double cossq(double *x) {
-  return pow(cos(x[0]),2);
-}
-
 void evg::MakeLine()
 {
   if ( fOriginUniformDist ) {
@@ -132,7 +128,7 @@ void evg::MakeLine()
   if ( fAnglesGaussian ) {
     gRandom->SetSeed(0);
     fThetaXZ = gRandom->Gaus(fAnglesGaussianCenter,fAnglesGaussianSigma);
-    double y_max = asin(sqrt(1.-pow(sin(fThetaXZ/180.*3.14159),2)))*180./3.14159;
+    double y_max = asin(sqrt(1.-pow(sin(fThetaXZ/180.*PI),2)))*180./PI;
     fThetaYZ = y_max+1;
     while ( abs(fThetaYZ) > y_max )
       fThetaYZ = gRandom->Gaus(fAnglesGaussianCenter,fAnglesGaussianSigma);
@@ -143,7 +139,8 @@ void evg::MakeLine()
   }
   else if ( fAnglesCosineSq ) {
     std::cout << "under construction" << std::endl;
-
+    TF1 *Cos2 = new TF1("Cos2","cos(x)*cos(x)",-PI/2.,PI/2.);
+    //    fThetaXZ = gRandom FIX THISx
   }
   else {
     std::cout << "Something went wrong with the angles definition" << std::endl;
