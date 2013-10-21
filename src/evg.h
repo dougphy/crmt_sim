@@ -25,7 +25,7 @@ protected:
   bool              fOriginDefined;
   bool              fAnglesGaussian;
   bool              fAnglesUniformDist;
-  bool              fAnglesDefined;
+  bool              fAnglesCosineSq;
   double            fOriginUniformDistXmin;
   double            fOriginUniformDistXmax;
   double            fOriginUniformDistYmin;

@@ -12,6 +12,7 @@
 #include <cmath>
 #include "evg.h"
 #include "TRandom.h"
+#include "TF1.h"
 
 #define PI 3.14159
 
@@ -58,8 +59,8 @@ void evg::ReadParameters()
   else                    { fAnglesGaussian = true; }
   if (param_vec[3] == 0)  { fAnglesUniformDist = false; }
   else                    { fAnglesUniformDist = true; }
-  if (param_vec[4] == 0)  { fAnglesDefined = false; }
-  else                    { fAnglesDefined = true; }
+  if (param_vec[4] == 0)  { fAnglesCosineSq = false; }
+  else                    { fAnglesCosineSq = true; }
   fOriginUniformDistXmin = param_vec[5];
   fOriginUniformDistXmax = param_vec[6];
   fOriginUniformDistYmin = param_vec[7];
@@ -85,7 +86,7 @@ void evg::CheckParameters()
   std::cout << "fOriginDefined         = " << fOriginDefined         << std::endl;
   std::cout << "fAnglesGaussian        = " << fAnglesGaussian        << std::endl;
   std::cout << "fAnglesUniformDist     = " << fAnglesUniformDist     << std::endl;
-  std::cout << "fAnglesDefined         = " << fAnglesDefined         << std::endl;
+  std::cout << "fAnglesCosineSq        = " << fAnglesCosineSq        << std::endl;
   std::cout << "fOriginUniformDistXmin = " << fOriginUniformDistXmin << std::endl;
   std::cout << "fOriginUniformDistXmax = " << fOriginUniformDistXmax << std::endl;
   std::cout << "fOriginUniformDistYmin = " << fOriginUniformDistYmin << std::endl;
@@ -106,6 +107,10 @@ void evg::CheckParameters()
 // __________________________________________________________________
 
 
+double cossq(double *x) {
+  return pow(cos(x[0]),2);
+}
+
 void evg::MakeLine()
 {
   if ( fOriginUniformDist ) {
@@ -124,7 +129,6 @@ void evg::MakeLine()
     std::cout << "Something went wrong with origin definition" << std::endl;
   }
 
-
   if ( fAnglesGaussian ) {
     gRandom->SetSeed(0);
     fThetaXZ = gRandom->Gaus(fAnglesGaussianCenter,fAnglesGaussianSigma);
@@ -136,6 +140,10 @@ void evg::MakeLine()
   else if ( fAnglesUniformDist ) {
     fThetaXZ = gRandom->Uniform(fAnglesUniformDistXmin,fAnglesUniformDistXmax);
     fThetaYZ = gRandom->Uniform(fAnglesUniformDistYmin,fAnglesUniformDistYmax);
+  }
+  else if ( fAnglesCosineSq ) {
+    std::cout << "under construction" << std::endl;
+
   }
   else {
     std::cout << "Something went wrong with the angles definition" << std::endl;
@@ -346,7 +354,7 @@ void evg::OldRunEvents()
 	thetaYZ = gRandom->Gaus(fAnglesGaussianCenter,fAnglesGaussianSigma);
       }
     }
-    else if (fAnglesDefined) {
+    else if (fAnglesCosineSq) {
       thetaYZ = -1*fAnglesDefinedX;
       thetaXZ = -1*fAnglesDefinedY;
     }
