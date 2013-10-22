@@ -158,7 +158,12 @@ void evg::SaveFile()
 {
   fTree->Write();
   fFile->Close();
+  fTree->Delete();
+  fTree->Delete();
 }
+
+
+
 
 
 // -----------------

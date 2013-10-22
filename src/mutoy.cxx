@@ -20,7 +20,6 @@ int main(int argc, char *argv[])
   */
   event_set->SaveFile();
 
-
   /*
   double gap   = 100;
   Module *mod0 = new Module(0,gap);
