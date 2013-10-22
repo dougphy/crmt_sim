@@ -4,3 +4,12 @@ mutoy is ...
 -- A way to seperate event generation and simulated event display
 
 Under construction
+
+Done:
+-- File I/O
+-- User config file
+-- Module geometric definition
+
+Not Done:
+-- Create muon line and intersect extrusions
+-- Event display
