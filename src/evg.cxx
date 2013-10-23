@@ -117,7 +117,6 @@ void evg::MakeLine()
   else {
     std::cout << "Something went wrong with origin definition" << std::endl;
   }
-  
 }
 
 
