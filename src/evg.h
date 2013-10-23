@@ -21,35 +21,37 @@ class evg {
 protected:
   // event options from config file
   std::ifstream     fConfigFile;
-  bool              fOriginUniformDist;
-  bool              fOriginDefined;
-  bool              fAnglesGaussian;
-  bool              fAnglesUniformDist;
-  bool              fAnglesCosineSq;
-  double            fOriginUniformDistXmin;
-  double            fOriginUniformDistXmax;
-  double            fOriginUniformDistYmin;
-  double            fOriginUniformDistYmax;
-  double            fOriginDefinedX;
-  double            fOriginDefinedY;
-  double            fAnglesGaussianCenter;
-  double            fAnglesGaussianSigma;
-  double            fAnglesUniformDistXmin;
-  double            fAnglesUniformDistXmax;
-  double            fAnglesUniformDistYmin;
-  double            fAnglesUniformDistYmax;
-  double            fAnglesDefinedX;
-  double            fAnglesDefinedY;
+  
+  bool fOriginUniformDist;
+  bool fOriginDefined;
+  bool fAngleZenithDefined;
+  bool fAngleZenithCosSq;
+  bool fAnglePolarDefined;
+  bool fAnglePolarUniform;
+
+  double fOriginUniformDistMin;
+  double fOriginUniformDistMax;
+  double fOriginDefinedX;
+  double fOriginDefinedY;
+
+  double fAngleZenithDefinedValue;
+  double fAnglePolarDefinedValue;
+  double fAnglePolarUniformMin;
+  double fAnglePolarUniformMax;
+
+  double            fGap;
+
   int               fNEvents;
   // Attributes of the events
   TFile            *fFile;
   TTree            *fTree;
-  double            fGap;
   int               fEventID;
   double            fInitialX;
   double            fInitialY;
   double            fInitialZ;
   double            fTraj[3];
+  double            fTheta;
+  double            fPhi;
   double            fThetaXZ;
   double            fThetaYZ;
   int               fTrueFibers[1024];
@@ -69,7 +71,7 @@ public:
   void ReadParameters();
   void CheckParameters();
   void MakeLine();
-
+  void RunEvents();
   void SaveFile();
 
 

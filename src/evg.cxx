@@ -29,6 +29,8 @@ evg::evg(std::string file_name, int n_events)
   fTree->Branch("InitialX",   &fInitialX,   "InitialX/D");
   fTree->Branch("InitialY",   &fInitialY,   "InitialY/D");
   fTree->Branch("InitialZ",   &fInitialZ,   "InitialZ/D");
+  fTree->Branch("Theta",      &fTheta,      "Theta/D");
+  fTree->Branch("Phi",        &fPhi,        "Phi/D");
   fTree->Branch("ThetaXZ",    &fThetaXZ,    "ThetaXZ/D");
   fTree->Branch("ThetaYZ",    &fThetaYZ,    "ThetaYZ/D");
   fTree->Branch("Traj",        fTraj,       "Traj[3]/D");
@@ -51,57 +53,48 @@ void evg::ReadParameters()
   param_vec.reserve(20);
   while (fConfigFile >> label >> param)
     param_vec.push_back(param);
-  if (param_vec[0] == 0)  { fOriginUniformDist = false; }
-  else                    { fOriginUniformDist = true;  }
-  if (param_vec[1] == 0)  { fOriginDefined     = false; }
-  else                    { fOriginDefined     = true;  }
-  if (param_vec[2] == 0)  { fAnglesGaussian    = false; }
-  else                    { fAnglesGaussian    = true;  }
-  if (param_vec[3] == 0)  { fAnglesUniformDist = false; }
-  else                    { fAnglesUniformDist = true;  }
-  if (param_vec[4] == 0)  { fAnglesCosineSq    = false; }
-  else                    { fAnglesCosineSq    = true;  }
-  fOriginUniformDistXmin = param_vec[5];
-  fOriginUniformDistXmax = param_vec[6];
-  fOriginUniformDistYmin = param_vec[7];
-  fOriginUniformDistYmax = param_vec[8];
-  fOriginDefinedX        = param_vec[9];
-  fOriginDefinedY        = param_vec[10];
-  fAnglesGaussianCenter  = param_vec[11];
-  fAnglesGaussianSigma   = param_vec[12];
-  fAnglesUniformDistXmin = param_vec[13];
-  fAnglesUniformDistXmax = param_vec[14];
-  fAnglesUniformDistYmin = param_vec[15];
-  fAnglesUniformDistYmax = param_vec[16];
-  fAnglesDefinedX        = param_vec[17];
-  fAnglesDefinedY        = param_vec[18];
-  fGap                   = param_vec[19];
+  if (param_vec[0] == 0)  { fOriginUniformDist   = false; }
+  else                    { fOriginUniformDist   = true;  }
+  if (param_vec[1] == 0)  { fOriginDefined       = false; }
+  else                    { fOriginDefined       = true;  }
+  if (param_vec[2] == 0)  { fAngleZenithDefined  = false; }
+  else                    { fAngleZenithDefined  = true;  }
+  if (param_vec[3] == 0)  { fAngleZenithCosSq    = false; }
+  else                    { fAngleZenithCosSq    = true;  }
+  if (param_vec[4] == 0)  { fAnglePolarDefined   = false; }
+  else                    { fAnglePolarDefined   = true;  }
+  if (param_vec[5] == 0)  { fAnglePolarUniform   = false; }
+  else                    { fAnglePolarUniform   = true;  }
+  fOriginUniformDistMin    = param_vec[6];
+  fOriginUniformDistMax    = param_vec[7];
+  fOriginDefinedX          = param_vec[8];
+  fOriginDefinedY          = param_vec[9];
+  fAngleZenithDefinedValue = param_vec[10];
+  fAnglePolarDefinedValue  = param_vec[11];
+  fAnglePolarUniformMin    = param_vec[12];
+  fAnglePolarUniformMax    = param_vec[13];
+  fGap                     = param_vec[14];
 }
 
 // __________________________________________________________________
 
 void evg::CheckParameters()
 {
-  std::cout << "fOriginUniformDist     = " << fOriginUniformDist     << std::endl;
-  std::cout << "fOriginDefined         = " << fOriginDefined         << std::endl;
-  std::cout << "fAnglesGaussian        = " << fAnglesGaussian        << std::endl;
-  std::cout << "fAnglesUniformDist     = " << fAnglesUniformDist     << std::endl;
-  std::cout << "fAnglesCosineSq        = " << fAnglesCosineSq        << std::endl;
-  std::cout << "fOriginUniformDistXmin = " << fOriginUniformDistXmin << std::endl;
-  std::cout << "fOriginUniformDistXmax = " << fOriginUniformDistXmax << std::endl;
-  std::cout << "fOriginUniformDistYmin = " << fOriginUniformDistYmin << std::endl;
-  std::cout << "fOriginUniformDistYmax = " << fOriginUniformDistYmax << std::endl;
-  std::cout << "fOriginDefinedX        = " << fOriginDefinedX        << std::endl;
-  std::cout << "fOriginDefinedY        = " << fOriginDefinedY        << std::endl;
-  std::cout << "fAnglesGaussianCenter  = " << fAnglesGaussianCenter  << std::endl;
-  std::cout << "fAnglesGaussianSigma   = " << fAnglesGaussianSigma   << std::endl;
-  std::cout << "fAnglesUniformDistXmin = " << fAnglesUniformDistXmin << std::endl;
-  std::cout << "fAnglesUniformDistXmax = " << fAnglesUniformDistXmax << std::endl;
-  std::cout << "fAnglesUniformDistYmin = " << fAnglesUniformDistYmin << std::endl;
-  std::cout << "fAnglesUniformDistYmax = " << fAnglesUniformDistYmax << std::endl;
-  std::cout << "fAnglesDefinedX        = " << fAnglesDefinedX        << std::endl;
-  std::cout << "fAnglesDefinedY        = " << fAnglesDefinedY        << std::endl;
-  std::cout << "fGap                   = " << fGap                   << std::endl;
+  std::cout << "fOriginUniformDist       = " << fOriginUniformDist       << std::endl;
+  std::cout << "fOriginDefined           = " << fOriginDefined           << std::endl;
+  std::cout << "fAngleZenithDefined      = " << fAngleZenithDefined      << std::endl;
+  std::cout << "fAngleZenithCosSq        = " << fAngleZenithCosSq        << std::endl;
+  std::cout << "fAnglePolarDefined       = " << fAnglePolarDefined       << std::endl;
+  std::cout << "fAnglePolarUniform       = " << fAnglePolarUniform       << std::endl;
+  std::cout << "fOriginUniformDistMin    = " << fOriginUniformDistMin    << std::endl;
+  std::cout << "fOriginUniformDistMax    = " << fOriginUniformDistMax    << std::endl;
+  std::cout << "fOriginDefinedX          = " << fOriginDefinedX          << std::endl;
+  std::cout << "fOriginDefinedY          = " << fOriginDefinedY          << std::endl;
+  std::cout << "fAngleZenithDefinedValue = " << fAngleZenithDefinedValue << std::endl;
+  std::cout << "fAnglePolarDefinedValue  = " << fAnglePolarDefinedValue  << std::endl;
+  std::cout << "fAnglePolarUniformMin    = " << fAnglePolarUniformMin    << std::endl;
+  std::cout << "fAnglePolarUniformMax    = " << fAnglePolarUniformMax    << std::endl;
+  std::cout << "fGap                     = " << fGap                     << std::endl;
 }
 
 // __________________________________________________________________
@@ -110,10 +103,10 @@ void evg::CheckParameters()
 void evg::MakeLine()
 {
   if ( fOriginUniformDist ) {
-    fInitialX = gRandom->Uniform(fOriginUniformDistXmin,
-				 fOriginUniformDistXmax);
-    fInitialY = gRandom->Uniform(fOriginUniformDistYmin,
-				 fOriginUniformDistYmax);
+    fInitialX = gRandom->Uniform(fOriginUniformDistMin,
+				 fOriginUniformDistMax);
+    fInitialY = gRandom->Uniform(fOriginUniformDistMin,
+				 fOriginUniformDistMax);
     fInitialZ = fGap + 16*fScintHeight + 4*fModGap + 12*fScintGap;
   }
   else if ( fOriginDefined ) {
@@ -124,44 +117,27 @@ void evg::MakeLine()
   else {
     std::cout << "Something went wrong with origin definition" << std::endl;
   }
+  
+}
 
-  if ( fAnglesGaussian ) {
-    gRandom->SetSeed(0);
-    fThetaXZ = gRandom->Gaus(fAnglesGaussianCenter,fAnglesGaussianSigma);
-    double y_max = asin(sqrt(1.-pow(sin(fThetaXZ/180.*PI),2)))*180./PI;
-    fThetaYZ = y_max+1;
-    while ( abs(fThetaYZ) > y_max )
-      fThetaYZ = gRandom->Gaus(fAnglesGaussianCenter,fAnglesGaussianSigma);
+
+void evg::RunEvents() {
+  for (int i = 0; i < 50; i++) {
+    MakeLine();
+    fTree->Fill();
   }
-  else if ( fAnglesUniformDist ) {
-    fThetaXZ = gRandom->Uniform(fAnglesUniformDistXmin,fAnglesUniformDistXmax);
-    fThetaYZ = gRandom->Uniform(fAnglesUniformDistYmin,fAnglesUniformDistYmax);
-  }
-  else if ( fAnglesCosineSq ) {
-    std::cout << "under construction" << std::endl;
-    TF1 *Cos2 = new TF1("Cos2","cos(x)*cos(x)",-PI/2.,PI/2.);
-    //    fThetaXZ = gRandom FIX THISx
-  }
-  else {
-    std::cout << "Something went wrong with the angles definition" << std::endl;
-  }
+  fTree->Write();
+  fFile->Close();
 }
 
 
 
-
-
-
-
-
+/*
 void evg::SaveFile()
 {
   fTree->Write();
-  fFile->Close();
-  fTree->Delete();
-  fTree->Delete();
 }
-
+*/
 
 
 
@@ -173,7 +149,7 @@ void evg::SaveFile()
 // -----------------
 // -----------------
 // -----------------
-
+/*
 void evg::OldRunEvents()
 {
   double z_start = 310 + fGap;
@@ -536,3 +512,4 @@ int evg::OldGetFiberInView(int irow, int ifiber, bool YZview)
   return ifiber_in_view;
 }
 
+*/
