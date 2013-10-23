@@ -12,13 +12,16 @@ protected:
   double fZ0;
   double fTheta;
   double fPhi;
+  double fAngleXZ;
+  double fAngleYZ;
+
 public:
   Line();
   ~Line();
   void SetInitialPos(double x, double y, double z);
-  void SetInitialTraj(double tx, double ty, double tz);
-  void SetTheta(double theta);
-  void SetPhi(double phi);
+  void SetPhiTheta(double phi, double theta);
+  void SetTraj();
+  void SetPlaneAngles();
   double Tx()     { return fTx;    }
   double Ty()     { return fTy;    }
   double Tz()     { return fTz;    }
