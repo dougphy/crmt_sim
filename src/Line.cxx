@@ -25,7 +25,7 @@ void Line::SetTraj()
 
 }
 
-void Line::SetPlaneAngles()
+void Line::SetPlanarAngles()
 {
   // Do some stuff with angles
 }

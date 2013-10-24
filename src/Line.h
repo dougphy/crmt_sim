@@ -21,7 +21,7 @@ public:
   void SetInitialPos(double x, double y, double z);
   void SetPhiTheta(double phi, double theta);
   void SetTraj();
-  void SetPlaneAngles();
+  void SetPlanarAngles();
   double Tx()     { return fTx;    }
   double Ty()     { return fTy;    }
   double Tz()     { return fTz;    }
