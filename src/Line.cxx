@@ -19,13 +19,19 @@ void Line::SetPhiTheta(double phi, double theta)
   fTheta = theta;
 }
 
-void Line::SetTraj()
-{
-  // Do some stuff with angles
-
-}
-
 void Line::SetPlanarAngles()
 {
-  // Do some stuff with angles
+  fAngleXZ = tan(fTheta)/sqrt(1+pow(tan(fPhi),2));
+  fAngleYZ = tan(fTheta)*tan(fPhi)/sqrt(1+pow(tan(fPhi),2));
+}
+
+void Line::SetSlopes()
+{
+  fSlopeXZ = 1/tan(fAngleXZ);
+  fSlopeYZ = 1/tan(fAngleYZ);
+}
+
+void Line::SetTraj()
+{
+  //
 }

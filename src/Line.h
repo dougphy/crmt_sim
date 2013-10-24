@@ -2,7 +2,7 @@
 #define LINE_H
 
 class Line {
-
+  
 protected:
   double fTx;
   double fTy;
@@ -14,23 +14,27 @@ protected:
   double fPhi;
   double fAngleXZ;
   double fAngleYZ;
+  double fSlopeXZ;
+  double fSlopeYZ;
 
 public:
   Line();
   ~Line();
   void SetInitialPos(double x, double y, double z);
   void SetPhiTheta(double phi, double theta);
-  void SetTraj();
   void SetPlanarAngles();
-  double Tx()     { return fTx;    }
-  double Ty()     { return fTy;    }
-  double Tz()     { return fTz;    }
-  double X0()     { return fX0;    }
-  double Y0()     { return fY0;    }
-  double Z0()     { return fZ0;    }
-  double Theta()  { return fTheta; }
-  double Phi()    { return fPhi;   }
-
+  void SetSlopes();
+  void SetTraj();
+  double Tx()      { return fTx;      }
+  double Ty()      { return fTy;      }
+  double Tz()      { return fTz;      }
+  double X0()      { return fX0;      }
+  double Y0()      { return fY0;      }
+  double Z0()      { return fZ0;      }
+  double Theta()   { return fTheta;   }
+  double Phi()     { return fPhi;     }
+  double SlopeXZ() { return fSlopeXZ; }
+  double SlopeYZ() { return fSlopeYZ; }
 };
 
 #endif
