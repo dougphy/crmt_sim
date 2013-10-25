@@ -70,19 +70,8 @@ public:
   ~evg();
   void ReadParameters();
   void CheckParameters();
-  void MakeLine();
   void RunEvents();
   void SaveFile();
-
-
-
-  void OldRunEvents();
-  void OldMultiplex(int fiberid, std::vector<int> *ids);
-  bool OldIntersection(double fx, double fy, double fz,
-		    bool yzView, double tx, double ty, double tz,
-		    double thetaxz, double thetayz,
-		    double sigma_x, double sigma_y, double sigma_z);  
-  int OldGetFiberInView(int irow, int ifiber, bool YZview);
 
 };
 

@@ -11,6 +11,7 @@
 #include <vector>
 #include <cmath>
 #include "evg.h"
+#include "Line.h"
 #include "TRandom.h"
 #include "TF1.h"
 
@@ -53,18 +54,18 @@ void evg::ReadParameters()
   param_vec.reserve(20);
   while (fConfigFile >> label >> param)
     param_vec.push_back(param);
-  if (param_vec[0] == 0)  { fOriginUniformDist   = false; }
-  else                    { fOriginUniformDist   = true;  }
-  if (param_vec[1] == 0)  { fOriginDefined       = false; }
-  else                    { fOriginDefined       = true;  }
-  if (param_vec[2] == 0)  { fAngleZenithDefined  = false; }
-  else                    { fAngleZenithDefined  = true;  }
-  if (param_vec[3] == 0)  { fAngleZenithCosSq    = false; }
-  else                    { fAngleZenithCosSq    = true;  }
-  if (param_vec[4] == 0)  { fAnglePolarDefined   = false; }
-  else                    { fAnglePolarDefined   = true;  }
-  if (param_vec[5] == 0)  { fAnglePolarUniform   = false; }
-  else                    { fAnglePolarUniform   = true;  }
+  if (param_vec[0] == 0)   { fOriginUniformDist   = false; }
+  else                     { fOriginUniformDist   = true;  }
+  if (param_vec[1] == 0)   { fOriginDefined       = false; }
+  else                     { fOriginDefined       = true;  }
+  if (param_vec[2] == 0)   { fAngleZenithDefined  = false; }
+  else                     { fAngleZenithDefined  = true;  }
+  if (param_vec[3] == 0)   { fAngleZenithCosSq    = false; }
+  else                     { fAngleZenithCosSq    = true;  }
+  if (param_vec[4] == 0)   { fAnglePolarDefined   = false; }
+  else                     { fAnglePolarDefined   = true;  }
+  if (param_vec[5] == 0)   { fAnglePolarUniform   = false; }
+  else                     { fAnglePolarUniform   = true;  }
   fOriginUniformDistMin    = param_vec[6];
   fOriginUniformDistMax    = param_vec[7];
   fOriginDefinedX          = param_vec[8];
@@ -80,49 +81,27 @@ void evg::ReadParameters()
 
 void evg::CheckParameters()
 {
-  std::cout << "fOriginUniformDist       = " << fOriginUniformDist       << std::endl;
-  std::cout << "fOriginDefined           = " << fOriginDefined           << std::endl;
-  std::cout << "fAngleZenithDefined      = " << fAngleZenithDefined      << std::endl;
-  std::cout << "fAngleZenithCosSq        = " << fAngleZenithCosSq        << std::endl;
-  std::cout << "fAnglePolarDefined       = " << fAnglePolarDefined       << std::endl;
-  std::cout << "fAnglePolarUniform       = " << fAnglePolarUniform       << std::endl;
-  std::cout << "fOriginUniformDistMin    = " << fOriginUniformDistMin    << std::endl;
-  std::cout << "fOriginUniformDistMax    = " << fOriginUniformDistMax    << std::endl;
-  std::cout << "fOriginDefinedX          = " << fOriginDefinedX          << std::endl;
-  std::cout << "fOriginDefinedY          = " << fOriginDefinedY          << std::endl;
-  std::cout << "fAngleZenithDefinedValue = " << fAngleZenithDefinedValue << std::endl;
-  std::cout << "fAnglePolarDefinedValue  = " << fAnglePolarDefinedValue  << std::endl;
-  std::cout << "fAnglePolarUniformMin    = " << fAnglePolarUniformMin    << std::endl;
-  std::cout << "fAnglePolarUniformMax    = " << fAnglePolarUniformMax    << std::endl;
-  std::cout << "fGap                     = " << fGap                     << std::endl;
+  std::cout << "fOriginUniformDist       = " << fOriginUniformDist << "\n";
+  std::cout << "fOriginDefined           = " << fOriginDefined << "\n";
+  std::cout << "fAngleZenithDefined      = " << fAngleZenithDefined << "\n";
+  std::cout << "fAngleZenithCosSq        = " << fAngleZenithCosSq << "\n";
+  std::cout << "fAnglePolarDefined       = " << fAnglePolarDefined << "\n";
+  std::cout << "fAnglePolarUniform       = " << fAnglePolarUniform << "\n";
+  std::cout << "fOriginUniformDistMin    = " << fOriginUniformDistMin << "\n";
+  std::cout << "fOriginUniformDistMax    = " << fOriginUniformDistMax << "\n";
+  std::cout << "fOriginDefinedX          = " << fOriginDefinedX << "\n";
+  std::cout << "fOriginDefinedY          = " << fOriginDefinedY << "\n";
+  std::cout << "fAngleZenithDefinedValue = " << fAngleZenithDefinedValue << "\n";
+  std::cout << "fAnglePolarDefinedValue  = " << fAnglePolarDefinedValue << "\n";
+  std::cout << "fAnglePolarUniformMin    = " << fAnglePolarUniformMin << "\n";
+  std::cout << "fAnglePolarUniformMax    = " << fAnglePolarUniformMax << "\n";
+  std::cout << "fGap                     = " << fGap << "\n";
 }
 
 // __________________________________________________________________
 
-
-void evg::MakeLine()
-{
-  if ( fOriginUniformDist ) {
-    fInitialX = gRandom->Uniform(fOriginUniformDistMin,
-				 fOriginUniformDistMax);
-    fInitialY = gRandom->Uniform(fOriginUniformDistMin,
-				 fOriginUniformDistMax);
-    fInitialZ = fGap + 16*fScintHeight + 4*fModGap + 12*fScintGap;
-  }
-  else if ( fOriginDefined ) {
-    fInitialX = fOriginDefinedX;
-    fInitialY = fOriginDefinedY;
-    fInitialZ = fGap + 16*fScintHeight + 4*fModGap + 12*fScintGap;
-  }
-  else {
-    std::cout << "Something went wrong with origin definition" << std::endl;
-  }
-}
-
-
 void evg::RunEvents() {
   for (int i = 0; i < 50; i++) {
-    MakeLine();
     fTree->Fill();
   }
   fTree->Write();

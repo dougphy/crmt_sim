@@ -14,10 +14,7 @@ int main(int argc, char *argv[])
   evg *event_set = new evg("file.root",100);
   event_set->ReadParameters();
   event_set->CheckParameters();
-  //  event_set->MakeLine();
-  
   event_set->RunEvents();
-  //event_set->SaveFile();
   
   /*
   double gap   = 100;
