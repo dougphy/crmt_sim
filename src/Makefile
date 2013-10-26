@@ -16,7 +16,7 @@ $(EXEC): $(OBJ)
 
 %.o: %.h
 
-.PHONY: clean cleanroot
+.PHONY: clean
 
 clean:
 	@echo Cleaning...
