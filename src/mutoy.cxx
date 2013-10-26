@@ -2,6 +2,9 @@
 #include "evd.h"
 #include "evg.h"
 #include "Module.h"
+#include "Line.h"
+
+#define PI 3.1415926
 
 void usage()
 {
@@ -15,8 +18,14 @@ int main(int argc, char *argv[])
   event_set->ReadParameters();
   event_set->CheckParameters();
   event_set->RunEvents();
-  
   return 0;
+
+  std::cout << "\n\n";
+
+  Line *l = new Line();
+  l->SetInitialPos(30.0,30.0,700.0);
+  l->SetLinePropertiesFromPhiTheta(PI/2.,PI/12.);
+
 }
 
 

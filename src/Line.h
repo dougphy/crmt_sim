@@ -1,9 +1,18 @@
+
+// __________________________________________________________________
+// __________________________________________________________________
+// _______ mutoy Line class _________________________________________
+// _______ Douglas Davis ____________________________________________
+// _______ Fall 2013 ________________________________________________
+// __________________________________________________________________
+
 #ifndef LINE_H
 #define LINE_H
 
 class Line {
   
 protected:
+
   double fTx;
   double fTy;
   double fTz;
@@ -18,10 +27,13 @@ protected:
   double fSlopeYZ;
 
 public:
+
   Line();
   ~Line();
+
   void SetInitialPos(double x, double y, double z);
-  void SetLineProperties(double phi, double theta);
+  void SetLinePropertiesFromPhiTheta(double phi, double theta);
+
   double Tx()      { return fTx;      }
   double Ty()      { return fTy;      }
   double Tz()      { return fTz;      }
@@ -30,8 +42,11 @@ public:
   double Z0()      { return fZ0;      }
   double Theta()   { return fTheta;   }
   double Phi()     { return fPhi;     }
+  double AngleYZ() { return fAngleYZ; }
+  double AngleXZ() { return fAngleXZ; }
   double SlopeXZ() { return fSlopeXZ; }
   double SlopeYZ() { return fSlopeYZ; }
+
 };
 
 #endif

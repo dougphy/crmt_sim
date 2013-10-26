@@ -11,7 +11,6 @@
 
 #include "TFile.h"
 #include "TTree.h"
-#include "TVector3.h"
 #include <vector>
 #include <string>
 #include <fstream>

@@ -1,3 +1,11 @@
+
+// __________________________________________________________________
+// __________________________________________________________________
+// _______ mutoy Line methods _______________________________________
+// _______ Douglas Davis ____________________________________________
+// _______ Fall 2013 ________________________________________________
+// __________________________________________________________________
+
 #include <iostream>
 #include <cmath>
 #include "Line.h"
@@ -13,7 +21,7 @@ void Line::SetInitialPos(double x, double y, double z)
   fZ0 = z;
 }
 
-void Line::SetLineProperties(double phi, double theta)
+void Line::SetLinePropertiesFromPhiTheta(double phi, double theta)
 {
   fPhi = phi;
   fTheta = theta;
