@@ -21,10 +21,7 @@ public:
   Line();
   ~Line();
   void SetInitialPos(double x, double y, double z);
-  void SetPhiTheta(double phi, double theta);
-  void SetPlanarAngles();
-  void SetSlopes();
-  void SetTraj();
+  void SetLineProperties(double phi, double theta);
   double Tx()      { return fTx;      }
   double Ty()      { return fTy;      }
   double Tz()      { return fTz;      }
