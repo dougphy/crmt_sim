@@ -26,6 +26,12 @@ void Line::SetLinePropertiesFromPhiTheta(double phi, double theta)
   fPhi = phi;
   fTheta = theta;
 
+  // x = r*sin(theta)*cos(phi)
+  // y = r*sin(theta)*sin(phi)
+  // z = r*cos(theta)
+  // tan(angleXZ) = x/z
+  // tan(angleYZ) = y/z
+
   fAngleXZ = tan(fTheta)/sqrt(1+pow(tan(fPhi),2));
   fAngleYZ = tan(fTheta)*tan(fPhi)/sqrt(1+pow(tan(fPhi),2));
 
