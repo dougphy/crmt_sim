@@ -21,6 +21,8 @@ int main(int argc, char *argv[])
 
   std::cout << "\n\n";
 
+  double slopeXZ;
+  double slopeYZ;
 
   std::cout << "XZ to the RIGHT (+)\n"
 	    << "YZ to the RIGHT (+)\n";
@@ -29,8 +31,12 @@ int main(int argc, char *argv[])
   l->SetLinePropertiesFromPhiTheta(Pi/4.,Pi/12.);
   double xz = l->AngleXZ();
   double yz = l->AngleYZ();
+  slopeXZ   = l->SlopeXZ();
+  slopeYZ   = l->SlopeYZ();
   std::cout << "xz: " << xz << std::endl;
   std::cout << "yz: " << yz << std::endl;
+  std::cout << "sxz:" << slopeXZ << std::endl;
+  std::cout << "syz:" << slopeYZ << std::endl;
   std::cout << std::endl;
   std::cout << std::endl;
 
@@ -41,8 +47,12 @@ int main(int argc, char *argv[])
   ll->SetLinePropertiesFromPhiTheta(3*Pi/4.,Pi/12.);
   yz = ll->AngleYZ();
   xz = ll->AngleXZ();
+  slopeXZ = ll->SlopeXZ();
+  slopeYZ = ll->SlopeYZ();
   std::cout << "xz: " << xz << std::endl;
   std::cout << "yz: " << yz << std::endl;
+  std::cout << "sxz:" << slopeXZ << std::endl;
+  std::cout << "syz:" << slopeYZ << std::endl;
   std::cout << std::endl;
   std::cout << std::endl;
 
@@ -54,8 +64,12 @@ int main(int argc, char *argv[])
   lll->SetLinePropertiesFromPhiTheta(5*Pi/4.,Pi/12.);
   yz = lll->AngleYZ();
   xz = lll->AngleXZ();
+  slopeXZ = lll->SlopeXZ();
+  slopeYZ = lll->SlopeYZ();
   std::cout << "xz: " << xz << std::endl;
   std::cout << "yz: " << yz << std::endl;
+  std::cout << "sxz:" << slopeXZ << std::endl;
+  std::cout << "syz:" << slopeYZ << std::endl;
   std::cout << std::endl;
   std::cout << std::endl;
 
@@ -66,8 +80,12 @@ int main(int argc, char *argv[])
   llll->SetLinePropertiesFromPhiTheta(7*Pi/4.,Pi/12.);
   yz = llll->AngleYZ();
   xz = llll->AngleXZ();
+  slopeXZ = llll->SlopeXZ();
+  slopeYZ = llll->SlopeYZ();
   std::cout << "xz: " << xz << std::endl;
   std::cout << "yz: " << yz << std::endl;
+  std::cout << "sxz:" << slopeXZ << std::endl;
+  std::cout << "syz:" << slopeYZ << std::endl;
   std::cout << std::endl;
   std::cout << std::endl;
  
