@@ -4,7 +4,7 @@
 #include "Module.h"
 #include "Line.h"
 
-#define PI 3.1415926
+#define Pi 3.1415926
 
 void usage()
 {
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 	    << "YZ to the RIGHT\n";
   Line *l = new Line();
   l->SetInitialPos(30.0,30.0,700.0);
-  l->SetLinePropertiesFromPhiTheta(PI/4.,PI/12.);
+  l->SetLinePropertiesFromPhiTheta(Pi/4.,Pi/12.);
   double xz = l->AngleXZ();
   double yz = l->AngleYZ();
   std::cout << "xz: " << xz << std::endl;
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 	    << "YZ to the RIGHT\n";
   Line *ll = new Line();
   ll->SetInitialPos(1,1,1);
-  ll->SetLinePropertiesFromPhiTheta(3*PI/4.,PI/12);
+  ll->SetLinePropertiesFromPhiTheta(3*Pi/4.,Pi/12);
   yz = ll->AngleYZ();
   xz = ll->AngleXZ();
   std::cout << "xz: " << xz << std::endl;
