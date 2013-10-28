@@ -9,7 +9,8 @@ Done:
 -- File I/O
 -- User config file
 -- Module geometric definition
+-- Muon line definition
 
 Not Done:
--- Create muon line and intersect extrusions
+-- Intersect line with extrusion locations
 -- Event display
