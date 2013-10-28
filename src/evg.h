@@ -53,8 +53,14 @@ protected:
   double            fPhi;
   double            fAngleXZ;
   double            fAngleYZ;
-  int               fTrueFibers[1024];
-  int               fSimFibers[1024];
+  int               fTrueMod0[256];
+  int               fTrueMod1[256];
+  int               fTrueMod2[256];
+  int               fTrueMod3[256];
+  int               fSimMod0[256];
+  int               fSimMod1[256];
+  int               fSimMod2[256];
+  int               fSimMod3[256];
   // Attributes of the detector
   const double      fScintWidth  = 10.4;
   const double      fScintHeight = 30.8;

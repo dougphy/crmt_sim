@@ -36,8 +36,14 @@ evg::evg(std::string file_name, int n_events)
   fTree->Branch("AngleXZ",    &fAngleXZ,    "AngleXZ/D");
   fTree->Branch("AngleYZ",    &fAngleYZ,    "AngleYZ/D");
   fTree->Branch("Traj",        fTraj,       "Traj[3]/D");
-  fTree->Branch("TrueFibers",  fTrueFibers, "TrueFibers[1024]/I");
-  fTree->Branch("SimFibers",   fSimFibers,  "SimFibers[1024]/I");
+  fTree->Branch("TrueMod0",    fTrueMod0,   "TrueMod0[256]/I");
+  fTree->Branch("TrueMod1",    fTrueMod1,   "TrueMod1[256]/I");
+  fTree->Branch("TrueMod2",    fTrueMod2,   "TrueMod2[256]/I");
+  fTree->Branch("TrueMod3",    fTrueMod3,   "TrueMod3[256]/I");
+  fTree->Branch("SimMod0",     fSimMod0,    "SimMod0[256]/I");
+  fTree->Branch("SimMod1",     fSimMod1,    "SimMod1[256]/I");
+  fTree->Branch("SimMod2",     fSimMod2,    "SimMod2[256]/I");
+  fTree->Branch("SimMod3",     fSimMod3,    "SimMod3[256]/I");
 }
 
 // __________________________________________________________________
@@ -158,12 +164,8 @@ void evg::RunEvents()
 
 
 
-/*
-void evg::SaveFile()
-{
-  fTree->Write();
-}
-*/
+
+
 
 
 
