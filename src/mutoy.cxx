@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
   std::cout << "XZ to the RIGHT (+)\n"
 	    << "YZ to the RIGHT (+)\n";
   Line *l = new Line();
-  l->SetInitialPos(30.0,30.0,700.0);
+  l->SetInitialPos(300.0,300.0,700.0);
   l->SetLinePropertiesFromPhiTheta(Pi/4.,Pi/12.);
   double xz = l->AngleXZ();
   double yz = l->AngleYZ();
@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
   std::cout << "XZ to the LEFT (-)\n"
 	    << "YZ to the RIGHT (+)\n";
   Line *ll = new Line();
-  ll->SetInitialPos(30,30,700);
+  ll->SetInitialPos(300,300,700);
   ll->SetLinePropertiesFromPhiTheta(3*Pi/4.,Pi/12.);
   yz = ll->AngleYZ();
   xz = ll->AngleXZ();
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
   std::cout << "XZ to the LEFT (-)\n"
 	    << "YZ to the LEFT (-)\n";
   Line *lll = new Line();
-  lll->SetInitialPos(30,30,700);
+  lll->SetInitialPos(300,300,700);
   lll->SetLinePropertiesFromPhiTheta(5*Pi/4.,Pi/12.);
   yz = lll->AngleYZ();
   xz = lll->AngleXZ();
@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
   std::cout << "XZ to the RIGHT (+)\n"
 	    << "YZ to the LEFT (-)\n";
   Line *llll = new Line();
-  llll->SetInitialPos(30,30,700);
+  llll->SetInitialPos(300,300,700);
   llll->SetLinePropertiesFromPhiTheta(7*Pi/4.,Pi/12.);
   yz = llll->AngleYZ();
   xz = llll->AngleXZ();
@@ -128,13 +128,13 @@ int main(int argc, char *argv[])
   mod0graph->SetMarkerColor(1);
   TGraphErrors *mod1graph = new TGraphErrors();
   mod1graph->SetMarkerStyle(7);
-  mod0graph->SetMarkerColor(2);
+  mod1graph->SetMarkerColor(2);
   TGraphErrors *mod2graph = new TGraphErrors();
   mod2graph->SetMarkerStyle(7);
-  mod0graph->SetMarkerColor(3);
+  mod2graph->SetMarkerColor(3);
   TGraphErrors *mod3graph = new TGraphErrors();
   mod3graph->SetMarkerStyle(7);
-  mod0graph->SetMarkerColor(4);
+  mod3graph->SetMarkerColor(4);
 
   int counter = 0;
   for ( auto j : mod0fibs ) {
@@ -157,14 +157,18 @@ int main(int argc, char *argv[])
     counter++;
   }
   
-  TF1 *fxpyp = new TF1("fxpyp","pol1",0,65);
+  TF1 *fxpyp = new TF1("fxpyp","pol1",0,900);
   fxpyp->SetParameters(l->YintXZ(),l->SlopeXZ());
-  TF1 *fxnyp = new TF1("fxnyp","pol1",0,65);
+  fxpyp->SetLineColor(kCyan);
+  TF1 *fxnyp = new TF1("fxnyp","pol1",0,900);
   fxnyp->SetParameters(ll->YintXZ(),ll->SlopeXZ());
-  TF1 *fxnyn = new TF1("fxnyn","pol1",0,65);
+  fxnyp->SetLineColor(kOrange);
+  TF1 *fxnyn = new TF1("fxnyn","pol1",0,900);
   fxnyn->SetParameters(lll->YintXZ(),lll->SlopeXZ());
-  TF1 *fxpyn = new TF1("fxpyn","pol1",0,65);
+  fxnyn->SetLineColor(kBlack);
+  TF1 *fxpyn = new TF1("fxpyn","pol1",0,900);
   fxpyn->SetParameters(llll->YintXZ(),llll->SlopeXZ());
+  fxpyn->SetLineColor(kRed);
 
 
   TMultiGraph *mg = new TMultiGraph();
@@ -175,14 +179,10 @@ int main(int argc, char *argv[])
 
   TApplication *tapp = new TApplication("tapp",&argc,argv);
   TCanvas *can = new TCanvas();
-  mg->Draw("AP");            // TMultiGraph
+  mg->Draw("AP");
   fxpyp->Draw("sames");  // TF1
-  fxnyn->Draw("sames");  // TF1
+  fxpyn->Draw("sames");  // TF1
   tapp->Run();
-  can->Update();
-  can->Modified();
-  tapp->Run();
-  tapp->Show();
   return 0;
 
 
