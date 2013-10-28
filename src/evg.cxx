@@ -12,6 +12,7 @@
 #include <cmath>
 #include "evg.h"
 #include "Line.h"
+#include "Module.h"
 #include "TRandom.h"
 #include "TF1.h"
 
@@ -30,8 +31,8 @@ evg::evg(std::string file_name, int n_events)
   fTree->Branch("InitialX",   &fInitialX,   "InitialX/D");
   fTree->Branch("InitialY",   &fInitialY,   "InitialY/D");
   fTree->Branch("InitialZ",   &fInitialZ,   "InitialZ/D");
-  fTree->Branch("Theta",      &fTheta,      "Theta/D");
   fTree->Branch("Phi",        &fPhi,        "Phi/D");
+  fTree->Branch("Theta",      &fTheta,      "Theta/D");
   fTree->Branch("ThetaXZ",    &fThetaXZ,    "ThetaXZ/D");
   fTree->Branch("ThetaYZ",    &fThetaYZ,    "ThetaYZ/D");
   fTree->Branch("Traj",        fTraj,       "Traj[3]/D");
@@ -70,10 +71,10 @@ void evg::ReadParameters()
   fOriginUniformDistMax    = param_vec[7];
   fOriginDefinedX          = param_vec[8];
   fOriginDefinedY          = param_vec[9];
-  fAngleZenithDefinedValue = param_vec[10];
-  fAnglePolarDefinedValue  = param_vec[11];
-  fAnglePolarUniformMin    = param_vec[12];
-  fAnglePolarUniformMax    = param_vec[13];
+  fAngleZenithDefinedValue = param_vec[10]*PI/180.;
+  fAnglePolarDefinedValue  = param_vec[11]*PI/180.;
+  fAnglePolarUniformMin    = param_vec[12]*PI/180.;
+  fAnglePolarUniformMax    = param_vec[13]*PI/180.;
   fGap                     = param_vec[14];
 }
 
@@ -100,10 +101,56 @@ void evg::CheckParameters()
 
 // __________________________________________________________________
 
-void evg::RunEvents() {
-  for (int i = 0; i < 50; i++) {
+void evg::RunEvents()
+{
+  Module *Mod0 = new Module(0,fGap);
+  Module *Mod1 = new Module(1,fGap);
+  Module *Mod2 = new Module(2,fGap);
+  Module *Mod3 = new Module(3,fGap);
+  std::map<int, std::pair<double,double> > Mod0Loc = Mod0->GetMap();
+  std::map<int, std::pair<double,double> > Mod1Loc = Mod1->GetMap();
+  std::map<int, std::pair<double,double> > Mod2Loc = Mod2->GetMap();
+  std::map<int, std::pair<double,double> > Mod3Loc = Mod3->GetMap();
+
+  double InitialZ = 330 + fGap;
+  for ( int i = 0; i < fNEvents; i++ ) {
+    Line *Mu = new Line();
+    fInitialZ = InitialZ;
+    if ( fOriginUniformDist ) {
+      gRandom->SetSeed(0);
+      fInitialX = gRandom->Uniform(fOriginUniformDistMin,fOriginUniformDistMax);
+      fInitialY = gRandom->Uniform(fOriginUniformDistMin,fOriginUniformDistMax);
+    }
+    else if ( fOriginDefined ) {
+      fInitialX = fOriginDefinedX;
+      fInitialY = fOriginDefinedY;
+    }
+    else {
+      std::cout << "Muon origin definition malfunction." << std::endl;
+    }
+    Mu->SetInitialPos(fInitialX,fInitialY,fInitialZ);
+    if ( fAngleZenithDefined )
+      fTheta = fAngleZenithDefinedValue;
+    else if ( fAngleZenithCosSq ) {
+      std::cout << "Not using yet" << std::endl;
+      fTheta = fAngleZenithDefinedValue;
+    }
+    else {
+      std::cout << "Muon zenith angle definition malfunction." << std::endl;
+    }
+    if ( fAnglePolarDefined ) {
+      fPhi = fAnglePolarDefinedValue;
+    }
+    else if ( fAnglePolarUniform) {
+      fPhi = gRandom->Uniform(fAnglePolarUniformMin,fAnglePolarUniformMax);
+    }
+    else {
+      std::cout << "Muon polar angle definition malfunction" << std::endl;
+    }
+    Mu->SetLinePropertiesFromPhiTheta(fPhi,fTheta);
+
     fTree->Fill();
-  }
+  } // For fNEvents loop
   fTree->Write();
   fFile->Close();
 }
