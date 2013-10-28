@@ -35,4 +35,7 @@ void Line::SetLinePropertiesFromPhiTheta(double phi, double theta)
 		  
   fSlopeXZ = -1/tan(fAngleXZ);
   fSlopeYZ = -1/tan(fAngleYZ);
+
+  fYintXZ = fZ0 - fSlopeXZ*fX0;
+  fYintYZ = fZ0 - fSlopeYZ*fY0;
 }

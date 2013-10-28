@@ -25,6 +25,8 @@ protected:
   double fAngleYZ;
   double fSlopeXZ;
   double fSlopeYZ;
+  double fYintXZ;
+  double fYintYZ;
 
 public:
 
@@ -46,6 +48,8 @@ public:
   double AngleXZ() { return fAngleXZ; }
   double SlopeXZ() { return fSlopeXZ; }
   double SlopeYZ() { return fSlopeYZ; }
+  double YintXZ()  { return fYintXZ;  }
+  double YintYZ()  { return fYintYZ;  }
 
 };
 
