@@ -175,7 +175,7 @@ int main(int argc, char *argv[])
 
   TApplication *tapp = new TApplication("tapp",&argc,argv);
   TCanvas *can = new TCanvas();
-  mg->Draw();            // TMultiGraph
+  mg->Draw("AP");            // TMultiGraph
   fxpyp->Draw("sames");  // TF1
   fxnyn->Draw("sames");  // TF1
   tapp->Run();
