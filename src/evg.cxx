@@ -33,8 +33,8 @@ evg::evg(std::string file_name, int n_events)
   fTree->Branch("InitialZ",   &fInitialZ,   "InitialZ/D");
   fTree->Branch("Phi",        &fPhi,        "Phi/D");
   fTree->Branch("Theta",      &fTheta,      "Theta/D");
-  fTree->Branch("ThetaXZ",    &fThetaXZ,    "ThetaXZ/D");
-  fTree->Branch("ThetaYZ",    &fThetaYZ,    "ThetaYZ/D");
+  fTree->Branch("AngleXZ",    &fAngleXZ,    "AngleXZ/D");
+  fTree->Branch("AngleYZ",    &fAngleYZ,    "AngleYZ/D");
   fTree->Branch("Traj",        fTraj,       "Traj[3]/D");
   fTree->Branch("TrueFibers",  fTrueFibers, "TrueFibers[1024]/I");
   fTree->Branch("SimFibers",   fSimFibers,  "SimFibers[1024]/I");
@@ -148,7 +148,8 @@ void evg::RunEvents()
       std::cout << "Muon polar angle definition malfunction" << std::endl;
     }
     Mu->SetLinePropertiesFromPhiTheta(fPhi,fTheta);
-
+    fAngleXZ = Mu->AngleXZ();
+    fAngleYZ = Mu->AngleYZ();
     fTree->Fill();
   } // For fNEvents loop
   fTree->Write();

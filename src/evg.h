@@ -51,8 +51,8 @@ protected:
   double            fTraj[3];
   double            fTheta;
   double            fPhi;
-  double            fThetaXZ;
-  double            fThetaYZ;
+  double            fAngleXZ;
+  double            fAngleYZ;
   int               fTrueFibers[1024];
   int               fSimFibers[1024];
   // Attributes of the detector
