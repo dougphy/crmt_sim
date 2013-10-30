@@ -53,6 +53,8 @@ protected:
   double            fPhi;
   double            fSlopeXZ;
   double            fSlopeYZ;
+  double            fYintXZ;
+  double            fYintYZ;
   double            fAngleXZ;
   double            fAngleYZ;
   int               fTrueMod0[256];
@@ -78,7 +80,7 @@ public:
   void ReadParameters();
   void CheckParameters();
   void RunEvents();
-  void SaveFile();
+  bool Intersection(double FibI, double FibJ, double Slope, double Yint);
 
 };
 

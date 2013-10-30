@@ -119,9 +119,16 @@ void evg::RunEvents()
   std::map<int, std::pair<double,double> > Mod1Loc = Mod1->GetMap();
   std::map<int, std::pair<double,double> > Mod2Loc = Mod2->GetMap();
   std::map<int, std::pair<double,double> > Mod3Loc = Mod3->GetMap();
-
+  std::map<int, std::pair<double,double> >::iterator FiberItr;
+  
   double InitialZ = 330 + fGap;
   for ( int i = 0; i < fNEvents; i++ ) {
+    std::cout << "*******************" << std::endl;
+    std::cout << "*******************" << std::endl;
+    std::cout << "* EVENT NUMBER " << i << std::endl;
+    std::cout << "*******************" << std::endl;
+    std::cout << "*******************" << std::endl;
+
     Line *Mu = new Line();
     fInitialZ = InitialZ;
     if ( fOriginUniformDist ) {
@@ -161,6 +168,52 @@ void evg::RunEvents()
 
     fSlopeXZ = Mu->SlopeXZ();
     fSlopeYZ = Mu->SlopeYZ();
+    fYintXZ  = Mu->YintXZ();
+    fYintYZ  = Mu->YintYZ();
+    
+    for ( FiberItr = Mod0Loc.begin(); FiberItr != Mod0Loc.end(); FiberItr++ ) {
+      if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
+			fSlopeYZ,fYintYZ) ) {
+	std::cout << (*FiberItr).first << "Hit!" << std::endl;
+	fTrueMod0[(*FiberItr).first] = 1;
+      }
+      else {
+	fTrueMod0[(*FiberItr).first] = 0;
+      }
+    }
+    
+    for ( FiberItr = Mod1Loc.begin(); FiberItr != Mod1Loc.end(); FiberItr++ ) {
+      if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
+			fSlopeXZ,fYintXZ) ) {
+	std::cout << (*FiberItr).first << " Hit!" << std::endl;
+	fTrueMod1[(*FiberItr).first] = 1;
+      }
+      else {
+	fTrueMod1[(*FiberItr).first] = 0;
+      }
+    }
+
+    for ( FiberItr = Mod2Loc.begin(); FiberItr != Mod2Loc.end(); FiberItr++ ) {
+      if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
+			fSlopeYZ,fYintYZ) ) {
+	std::cout << (*FiberItr).first << "Hit!" << std::endl;
+	fTrueMod2[(*FiberItr).first] = 1;
+      }
+      else {
+	fTrueMod2[(*FiberItr).first] = 0;
+      }
+    }
+    
+    for ( FiberItr = Mod3Loc.begin(); FiberItr != Mod3Loc.end(); FiberItr++ ) {
+      if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
+			fSlopeXZ,fYintXZ) ) {
+	std::cout << (*FiberItr).first << " Hit!" << std::endl;
+	fTrueMod3[(*FiberItr).first] = 1;
+      }
+      else {
+	fTrueMod3[(*FiberItr).first] = 0;
+      }
+    }
 
 
     fTree->Fill();
@@ -170,381 +223,18 @@ void evg::RunEvents()
 }
 
 
-
-
-
-
-
-
-
-// -----------------
-// -----------------
-// -----------------
-// ALL THE OLD STUFF 
-// -----------------
-// -----------------
-// -----------------
-/*
-void evg::OldRunEvents()
+bool evg::Intersection(double FibI, double FibJ, double Slope, double Yint)
 {
-  double z_start = 310 + fGap;
-  double x_start, y_start, thetaXZ, thetaYZ, theta, phi;
+  double   LineLeftLocation_v = fSlopeYZ*(FibI - fScintWidth/2.0) + fYintYZ;
+  double  LineRightLocation_v = fSlopeYZ*(FibI + fScintWidth/2.0) + fYintYZ;
+  double            TopEdge_v = FibJ + fScintHeight/2.0;
+  double         BottomEdge_v = FibJ - fScintHeight/2.0;
+  double           LeftEdge_h = FibI - fScintWidth/2.0;
+  double          RightEdge_h = FibI + fScintWidth/2.0;
 
-  double m1_z[4];
-  m1_z[0] = 162.8;
-  m1_z[1] = 198.4;
-  m1_z[2] = 234.0;
-  m1_z[3] = 269.6;
 
-  bool on_fibers_xz[8][64];
-  bool on_fibers_yz[6][64];
-
-  int count_xz = 0;
-  int count_yz = 0;
-
-  int irow, icolumn, jrow;
-  bool YZview, YZview2;
-  double strip_z;
-
-  std::vector<int> ids;
-  double fiber_x, fiber_y, fiber_z;
-  int ifiber_in_view;
-  int kfiber_in_view;
-
-  double FibLoc[1024][4] = {0};
-  for (int ifiber = 0; ifiber < 1024; ifiber++) {
-    irow = (int)((double)ifiber/64);
-    fiber_z = m1_z[3] - irow*(fScintGap + fScintHeight);
-    YZview = false;
-    if (irow < 4 || (irow > 7 && irow < 12))
-      YZview = true;
-    icolumn = ifiber - irow*64;
-    if(YZview) {
-      fiber_x = 0.0;
-      fiber_y = -32.0*fScintWidth + icolumn*fScintWidth;
-      
-      if (irow == 1) {
-        fiber_y += 3.333;
-        fiber_z += fGap;
-        FibLoc[ifiber][0] = ifiber;
-        FibLoc[ifiber][1] = fiber_x;
-        FibLoc[ifiber][2] = fiber_y;
-        FibLoc[ifiber][3] = fiber_z;
-      }
-      else if (irow == 9) {
-        fiber_y += 3.333;
-        FibLoc[ifiber][0] = ifiber;
-        FibLoc[ifiber][1] = fiber_x;
-        FibLoc[ifiber][2] = fiber_y;
-        FibLoc[ifiber][3] = fiber_z;
-        
-      }
-      else if (irow == 3) {
-        fiber_y -= 3.333;
-        fiber_z += fGap;
-        FibLoc[ifiber][0] = ifiber;
-        FibLoc[ifiber][1] = fiber_x;
-        FibLoc[ifiber][2] = fiber_y;
-        FibLoc[ifiber][3] = fiber_z;
-      }
-      else if (irow == 11) {
-        fiber_y -= 3.333;
-        FibLoc[ifiber][0] = ifiber;
-        FibLoc[ifiber][1] = fiber_x;
-        FibLoc[ifiber][2] = fiber_y;
-        FibLoc[ifiber][3] = fiber_z;
-      }
-      else if (irow == 0) {
-        fiber_z += fGap;
-        FibLoc[ifiber][0] = ifiber;
-        FibLoc[ifiber][1] = fiber_x;
-        FibLoc[ifiber][2] = fiber_y;
-        FibLoc[ifiber][3] = fiber_z;
-      }
-      else if (irow==2) {                     
-        fiber_z += fGap;
-        FibLoc[ifiber][0] = ifiber;
-        FibLoc[ifiber][1] = fiber_x;
-        FibLoc[ifiber][2] = fiber_y;
-        FibLoc[ifiber][3] = fiber_z;
-      }
-      else if (irow == 8) {
-        FibLoc[ifiber][0] = ifiber;
-        FibLoc[ifiber][1] = fiber_x;
-        FibLoc[ifiber][2] = fiber_y;
-        FibLoc[ifiber][3] = fiber_z;
-      }
-      else if (irow == 10) {
-        FibLoc[ifiber][0] = ifiber;
-        FibLoc[ifiber][1] = fiber_x;
-        FibLoc[ifiber][2] = fiber_y;
-        FibLoc[ifiber][3] = fiber_z;
-      }          
-    }
-    else {
-      fiber_y = 0.0;
-      fiber_x = - 32*fScintWidth + icolumn*fScintWidth;
-      if (irow == 5) {
-        fiber_x += 3.333;
-        fiber_z += fGap;
-        FibLoc[ifiber][0] = ifiber;
-        FibLoc[ifiber][1] = fiber_x;
-        FibLoc[ifiber][2] = fiber_y;
-        FibLoc[ifiber][3] = fiber_z;
-      }
-      else if (irow==13) {
-        fiber_x += 3.333;
-        FibLoc[ifiber][0] = ifiber;
-        FibLoc[ifiber][1] = fiber_x;
-        FibLoc[ifiber][2] = fiber_y;
-        FibLoc[ifiber][3] = fiber_z;
-      }
-      else if (irow == 7) {
-        fiber_x -= 3.333;
-        fiber_z += fGap;
-        FibLoc[ifiber][0] = ifiber;
-        FibLoc[ifiber][1] = fiber_x;
-        FibLoc[ifiber][2] = fiber_y;
-        FibLoc[ifiber][3] = fiber_z;
-      }
-      else if (irow == 15) {
-        fiber_x -= 3.333;
-        FibLoc[ifiber][0] = ifiber;
-        FibLoc[ifiber][1] = fiber_x;
-        FibLoc[ifiber][2] = fiber_y;
-        FibLoc[ifiber][3] = fiber_z;
-      }
-      else if (irow == 4) {
-        fiber_z += fGap;
-        FibLoc[ifiber][0] = ifiber;
-        FibLoc[ifiber][1] = fiber_x;
-        FibLoc[ifiber][2] = fiber_y;
-        FibLoc[ifiber][3] = fiber_z;
-      }
-      else if (irow == 6) {
-        fiber_z += fGap;
-        FibLoc[ifiber][0] = ifiber;
-        FibLoc[ifiber][1] = fiber_x;
-        FibLoc[ifiber][2] = fiber_y;
-        FibLoc[ifiber][3] = fiber_z;
-      }
-      else if (irow == 12) {
-        FibLoc[ifiber][0] = ifiber;
-        FibLoc[ifiber][1] = fiber_x;
-        FibLoc[ifiber][2] = fiber_y;
-        FibLoc[ifiber][3] = fiber_z;
-      }
-      else if (irow == 14) {
-        FibLoc[ifiber][0] = ifiber;
-        FibLoc[ifiber][1] = fiber_x;
-        FibLoc[ifiber][2] = fiber_y;
-        FibLoc[ifiber][3] = fiber_z;
-      }
-    }
-  }
-  double yz_max;
-  int event_count = 0;
-  while ( event_count < fNEvents ){
-    fEventID = event_count;
-    if (fOriginUniformDist) {
-      gRandom->SetSeed(0);
-      x_start = gRandom->Uniform(fOriginUniformDistXmin,fOriginUniformDistXmax);
-      y_start = gRandom->Uniform(fOriginUniformDistYmin,fOriginUniformDistYmax);
-    }
-    else if (fOriginDefined) {
-      x_start = fOriginDefinedX;
-      y_start = fOriginDefinedY;
-    }
-    else
-      std::cout << "Something went wrong with the origin choice" << std::endl;
-    
-    if (fAnglesGaussian) { 
-      gRandom->SetSeed(0);
-      thetaXZ = gRandom->Gaus(fAnglesGaussianCenter,fAnglesGaussianSigma);
-      yz_max = asin(sqrt(1.-pow(sin(thetaXZ/180.*PI),2)))*180./PI;
-      thetaYZ = yz_max + 1;
-      while ( fabs(thetaXZ) > yz_max ) {
-	thetaYZ = gRandom->Gaus(fAnglesGaussianCenter,fAnglesGaussianSigma);
-      }
-    }
-    else if (fAnglesCosineSq) {
-      thetaYZ = -1*fAnglesDefinedX;
-      thetaXZ = -1*fAnglesDefinedY;
-    }
-    else if (fAnglesUniformDist) {
-      gRandom->SetSeed(0);
-      thetaXZ = gRandom->Uniform(fAnglesUniformDistXmin,fAnglesUniformDistXmax);
-      thetaYZ = gRandom->Uniform(fAnglesUniformDistYmin,fAnglesUniformDistYmax);
-    }
-    else 
-      std::cout << "Something went wrong with the angle choice" << std::endl;
-
-    fInitialX = x_start;
-    fInitialY = y_start;
-    fInitialZ = z_start;
-    fTraj[0]  = sin(thetaYZ*PI/180.);
-    fTraj[1]  = sin(thetaXZ*PI/180.);
-    fTraj[2]  = sqrt(1-pow(fTraj[0],2)-pow(fTraj[1],2));
-    fThetaYZ  = -thetaXZ; // Not a typo -- will fix this later
-    fThetaXZ  = -thetaYZ; // Not a typo -- will fix this later
-
-    for (int kfiber = 0; kfiber < 1024; kfiber++) {
-      jrow = (int)((double)kfiber/64.);
-      YZview2 = false;
-      
-      if ( jrow < 4 || ( jrow > 7 && jrow < 12 ) )
-	YZview2 = true;
-      if(OldIntersection(FibLoc[kfiber][1],FibLoc[kfiber][2],FibLoc[kfiber][3],
-		      YZview2,x_start,y_start,z_start,thetaXZ,thetaYZ,
-		      fScintWidth,fScintWidth,fScintHeight)) {
-	fTrueFibers[kfiber] = true;
-	ids.clear();
-	OldMultiplex(kfiber, &ids);
-	for (int j = 0; j < ids.size(); j++) {
-	  kfiber_in_view = OldGetFiberInView(jrow,ids[j],YZview2);
-	  fSimFibers[ids[j]] = true;
-	}
-      }
-    }
-    fTree->Fill();
-    event_count++;
-
-    for (int ii = 0; ii < 1024; ii++) {
-      fTrueFibers[ii] = 0;
-      fSimFibers[ii]  = 0;
-    }
-    fThetaXZ  = 0;
-    fThetaYZ  = 0;
-    fInitialX = 0;
-    fTraj[0]  = 0;
-    fTraj[1]  = 0;
-    fTraj[2]  = 0;
-  }
+  return false;
 }
 
-void evg::OldMultiplex(int fiberid, std::vector<int> *ids)
-{
-  int r_num, c_num;
-  r_num = (int)((double)fiberid/64.0);
-  c_num = fiberid - r_num*64;
 
-  int b_num  = (int)((double)r_num/4.0);
-  int r_type = r_num - b_num*4;
 
-  int octuple_index = (int)((double)c_num/8.0);
-  int first_col = octuple_index*8;
-
-  int local_fiber_id;
-
-  switch(r_type) {
-  case 0: {
-    for ( int icol = 0; icol < 8; icol++ ) {
-      local_fiber_id = r_num*64 + first_col + icol;
-      ids->push_back(local_fiber_id);
-    }
-    break;
-  }
-  case 1: {
-    int delta_col = c_num - first_col;
-    for (int icol = 0; icol < 8; icol++) {
-      local_fiber_id = r_num + delta_col + icol*8;
-      ids->push_back(local_fiber_id);
-    }
-    break;
-  }
-  case 2: {
-    int delta_col = c_num - first_col;
-    for (int icol = 0; icol < 8; icol++) {
-      local_fiber_id = r_num + delta_col + icol*8;
-      ids->push_back(local_fiber_id);
-    }
-    break;
-  }
-  case 3: {
-    int delta_col = c_num - first_col;
-    for (int icol = 0; icol < 8; icol++) {
-      local_fiber_id = r_num + delta_col + icol*8;
-      ids->push_back(local_fiber_id);
-    }
-    break;
-  }
-  }
-  return;
-}
-
-// __________________________________________________________________
-
-bool evg::OldIntersection(double fx, double fy, double fz,
-		       bool yzView, double tx, double ty, double tz,
-		       double thetaxz, double thetayz,
-		       double sigma_x, double sigma_y, double sigma_z)
-{
-  double TrajX = sin(thetayz*PI/180.);
-  double TrajY = sin(thetaxz*PI/180.);
-  double TrajZ = sqrt(1-pow(TrajX,2)-pow(TrajY,2));
-
-  double top_edge, bottom_edge;
-  top_edge    = fz + sigma_z/2;
-  bottom_edge = fz - sigma_z/2;
-
-  if(yzView) {
-    double left_edge  = fy - sigma_y/2.;
-    double right_edge = fy + sigma_y/2.;
-    double slope      = TrajZ/TrajY;
-    double left_z     = tz + (left_edge-ty)*slope;
-    double right_z    = tz + (right_edge-ty)*slope;
-    double top_z, bottom_z;
-    if (left_z > right_z) {
-      top_z = left_z;
-      bottom_z = right_z;
-    }
-    else {
-      top_z = right_z;
-      bottom_z = left_z;
-    }
-    if (top_edge < bottom_z)
-      return false;
-    if (bottom_edge > top_z)
-      return false;
-    return true;
-  }
-  double left_edge   = fx - sigma_x/2.;
-  double right_edge  = fx + sigma_x/2.;
-  double slope       = TrajZ/TrajX;
-  double left_z      = tz + (left_edge-tx)*slope;
-  double right_z     = tz + (right_edge-tx)*slope;
-  double top_z, bottom_z;
-  if (left_z > right_z) {
-    top_z = left_z;
-    bottom_z = right_z;
-  }
-  else {
-    top_z = right_z;
-    bottom_z = left_z;
-  }
-  if (top_edge < bottom_z)
-    return false;
-  if (bottom_edge > top_z)
-    return false;
-  return true;
-}
-
-// __________________________________________________________________
-
-int evg::OldGetFiberInView(int irow, int ifiber, bool YZview)
-{
-  int imodule = (int)((double)irow/4.);
-  int ifiber_in_view = ifiber;
-  if (YZview) {
-    if ( imodule == 2 )
-      ifiber_in_view -= 64*4;
-  }
-  else {
-    ifiber_in_view -= 64*4;
-    if ( imodule == 3)
-      ifiber_in_view -= 64*4;
-  }
-  return ifiber_in_view;
-}
-
-*/

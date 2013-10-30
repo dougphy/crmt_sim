@@ -18,7 +18,7 @@ void usage()
 int main(int argc, char *argv[])
 {
   std::cout << "Based God Simulation Under Construction" << std::endl;
-  evg *event_set = new evg("file.root",10000);
+  evg *event_set = new evg("file.root",1);
   event_set->ReadParameters();
   event_set->CheckParameters();
   event_set->RunEvents();
