@@ -14,9 +14,8 @@
 #include "TFile.h"
 #include "TTree.h"
 #include "TF1.h"
-#include "Module.h"
 
-class evd : public Module {
+class evd {
 
 private:
   TFile            *fFile;
