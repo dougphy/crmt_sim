@@ -11,14 +11,23 @@
 
 #include <iostream>
 #include "TApplication.h"
-#include "evg.h"
+#include "TFile.h"
+#include "TTree.h"
+#include "TF1.h"
+#include "Module.h"
 
-class evd : public evg {
+class evd : public Module {
 
 private:
+  TFile            *fFile;
+  TTree            *fTree;
   int               fSelectedEventID;
   double            fSlopeXZ;
-  double            fSloptYZ;
+  double            fSlopeYZ;
+  double            fYintXZ;
+  double            fYintYZ;
+  TF1              *LineXZ;
+  TF1              *LineYZ;
   TApplication     *fApp;
 
 public:

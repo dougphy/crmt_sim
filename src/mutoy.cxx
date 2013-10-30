@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
   event_set->RunEvents();
 
 
-
+  /*
   double slopeXZ;
   double slopeYZ;
   double yintXZ;
@@ -182,7 +182,7 @@ int main(int argc, char *argv[])
   fxpyp->Draw("sames");  // TF1
   tapp->Run();
 
-
+  */
   return 0;
 
 
