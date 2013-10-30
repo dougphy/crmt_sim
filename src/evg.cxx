@@ -37,6 +37,8 @@ evg::evg(std::string file_name, int n_events)
   fTree->Branch("AngleYZ",    &fAngleYZ,    "AngleYZ/D");
   fTree->Branch("SlopeXZ",    &fSlopeXZ,    "SlopeXZ/D");
   fTree->Branch("SlopeYZ",    &fSlopeYZ,    "SlopeYZ/D");
+  fTree->Branch("YintXZ",     &fYintXZ,     "YintXZ/D");
+  fTree->Branch("YintYZ",     &fYintYZ,     "YintYZ/D");
   fTree->Branch("Traj",        fTraj,       "Traj[3]/D");
   fTree->Branch("TrueMod0",    fTrueMod0,   "TrueMod0[256]/I");
   fTree->Branch("TrueMod1",    fTrueMod1,   "TrueMod1[256]/I");
@@ -162,10 +164,10 @@ void evg::RunEvents()
     else {
       std::cout << "Muon polar angle definition malfunction" << std::endl;
     }
+
     Mu->SetLinePropertiesFromPhiTheta(fPhi,fTheta);
     fAngleXZ = Mu->AngleXZ();
     fAngleYZ = Mu->AngleYZ();
-
     fSlopeXZ = Mu->SlopeXZ();
     fSlopeYZ = Mu->SlopeYZ();
     fYintXZ  = Mu->YintXZ();
@@ -174,7 +176,7 @@ void evg::RunEvents()
     for ( FiberItr = Mod0Loc.begin(); FiberItr != Mod0Loc.end(); FiberItr++ ) {
       if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
 			fSlopeYZ,fYintYZ) ) {
-	std::cout << (*FiberItr).first << "Hit!" << std::endl;
+	std::cout << (*FiberItr).first << " Hit!" << std::endl;
 	fTrueMod0[(*FiberItr).first] = 1;
       }
       else {
@@ -196,7 +198,7 @@ void evg::RunEvents()
     for ( FiberItr = Mod2Loc.begin(); FiberItr != Mod2Loc.end(); FiberItr++ ) {
       if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
 			fSlopeYZ,fYintYZ) ) {
-	std::cout << (*FiberItr).first << "Hit!" << std::endl;
+	std::cout << (*FiberItr).first << " Hit!" << std::endl;
 	fTrueMod2[(*FiberItr).first] = 1;
       }
       else {
@@ -225,15 +227,26 @@ void evg::RunEvents()
 
 bool evg::Intersection(double FibI, double FibJ, double Slope, double Yint)
 {
-  double   LineLeftLocation_v = fSlopeYZ*(FibI - fScintWidth/2.0) + fYintYZ;
-  double  LineRightLocation_v = fSlopeYZ*(FibI + fScintWidth/2.0) + fYintYZ;
-  double            TopEdge_v = FibJ + fScintHeight/2.0;
-  double         BottomEdge_v = FibJ - fScintHeight/2.0;
   double           LeftEdge_h = FibI - fScintWidth/2.0;
   double          RightEdge_h = FibI + fScintWidth/2.0;
-
-
+  double   LineLeftLocation_v = Slope*LeftEdge_h  + Yint;
+  double  LineRightLocation_v = Slope*RightEdge_h + Yint;
+  double            TopEdge_v = FibJ + fScintHeight/2.0;
+  double         BottomEdge_v = FibJ - fScintHeight/2.0;
+  double           LineXTop_h = (TopEdge_v - Yint)/Slope;
+  double           LineXBot_h = (BottomEdge_v - Yint)/Slope;
+  
+  if ( (LineLeftLocation_v < TopEdge_v) && (LineLeftLocation_v > BottomEdge_v) )
+    return true;
+  if ( (LineRightLocation_v < TopEdge_v) && (LineRightLocation_v > BottomEdge_v) )
+    return true;
+  if ( (LineXTop_h < RightEdge_h) && (LineXTop_h > LeftEdge_h) )
+    return true;
+  if ( (LineXBot_h < RightEdge_h) && (LineXBot_h > LeftEdge_h) )
+    return true;
+  
   return false;
+  
 }
 
 

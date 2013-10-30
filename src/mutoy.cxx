@@ -33,8 +33,8 @@ int main(int argc, char *argv[])
   std::cout << "XZ to the RIGHT (+)\n"
 	    << "YZ to the RIGHT (+)\n";
   Line *l = new Line();
-  l->SetInitialPos(330.0,330.0,900.0);
-  l->SetLinePropertiesFromPhiTheta(Pi/4.,Pi/12.);
+  l->SetInitialPos(330.0,330.0,300+330);
+  l->SetLinePropertiesFromPhiTheta(0.7854,0.1745);
   double xz = l->AngleXZ();
   double yz = l->AngleYZ();
   slopeXZ   = l->SlopeXZ();
@@ -180,7 +180,6 @@ int main(int argc, char *argv[])
   TCanvas *can = new TCanvas();
   mg->Draw("AP");
   fxpyp->Draw("sames");  // TF1
-  fxpyn->Draw("sames");  // TF1
   tapp->Run();
 
 
