@@ -51,6 +51,8 @@ protected:
   double            fTraj[3];
   double            fTheta;
   double            fPhi;
+  double            fSlopeXZ;
+  double            fSlopeYZ;
   double            fAngleXZ;
   double            fAngleYZ;
   int               fTrueMod0[256];

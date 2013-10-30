@@ -18,7 +18,7 @@
 
 #define PI 3.1415926536
 
-evg::evg() {}  // Default constructor -- not used
+evg::evg() {}
 
 // __________________________________________________________________
 
@@ -35,6 +35,8 @@ evg::evg(std::string file_name, int n_events)
   fTree->Branch("Theta",      &fTheta,      "Theta/D");
   fTree->Branch("AngleXZ",    &fAngleXZ,    "AngleXZ/D");
   fTree->Branch("AngleYZ",    &fAngleYZ,    "AngleYZ/D");
+  fTree->Branch("SlopeXZ",    &fSlopeXZ,    "SlopeXZ/D");
+  fTree->Branch("SlopeYZ",    &fSlopeYZ,    "SlopeYZ/D");
   fTree->Branch("Traj",        fTraj,       "Traj[3]/D");
   fTree->Branch("TrueMod0",    fTrueMod0,   "TrueMod0[256]/I");
   fTree->Branch("TrueMod1",    fTrueMod1,   "TrueMod1[256]/I");
@@ -48,7 +50,7 @@ evg::evg(std::string file_name, int n_events)
 
 // __________________________________________________________________
 
-evg::~evg() {} // Default destructor
+evg::~evg() {}
 
 // __________________________________________________________________
 
@@ -147,7 +149,7 @@ void evg::RunEvents()
     if ( fAnglePolarDefined ) {
       fPhi = fAnglePolarDefinedValue;
     }
-    else if ( fAnglePolarUniform) {
+    else if ( fAnglePolarUniform ) {
       fPhi = gRandom->Uniform(fAnglePolarUniformMin,fAnglePolarUniformMax);
     }
     else {
@@ -156,6 +158,11 @@ void evg::RunEvents()
     Mu->SetLinePropertiesFromPhiTheta(fPhi,fTheta);
     fAngleXZ = Mu->AngleXZ();
     fAngleYZ = Mu->AngleYZ();
+
+    fSlopeXZ = Mu->SlopeXZ();
+    fSlopeYZ = Mu->SlopeYZ();
+
+
     fTree->Fill();
   } // For fNEvents loop
   fTree->Write();
