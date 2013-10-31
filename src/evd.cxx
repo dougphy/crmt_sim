@@ -66,6 +66,7 @@ void evd::RawDumpSim()
 
 void evd::DrawTrue(int argc, char *argv[])
 {
+  fTree->GetEntry(fSelectedEventID);
   double gap = fGap;
   Module *mod0 = new Module(0,gap);
   Module *mod1 = new Module(1,gap);
@@ -84,7 +85,6 @@ void evd::DrawTrue(int argc, char *argv[])
   TGraphErrors *Graph3 = new TGraphErrors();
   Graph3->SetMarkerStyle(8);
 
-  fTree->GetEntry(fSelectedEventID);
   int counter = 0;
   for ( int i = 0; i < 256; i++ ) {
     if ( fTrueMod0[i] == 1 ) {
