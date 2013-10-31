@@ -1,4 +1,4 @@
-EXEC := mutoy
+EXEC := crmt
 SRC  := $(wildcard *.cxx)
 OBJ  := $(patsubst %.cxx,%.o,$(SRC))
 
@@ -22,4 +22,4 @@ clean:
 	@echo Cleaning...
 	-@rm -f ../src/*.o
 	-@rm -f ../src/$(EXEC)
-	-@rm -f ../mutoy
+	-@rm -f ../$(EXEC)

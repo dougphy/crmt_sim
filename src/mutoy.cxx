@@ -18,12 +18,16 @@ void usage()
 int main(int argc, char *argv[])
 {
   std::cout << "Based God Simulation Under Construction" << std::endl;
+  
   evg *event_set = new evg("file.root",1);
   event_set->ReadParameters();
   event_set->CheckParameters();
   event_set->RunEvents();
+  
 
-
+  evd *display = new evd();
+  display->InitFile("output/file.root",0);
+  display->DrawTrue(argc,argv);
   /*
   double slopeXZ;
   double slopeYZ;

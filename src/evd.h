@@ -20,6 +20,7 @@ class evd {
 private:
   TFile            *fFile;
   TTree            *fTree;
+  double            fGap;
   int               fSelectedEventID;
   double            fSlopeXZ;
   double            fSlopeYZ;
@@ -29,10 +30,19 @@ private:
   TF1              *LineYZ;
   TApplication     *fApp;
 
+  int               fTrueMod0[256];
+  int               fTrueMod1[256];
+  int               fTrueMod2[256];
+  int               fTrueMod3[256];
+  int               fSimMod0[256];
+  int               fSimMod1[256];
+  int               fSimMod2[256];
+  int               fSimMod3[256];
+
 public:
   evd();
   ~evd();
-  void InitData(std::string file_name, int event_number);
+  void InitFile(std::string file_name, int event_number);
   void RawDumpTrue();
   void RawDumpSim();
   void DrawTrue(int argc, char *argv[]);

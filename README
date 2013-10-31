@@ -1,6 +1,7 @@
-mutoy is ...
+crmt is ...
 
 -- A rewrite of MT_Toy (which is poorly written for CINT)
+   http://github.com/dougphy/CRMT_Software
 -- A way to seperate event generation and simulated event display
 
 Under construction
@@ -10,7 +11,12 @@ Done:
 -- User config file
 -- Module geometric definition
 -- Muon line definition
+-- Intersect line with extrusion locations
 
 Not Done:
--- Intersect line with extrusion locations
--- Event display
+-- Multiplex
+-- Event display 2D
+-- Event display 3D
+
+In the end, simulation and reconstruction will be a single software.
+Reconstruction currently being developed at http://github.com/vgenty/crmt_feb

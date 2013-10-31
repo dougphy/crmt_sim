@@ -24,10 +24,12 @@ evg::evg() {}
 
 evg::evg(std::string file_name, int n_events)
 {
+  std::string name = "output/"+file_name;
   fNEvents  = n_events;
-  fFile     = new TFile(file_name.c_str(),"RECREATE");
+  fFile     = new TFile(name.c_str(),"RECREATE");
   fTree     = new TTree("SimulationTree","SimulationTree");
   fTree->Branch("EventID",    &fEventID,    "EventID/I");
+  fTree->Branch("Gap",        &fGap,        "Gap/D");
   fTree->Branch("InitialX",   &fInitialX,   "InitialX/D");
   fTree->Branch("InitialY",   &fInitialY,   "InitialY/D");
   fTree->Branch("InitialZ",   &fInitialZ,   "InitialZ/D");
