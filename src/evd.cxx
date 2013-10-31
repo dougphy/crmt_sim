@@ -78,13 +78,17 @@ void evd::DrawTrue(int argc, char *argv[])
   std::map<int, std::pair<double,double> > Mod2 = mod2->GetMap();
   std::map<int, std::pair<double,double> > Mod3 = mod3->GetMap();
   TGraph *Graph0 = new TGraph();
+  Graph0->SetMarkerColor(kBlue);
   Graph0->SetMarkerStyle(8);
   TGraph *Graph1 = new TGraph();
   Graph1->SetMarkerStyle(8);
+  Graph1->SetMarkerColor(kBlue);
   TGraph *Graph2 = new TGraph();
   Graph2->SetMarkerStyle(8);
+  Graph2->SetMarkerColor(kBlue);
   TGraph *Graph3 = new TGraph();
   Graph3->SetMarkerStyle(8);
+  Graph3->SetMarkerColor(kBlue);
 
   int counter = 0;
   for ( int i = 0; i < 256; i++ ) {
@@ -126,11 +130,38 @@ void evd::DrawTrue(int argc, char *argv[])
       continue;
     }
   }
+  
+  TGraph *All0 = new TGraph(); All0->SetMarkerStyle(7);
+  TGraph *All1 = new TGraph(); All1->SetMarkerStyle(7);
+  TGraph *All2 = new TGraph(); All2->SetMarkerStyle(7);
+  TGraph *All3 = new TGraph(); All3->SetMarkerStyle(7);
+  
+  counter = 0;
+  for ( auto fib : Mod0 ) {
+    All0->SetPoint(counter,fib.second.first,fib.second.second);
+    counter++;
+  }
+  for ( auto fib : Mod1 ) {
+    All1->SetPoint(counter,fib.second.first,fib.second.second);
+    counter++;
+  }
+  for ( auto fib : Mod2 ) {
+    All2->SetPoint(counter,fib.second.first,fib.second.second);
+    counter++;
+  }
+  for ( auto fib : Mod3 ) {
+    All3->SetPoint(counter,fib.second.first,fib.second.second);
+    counter++;
+  }
 
   TMultiGraph *TMGXZ = new TMultiGraph();
+  TMGXZ->Add(All1);
+  TMGXZ->Add(All3);
   TMGXZ->Add(Graph1);
   TMGXZ->Add(Graph3);
   TMultiGraph *TMGYZ = new TMultiGraph();
+  TMGYZ->Add(All0);
+  TMGYZ->Add(All2);
   TMGYZ->Add(Graph0);
   TMGYZ->Add(Graph2);
   TF1 *LineXZ = new TF1("LineXZ","pol1",0,660);

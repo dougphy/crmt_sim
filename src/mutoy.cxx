@@ -21,15 +21,19 @@ int main(int argc, char *argv[])
   std::string first_arg = argv[1];
 
   if ( first_arg == "-g" || first_arg == "--generate" ) {
+    std::string n_holder  = argv[2];
+    int events = atoi(n_holder.c_str());
     std::cout << "Based God Simulation Under Construction" << std::endl;
-    evg *event_set = new evg("file.root",5);
+    evg *event_set = new evg("file.root",events);
     event_set->ReadParameters();
     event_set->CheckParameters();
     event_set->RunEvents();
   }
   else if ( first_arg == "-d" || first_arg == "--display") {
+    std::string n_holder  = argv[2];
+    int event = atoi(n_holder.c_str());
     evd *display = new evd();
-    display->InitFile("output/file.root",2);
+    display->InitFile("output/file.root",event);
     display->DrawTrue(argc,argv);
   }
   else {
