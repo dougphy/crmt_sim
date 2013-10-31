@@ -13,6 +13,7 @@
 #include "evd.h"
 #include "Module.h"
 #include "TMultiGraph.h"
+#include "TAxis.h"
 
 evd::evd() {}
 
@@ -85,6 +86,15 @@ void evd::DrawTrue(int argc, char *argv[])
   TGraphErrors *Graph3 = new TGraphErrors();
   Graph3->SetMarkerStyle(8);
 
+  Graph0->SetMinimum(0);
+  Graph0->SetMaximum(330+fGap);
+  Graph1->SetMinimum(0);
+  Graph1->SetMaximum(330+fGap);
+  Graph2->SetMinimum(0);
+  Graph2->SetMaximum(330+fGap);
+  Graph3->SetMinimum(0);
+  Graph3->SetMaximum(330+fGap);
+
   int counter = 0;
   for ( int i = 0; i < 256; i++ ) {
     if ( fTrueMod0[i] == 1 ) {
@@ -133,9 +143,13 @@ void evd::DrawTrue(int argc, char *argv[])
   TMGYZ->Add(Graph0);
   TMGYZ->Add(Graph2);
   TF1 *LineXZ = new TF1("LineXZ","pol1",0,660);
-  TF1 *LineYZ = new TF1("LineYZ","pol1",0,660);
+  LineXZ->GetXaxis()->SetRangeUser(0,660.);
+  LineXZ->GetYaxis()->SetRangeUser(0,330+fGap);
   LineXZ->SetParameters(fYintXZ,fSlopeXZ);
+  TF1 *LineYZ = new TF1("LineYZ","pol1",0,660);
   LineYZ->SetParameters(fYintYZ,fSlopeYZ);
+  LineYZ->GetXaxis()->SetRangeUser(0,660.);
+  LineYZ->GetYaxis()->SetRangeUser(0,330+fGap);
 
   fApp = new TApplication("app",&argc,argv);
   TCanvas *can = new TCanvas();
