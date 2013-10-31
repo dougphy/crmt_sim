@@ -7,7 +7,7 @@
 // __________________________________________________________________
 
 #include <iostream>
-#include "TGraphErrors.h"
+#include "TGraph.h"
 #include "TF1.h"
 #include "TCanvas.h"
 #include "evd.h"
@@ -77,23 +77,14 @@ void evd::DrawTrue(int argc, char *argv[])
   std::map<int, std::pair<double,double> > Mod1 = mod1->GetMap();
   std::map<int, std::pair<double,double> > Mod2 = mod2->GetMap();
   std::map<int, std::pair<double,double> > Mod3 = mod3->GetMap();
-  TGraphErrors *Graph0 = new TGraphErrors();
+  TGraph *Graph0 = new TGraph();
   Graph0->SetMarkerStyle(8);
-  TGraphErrors *Graph1 = new TGraphErrors();
+  TGraph *Graph1 = new TGraph();
   Graph1->SetMarkerStyle(8);
-  TGraphErrors *Graph2 = new TGraphErrors();
+  TGraph *Graph2 = new TGraph();
   Graph2->SetMarkerStyle(8);
-  TGraphErrors *Graph3 = new TGraphErrors();
+  TGraph *Graph3 = new TGraph();
   Graph3->SetMarkerStyle(8);
-
-  Graph0->SetMinimum(0);
-  Graph0->SetMaximum(330+fGap);
-  Graph1->SetMinimum(0);
-  Graph1->SetMaximum(330+fGap);
-  Graph2->SetMinimum(0);
-  Graph2->SetMaximum(330+fGap);
-  Graph3->SetMinimum(0);
-  Graph3->SetMaximum(330+fGap);
 
   int counter = 0;
   for ( int i = 0; i < 256; i++ ) {

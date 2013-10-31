@@ -127,12 +127,6 @@ void evg::RunEvents()
   
   double InitialZ = 330 + fGap;
   for ( int i = 0; i < fNEvents; i++ ) {
-    std::cout << "*******************" << std::endl;
-    std::cout << "*******************" << std::endl;
-    std::cout << "* EVENT NUMBER " << i << std::endl;
-    std::cout << "*******************" << std::endl;
-    std::cout << "*******************" << std::endl;
-
     Line *Mu = new Line();
     fInitialZ = InitialZ;
     if ( fOriginUniformDist ) {

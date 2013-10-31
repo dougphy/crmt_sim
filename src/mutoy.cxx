@@ -17,18 +17,24 @@ void usage()
 
 int main(int argc, char *argv[])
 {
-  std::cout << "Based God Simulation Under Construction" << std::endl;
-  /*  
-  evg *event_set = new evg("file.root",5);
-  event_set->ReadParameters();
-  event_set->CheckParameters();
-  event_set->RunEvents();
-  */
-  
-  evd *display = new evd();
-  display->InitFile("output/file.root",2);
-  display->DrawTrue(argc,argv);
-  
+
+  std::string first_arg = argv[1];
+
+  if ( first_arg == "-g" || first_arg == "--generate" ) {
+    std::cout << "Based God Simulation Under Construction" << std::endl;
+    evg *event_set = new evg("file.root",5);
+    event_set->ReadParameters();
+    event_set->CheckParameters();
+    event_set->RunEvents();
+  }
+  else if ( first_arg == "-d" || first_arg == "--display") {
+    evd *display = new evd();
+    display->InitFile("output/file.root",2);
+    display->DrawTrue(argc,argv);
+  }
+  else {
+    usage();
+  }
   /*
   double slopeXZ;
   double slopeYZ;
