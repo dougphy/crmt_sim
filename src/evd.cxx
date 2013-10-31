@@ -156,28 +156,35 @@ void evd::DrawTrue(int argc, char *argv[])
     All3->SetPoint(counter,fib.second.first,fib.second.second);
     counter++;
   }
+  
+  TGraph *HolderXZ = new TGraph();
+  TGraph *HolderYZ = new TGraph();
+  HolderXZ->SetMarkerColor(kWhite);
+  HolderYZ->SetMarkerColor(kWhite);
+  HolderXZ->SetPoint(0,0,0);
+  HolderXZ->SetPoint(1,0,550+fGap);
+  HolderYZ->SetPoint(0,0,0);
+  HolderYZ->SetPoint(1,0,550+fGap);
 
   TMultiGraph *TMGXZ = new TMultiGraph();
   TMGXZ->Add(All1);
   TMGXZ->Add(All3);
   TMGXZ->Add(Graph1);
   TMGXZ->Add(Graph3);
+  TMGXZ->Add(HolderXZ);
   TMultiGraph *TMGYZ = new TMultiGraph();
   TMGYZ->Add(All0);
   TMGYZ->Add(All2);
   TMGYZ->Add(Graph0);
   TMGYZ->Add(Graph2);
+  TMGYZ->Add(HolderYZ);
   TF1 *LineXZ = new TF1("LineXZ","pol1",0,660);
-  LineXZ->GetXaxis()->SetRangeUser(0,660.);
-  LineXZ->GetYaxis()->SetRangeUser(0,330+fGap);
   LineXZ->SetParameters(fYintXZ,fSlopeXZ);
   TF1 *LineYZ = new TF1("LineYZ","pol1",0,660);
   LineYZ->SetParameters(fYintYZ,fSlopeYZ);
-  LineYZ->GetXaxis()->SetRangeUser(0,660.);
-  LineYZ->GetYaxis()->SetRangeUser(0,330+fGap);
 
   fApp = new TApplication("app",&argc,argv);
-  TCanvas *can = new TCanvas();
+  TCanvas *can = new TCanvas("evd","evd",1000,700);
   can->Divide(2,1);
 
   can->cd(1);
