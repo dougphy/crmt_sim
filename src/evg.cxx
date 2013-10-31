@@ -178,7 +178,7 @@ void evg::RunEvents()
     for ( FiberItr = Mod0Loc.begin(); FiberItr != Mod0Loc.end(); FiberItr++ ) {
       if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
 			fSlopeYZ,fYintYZ) ) {
-	std::cout << (*FiberItr).first << " Hit!" << std::endl;
+	// std::cout << (*FiberItr).first << " Hit!" << std::endl;
 	fTrueMod0[(*FiberItr).first] = 1;
       }
       else {
@@ -189,7 +189,7 @@ void evg::RunEvents()
     for ( FiberItr = Mod1Loc.begin(); FiberItr != Mod1Loc.end(); FiberItr++ ) {
       if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
 			fSlopeXZ,fYintXZ) ) {
-	std::cout << (*FiberItr).first << " Hit!" << std::endl;
+	// std::cout << (*FiberItr).first << " Hit!" << std::endl;
 	fTrueMod1[(*FiberItr).first] = 1;
       }
       else {
@@ -200,7 +200,7 @@ void evg::RunEvents()
     for ( FiberItr = Mod2Loc.begin(); FiberItr != Mod2Loc.end(); FiberItr++ ) {
       if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
 			fSlopeYZ,fYintYZ) ) {
-	std::cout << (*FiberItr).first << " Hit!" << std::endl;
+	// std::cout << (*FiberItr).first << " Hit!" << std::endl;
 	fTrueMod2[(*FiberItr).first] = 1;
       }
       else {
@@ -211,7 +211,7 @@ void evg::RunEvents()
     for ( FiberItr = Mod3Loc.begin(); FiberItr != Mod3Loc.end(); FiberItr++ ) {
       if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
 			fSlopeXZ,fYintXZ) ) {
-	std::cout << (*FiberItr).first << " Hit!" << std::endl;
+	// std::cout << (*FiberItr).first << " Hit!" << std::endl;
 	fTrueMod3[(*FiberItr).first] = 1;
       }
       else {
