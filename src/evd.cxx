@@ -141,14 +141,17 @@ void evd::DrawTrue(int argc, char *argv[])
     All0->SetPoint(counter,fib.second.first,fib.second.second);
     counter++;
   }
+  counter = 0;
   for ( auto fib : Mod1 ) {
     All1->SetPoint(counter,fib.second.first,fib.second.second);
     counter++;
   }
+  counter = 0;
   for ( auto fib : Mod2 ) {
     All2->SetPoint(counter,fib.second.first,fib.second.second);
     counter++;
   }
+  counter = 0;
   for ( auto fib : Mod3 ) {
     All3->SetPoint(counter,fib.second.first,fib.second.second);
     counter++;
