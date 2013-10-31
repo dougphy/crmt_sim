@@ -13,10 +13,14 @@ Done:
 -- Muon line definition
 -- Intersect line with extrusion locations
 
-Not Done:
+Not Done but started:
+-- True event display 2D
+
+Not started:
 -- Multiplex
--- Event display 2D
--- Event display 3D
+-- Sim event display 3D
+-- True event display 3D
+-- Sim event display 3D
 
 In the end, simulation and reconstruction will be a single software.
 Reconstruction currently being developed at http://github.com/vgenty/crmt_feb
