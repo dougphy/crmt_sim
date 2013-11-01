@@ -188,15 +188,18 @@ void evd::DrawTrue(int argc, char *argv[])
   TMGYZ->Add(HolderYZ);
   TF1 *LineXZ = new TF1("LineXZ","pol1",0,660);
   LineXZ->SetParameters(fYintXZ,fSlopeXZ);
+  LineXZ->SetLineStyle(2);
+  LineXZ->SetLineWidth(1);
   TF1 *LineYZ = new TF1("LineYZ","pol1",0,660);
   LineYZ->SetParameters(fYintYZ,fSlopeYZ);
+  LineYZ->SetLineStyle(2);
+  LineYZ->SetLineWidth(1);
 
   std::string s_EventID = MakeString((double)fSelectedEventID);
   std::string s_AngleXZ = MakeString(fAngleXZ*180/3.14159);
   std::string s_AngleYZ = MakeString(fAngleYZ*180/3.14159);
 
   gStyle->SetFrameLineWidth(2);
-  gStyle->SetHistLineWidth(2);
   gStyle->SetPadTopMargin(0.08);
   gStyle->SetPadBottomMargin(0.12);
   gStyle->SetPadLeftMargin(0.14);

@@ -30,10 +30,7 @@ private:
   double            fSlopeYZ;
   double            fYintXZ;
   double            fYintYZ;
-  TF1              *LineXZ;
-  TF1              *LineYZ;
   TApplication     *fApp;
-
   int               fTrueMod0[256];
   int               fTrueMod1[256];
   int               fTrueMod2[256];
