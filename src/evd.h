@@ -22,6 +22,8 @@ private:
   TTree            *fTree;
   double            fGap;
   int               fSelectedEventID;
+  double            fAngleXZ;
+  double            fAngleYZ;
   double            fSlopeXZ;
   double            fSlopeYZ;
   double            fYintXZ;
@@ -46,6 +48,8 @@ public:
   void RawDumpTrue();
   void RawDumpSim();
   void DrawTrue(int argc, char *argv[]);
+  void DrawSim(int argc, char *argv[]);
+  std::string MakeString(double value);
 };
 
 #endif

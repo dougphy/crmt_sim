@@ -7,6 +7,7 @@
 // __________________________________________________________________
 
 #include <iostream>
+#include <sstream>
 #include "TGraph.h"
 #include "TF1.h"
 #include "TCanvas.h"
@@ -14,6 +15,7 @@
 #include "Module.h"
 #include "TMultiGraph.h"
 #include "TAxis.h"
+#include "TStyle.h"
 
 evd::evd() {}
 
@@ -23,6 +25,8 @@ void evd::InitFile(std::string file_name, int event_number)
 {
   fFile = new TFile(file_name.c_str());
   fTree = (TTree*)fFile->Get("SimulationTree");
+  fTree->SetBranchAddress("AngleXZ",  &fAngleXZ);
+  fTree->SetBranchAddress("AngleYZ",  &fAngleYZ);
   fTree->SetBranchAddress("SlopeXZ",  &fSlopeXZ);
   fTree->SetBranchAddress("SlopeYZ",  &fSlopeYZ);
   fTree->SetBranchAddress("YintXZ",   &fYintXZ);
@@ -183,6 +187,10 @@ void evd::DrawTrue(int argc, char *argv[])
   TF1 *LineYZ = new TF1("LineYZ","pol1",0,660);
   LineYZ->SetParameters(fYintYZ,fSlopeYZ);
 
+  std::string s_EventID = MakeString((double)fSelectedEventID);
+  std::string s_AngleXZ = MakeString(fAngleXZ*180/3.14159);
+  std::string s_AngleYZ = MakeString(fAngleYZ*180/3.14159);
+
   fApp = new TApplication("app",&argc,argv);
   TCanvas *can = new TCanvas("evd","evd",1000,700);
   can->Divide(2,1);
@@ -197,4 +205,18 @@ void evd::DrawTrue(int argc, char *argv[])
 
   fApp->Run();
 
+}
+
+void DrawSim(int argc, char *argv[])
+{
+  std::cout << "Under construction" << std::endl;
+}
+
+std::string evd::MakeString(double value)
+{
+  std::string return_me;
+  std::ostringstream s;
+  s << value;
+  return_me = s.str();
+  return return_me;
 }
