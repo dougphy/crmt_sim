@@ -12,13 +12,14 @@ Done:
 -- Module geometric definition
 -- Muon line definition
 -- Intersect line with extrusion locations
+-- Multiplex
+-- True 2D evd
+-- Sim 2d evd
 
-Not Done but started:
--- True event display 2D
+Urgent todo:
+-- cos2(theta) dist.
 
 Not started:
--- Multiplex
--- Sim event display 3D
 -- True event display 3D
 -- Sim event display 3D
 
