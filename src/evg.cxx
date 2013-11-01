@@ -115,6 +115,7 @@ void evg::CheckParameters()
 
 void evg::RunEvents()
 {
+  InitCoupleMap();
   Module *Mod0 = new Module(0,fGap);
   Module *Mod1 = new Module(1,fGap);
   Module *Mod2 = new Module(2,fGap);
@@ -155,6 +156,7 @@ void evg::RunEvents()
       fPhi = fAnglePolarDefinedValue;
     }
     else if ( fAnglePolarUniform ) {
+      gRandom->SetSeed(0);
       fPhi = gRandom->Uniform(fAnglePolarUniformMin,fAnglePolarUniformMax);
     }
     else {
@@ -172,7 +174,6 @@ void evg::RunEvents()
     for ( FiberItr = Mod0Loc.begin(); FiberItr != Mod0Loc.end(); FiberItr++ ) {
       if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
 			fSlopeYZ,fYintYZ) ) {
-	// std::cout << (*FiberItr).first << " Hit!" << std::endl;
 	fTrueMod0[(*FiberItr).first] = 1;
       }
       else {
@@ -183,7 +184,6 @@ void evg::RunEvents()
     for ( FiberItr = Mod1Loc.begin(); FiberItr != Mod1Loc.end(); FiberItr++ ) {
       if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
 			fSlopeXZ,fYintXZ) ) {
-	// std::cout << (*FiberItr).first << " Hit!" << std::endl;
 	fTrueMod1[(*FiberItr).first] = 1;
       }
       else {
@@ -194,7 +194,6 @@ void evg::RunEvents()
     for ( FiberItr = Mod2Loc.begin(); FiberItr != Mod2Loc.end(); FiberItr++ ) {
       if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
 			fSlopeYZ,fYintYZ) ) {
-	// std::cout << (*FiberItr).first << " Hit!" << std::endl;
 	fTrueMod2[(*FiberItr).first] = 1;
       }
       else {
@@ -205,7 +204,6 @@ void evg::RunEvents()
     for ( FiberItr = Mod3Loc.begin(); FiberItr != Mod3Loc.end(); FiberItr++ ) {
       if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
 			fSlopeXZ,fYintXZ) ) {
-	// std::cout << (*FiberItr).first << " Hit!" << std::endl;
 	fTrueMod3[(*FiberItr).first] = 1;
       }
       else {
@@ -213,6 +211,7 @@ void evg::RunEvents()
       }
     }
 
+    Multiplex();
 
     fTree->Fill();
   } // For fNEvents loop
@@ -240,10 +239,78 @@ bool evg::Intersection(double FibI, double FibJ, double Slope, double Yint)
     return true;
   if ( (LineXBot_h < RightEdge_h) && (LineXBot_h > LeftEdge_h) )
     return true;
-  
   return false;
-  
 }
 
+void evg::InitCoupleMap()
+{
+  std::ifstream CouplingFile;
+  CouplingFile.open("config/coupled_fibers.dat");
+  int f0, f1, f2, f3, f4, f5, f6, f7;
+  int counter = 0;
+  while ( CouplingFile >> f0 >> f1 >> f2
+	  >> f3 >> f4 >> f5 >> f6 >> f7 ) {
+    fFiberCouplingMap[counter].push_back(f0);
+    fFiberCouplingMap[counter].push_back(f1);
+    fFiberCouplingMap[counter].push_back(f2);
+    fFiberCouplingMap[counter].push_back(f3);
+    fFiberCouplingMap[counter].push_back(f4);
+    fFiberCouplingMap[counter].push_back(f5);
+    fFiberCouplingMap[counter].push_back(f6);
+    fFiberCouplingMap[counter].push_back(f7);
+    counter++;
+  }
 
+}
 
+void evg::Multiplex()
+{
+  std::vector<int> Hits0;
+  std::vector<int> Hits1;
+  std::vector<int> Hits2;
+  std::vector<int> Hits3;
+  
+  for ( int i = 0; i < 256; i++ ) {
+    fSimMod0[i] = 0;
+    fSimMod1[i] = 0;
+    fSimMod2[i] = 0;
+    fSimMod3[i] = 0;
+  }
+
+  for ( int i = 0; i < 256; i++ ) {
+    if ( fTrueMod0[i] == 1 )
+      Hits0.push_back(i);
+  }
+  for ( int i = 0; i < 256; i++ ) {
+    if ( fTrueMod1[i] == 1 )
+      Hits1.push_back(i);
+  }
+  for ( int i = 0; i < 256; i++ ) {
+    if ( fTrueMod2[i] == 1 )
+      Hits2.push_back(i);
+  }
+  for ( int i = 0; i < 256; i++ ) {
+    if ( fTrueMod3[i] == 1 )
+      Hits3.push_back(i);
+  }
+
+  for ( auto iMap : fFiberCouplingMap ) {
+    for ( auto hit : Hits0 )
+      if ( std::find(iMap.second.begin(),iMap.second.end(),hit) != iMap.second.end() )
+	for ( int i = 0; i < iMap.second.size(); i++ )
+	  fSimMod0[iMap.second[i]] = 1;
+    for ( auto hit : Hits1 )
+      if ( std::find(iMap.second.begin(),iMap.second.end(),hit) != iMap.second.end() )
+	for ( int i = 0; i < iMap.second.size(); i++ )
+	  fSimMod1[iMap.second[i]] = 1;
+    for ( auto hit : Hits2 )
+      if ( std::find(iMap.second.begin(),iMap.second.end(),hit) != iMap.second.end() )
+	for ( int i = 0; i < iMap.second.size(); i++ )
+	  fSimMod2[iMap.second[i]] = 1;
+    for ( auto hit : Hits3 )
+      if ( std::find(iMap.second.begin(),iMap.second.end(),hit) != iMap.second.end() )
+	for ( int i = 0; i < iMap.second.size(); i++ )
+	  fSimMod3[iMap.second[i]] = 1;
+  }
+  
+}

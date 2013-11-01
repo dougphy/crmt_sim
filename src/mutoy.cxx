@@ -34,7 +34,8 @@ int main(int argc, char *argv[])
     int event = atoi(n_holder.c_str());
     evd *display = new evd();
     display->InitFile("output/file.root",event);
-    display->DrawTrue(argc,argv);
+    display->RawDumpSim();
+    display->DrawSim(argc,argv);
   }
   else {
     usage();

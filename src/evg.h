@@ -72,7 +72,7 @@ protected:
   const double      fStripShift  = 3.333;
   const double      fScintGap    = 4.8;
   const double      fModGap      = 6.4;
-  
+  std::map<int, std::vector<int> > fFiberCouplingMap;
 public:
   evg();
   evg(std::string fname, int n_events);
@@ -81,6 +81,8 @@ public:
   void CheckParameters();
   void RunEvents();
   bool Intersection(double FibI, double FibJ, double Slope, double Yint);
+  void InitCoupleMap();
+  void Multiplex();
 
 };
 
