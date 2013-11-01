@@ -70,12 +70,12 @@ protected:
   int               fSimMod2[256];
   int               fSimMod3[256];
   // Attributes of the detector
-  const double      fScintWidth  = 10.4;
-  const double      fScintHeight = 30.8;
-  const double      fScintLength = 650.0;
-  const double      fStripShift  = 3.333;
-  const double      fScintGap    = 4.8;
-  const double      fModGap      = 6.4;
+  double            fScintWidth  = 10.4;
+  double            fScintHeight = 30.8;
+  double            fScintLength = 650.0;
+  double            fStripShift  = 3.333;
+  double            fScintGap    = 4.8;
+  double            fModGap      = 6.4;
   std::map<int, std::vector<int> > fFiberCouplingMap;
 public:
   evg();

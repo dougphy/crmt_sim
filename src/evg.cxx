@@ -10,6 +10,7 @@
 #include <map>
 #include <vector>
 #include <cmath>
+#include <algorithm>
 #include "evg.h"
 #include "Line.h"
 #include "Module.h"
