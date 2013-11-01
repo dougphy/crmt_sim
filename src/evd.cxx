@@ -17,6 +17,7 @@
 #include "TAxis.h"
 #include "TPaveText.h"
 #include "TStyle.h"
+#include "TPad.h"
 
 evd::evd() {}
 
@@ -28,6 +29,8 @@ void evd::InitFile(std::string file_name, int event_number)
   fTree = (TTree*)fFile->Get("SimulationTree");
   fTree->SetBranchAddress("AngleXZ",  &fAngleXZ);
   fTree->SetBranchAddress("AngleYZ",  &fAngleYZ);
+  fTree->SetBranchAddress("Phi",      &fPhi);
+  fTree->SetBranchAddress("Theta",    &fTheta);
   fTree->SetBranchAddress("SlopeXZ",  &fSlopeXZ);
   fTree->SetBranchAddress("SlopeYZ",  &fSlopeYZ);
   fTree->SetBranchAddress("YintXZ",   &fYintXZ);
@@ -199,27 +202,83 @@ void evd::DrawTrue(int argc, char *argv[])
   gStyle->SetPadLeftMargin(0.14);
   gStyle->SetPadRightMargin(0.1);
 
-  TPaveText *EventTitle = new TPaveText(0.2,0.9,0.5,0.98,"brNDC");
+  char EID[30];
+  char tSlopeXZ[30];
+  char tSlopeYZ[30];
+  char tAngleXZ[30];
+  char tAngleYZ[30];
+  char tPhi[30];
+  char tTheta[30];
+  
+  sprintf(EID,      "Event %d",                 fSelectedEventID);
+  sprintf(tSlopeXZ, "Slope XZ = %3.3f",         fSlopeXZ);
+  sprintf(tSlopeYZ, "Slope YZ = %3.3f",         fSlopeYZ);
+  sprintf(tAngleXZ, "Angle XZ = %3.3f degrees", fAngleXZ*180/3.14159);
+  sprintf(tAngleYZ, "Angle YZ = %3.3f degrees", fAngleYZ*180/3.14159);
+  sprintf(tPhi,     "Phi = %3.3f degrees",      fPhi*180/3.14159);
+  sprintf(tTheta,   "Theta = %3.3f degrees",    fTheta*180/3.14159);
+  
+  const char *EIDP      = EID;  
+  const char *tSlopeXZP  = tSlopeXZ;
+  const char *tSlopeYZP = tSlopeYZ;
+  const char *tAngleXZP = tAngleXZ;
+  const char *tAngleYZP = tAngleYZ;
+  const char *tPhiP     = tPhi;
+  const char *tThetaP   = tTheta;
+  
+  TPaveText *EventTitle = new TPaveText(0.0,0.2,1,0.9,"brNDC");
   EventTitle->SetTextFont(63);
-  EventTitle->SetTextSize(24);
-  char EID[20];
-  sprintf(EID,"Event %d",fSelectedEventID);
-  const char *EIDP = EID;
+  EventTitle->SetTextSize(18);
+  EventTitle->SetFillColor(0);
+  EventTitle->SetBorderSize(0);
+  EventTitle->AddText("True Event Display");
   EventTitle->AddText(EIDP);
+  EventTitle->AddText(tSlopeXZP);
+  EventTitle->AddText(tSlopeYZP);
+  EventTitle->AddText(tAngleXZP);
+  EventTitle->AddText(tAngleYZP);
+  EventTitle->AddText(tPhiP);
+  EventTitle->AddText(tThetaP);
+  
+  TPaveText *XZ_title = new TPaveText(0.36,.93,.7,.95,"brNDC");
+  XZ_title->SetTextSize(22);
+  XZ_title->SetTextFont(63);
+  XZ_title->SetBorderSize(0);
+  XZ_title->SetFillColor(0);
+  XZ_title->AddText("XZ plane");
+  TPaveText *YZ_title = new TPaveText(0.36,.93,.7,.95,"brNDC");
+  YZ_title->SetTextSize(22);
+  YZ_title->SetTextFont(63);
+  YZ_title->SetBorderSize(0);
+  YZ_title->SetFillColor(0);
+  YZ_title->AddText("YZ plane");
 
   fApp = new TApplication("app",&argc,argv);
-  TCanvas *can = new TCanvas("evd","evd",1000,700);
-  can->Divide(2,1);
+  TCanvas *can = new TCanvas("evd","evd",1300,800);
 
-  can->cd(1);
+  TPad *padXZ = new TPad("padXZ","padXZ",.2,0.,.6,1.);
+  TPad *padYZ = new TPad("padYZ","patYZ",.6,0.,1.,1.);
+  TPad *padT  = new TPad("padT", "padT",.0,.3,.20,.9);
+
+  padXZ->cd();
   TMGXZ->Draw("AP");
   LineXZ->Draw("same");
+  XZ_title->Draw("same");
 
-  can->cd(2);
+  padYZ->cd();
   TMGYZ->Draw("AP");
   LineYZ->Draw("same");
+  YZ_title->Draw("same");
 
+  padT->cd();
+  EventTitle->Draw();
+
+  can->cd();
+  padXZ->Draw();
+  padYZ->Draw();
+  padT->Draw();
   fApp->Run();
+
 
 }
 
