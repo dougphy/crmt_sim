@@ -9,6 +9,9 @@
 #ifndef LINE_H
 #define LINE_H
 
+#include <cmath>
+#include <iostream>
+
 class Line {
   
 protected:
