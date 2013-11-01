@@ -15,6 +15,7 @@
 #include "Module.h"
 #include "TMultiGraph.h"
 #include "TAxis.h"
+#include "TPaveText.h"
 #include "TStyle.h"
 
 evd::evd() {}
@@ -190,6 +191,21 @@ void evd::DrawTrue(int argc, char *argv[])
   std::string s_EventID = MakeString((double)fSelectedEventID);
   std::string s_AngleXZ = MakeString(fAngleXZ*180/3.14159);
   std::string s_AngleYZ = MakeString(fAngleYZ*180/3.14159);
+
+  gStyle->SetFrameLineWidth(2);
+  gStyle->SetHistLineWidth(2);
+  gStyle->SetPadTopMargin(0.08);
+  gStyle->SetPadBottomMargin(0.12);
+  gStyle->SetPadLeftMargin(0.14);
+  gStyle->SetPadRightMargin(0.1);
+
+  TPaveText *EventTitle = new TPaveText(0.2,0.9,0.5,0.98,"brNDC");
+  EventTitle->SetTextFont(63);
+  EventTitle->SetTextSize(24);
+  char EID[20];
+  sprintf(EID,"Event %d",fSelectedEventID);
+  const char *EIDP = EID;
+  EventTitle->AddText(EIDP);
 
   fApp = new TApplication("app",&argc,argv);
   TCanvas *can = new TCanvas("evd","evd",1000,700);
