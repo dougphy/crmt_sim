@@ -75,40 +75,47 @@ void evg::ReadParameters()
   else                     { fAngleZenithDefined  = true;  }
   if (param_vec[3] == 0)   { fAngleZenithCosSq    = false; }
   else                     { fAngleZenithCosSq    = true;  }
-  if (param_vec[4] == 0)   { fAnglePolarDefined   = false; }
+  if (param_vec[4] == 0)   { fAngleZenithGaussian = false; }
+  else                     { fAngleZenithGaussian = true;  }
+  if (param_vec[5] == 0)   { fAnglePolarDefined   = false; }
   else                     { fAnglePolarDefined   = true;  }
-  if (param_vec[5] == 0)   { fAnglePolarUniform   = false; }
+  if (param_vec[6] == 0)   { fAnglePolarUniform   = false; }
   else                     { fAnglePolarUniform   = true;  }
-  fOriginUniformDistMin    = param_vec[6];
-  fOriginUniformDistMax    = param_vec[7];
-  fOriginDefinedX          = param_vec[8];
-  fOriginDefinedY          = param_vec[9];
-  fAngleZenithDefinedValue = param_vec[10]*PI/180.;
-  fAnglePolarDefinedValue  = param_vec[11]*PI/180.;
-  fAnglePolarUniformMin    = param_vec[12]*PI/180.;
-  fAnglePolarUniformMax    = param_vec[13]*PI/180.;
-  fGap                     = param_vec[14];
+  fOriginUniformDistMin      = param_vec[7];
+  fOriginUniformDistMax      = param_vec[8];
+  fOriginDefinedX            = param_vec[9];
+  fOriginDefinedY            = param_vec[10];
+  fAngleZenithDefinedValue   = param_vec[11]*PI/180.;
+  fAngleZenithGaussianCenter = param_vec[12]*PI/180.;
+  fAngleZenithGaussianSigma  = param_vec[13]*PI/180.;
+  fAnglePolarDefinedValue    = param_vec[14]*PI/180.;
+  fAnglePolarUniformMin      = param_vec[15]*PI/180.;
+  fAnglePolarUniformMax      = param_vec[16]*PI/180.;
+  fGap                       = param_vec[17];
 }
 
 // __________________________________________________________________
 
 void evg::CheckParameters()
 {
-  std::cout << "fOriginUniformDist       = " << fOriginUniformDist << "\n";
-  std::cout << "fOriginDefined           = " << fOriginDefined << "\n";
-  std::cout << "fAngleZenithDefined      = " << fAngleZenithDefined << "\n";
-  std::cout << "fAngleZenithCosSq        = " << fAngleZenithCosSq << "\n";
-  std::cout << "fAnglePolarDefined       = " << fAnglePolarDefined << "\n";
-  std::cout << "fAnglePolarUniform       = " << fAnglePolarUniform << "\n";
-  std::cout << "fOriginUniformDistMin    = " << fOriginUniformDistMin << "\n";
-  std::cout << "fOriginUniformDistMax    = " << fOriginUniformDistMax << "\n";
-  std::cout << "fOriginDefinedX          = " << fOriginDefinedX << "\n";
-  std::cout << "fOriginDefinedY          = " << fOriginDefinedY << "\n";
-  std::cout << "fAngleZenithDefinedValue = " << fAngleZenithDefinedValue << "\n";
-  std::cout << "fAnglePolarDefinedValue  = " << fAnglePolarDefinedValue << "\n";
-  std::cout << "fAnglePolarUniformMin    = " << fAnglePolarUniformMin << "\n";
-  std::cout << "fAnglePolarUniformMax    = " << fAnglePolarUniformMax << "\n";
-  std::cout << "fGap                     = " << fGap << "\n";
+  std::cout << "fOriginUniformDist         = " << fOriginUniformDist << "\n";
+  std::cout << "fOriginDefined             = " << fOriginDefined << "\n";
+  std::cout << "fAngleZenithDefined        = " << fAngleZenithDefined << "\n";
+  std::cout << "fAngleZenithCosSq          = " << fAngleZenithCosSq << "\n";
+  std::cout << "fAngleZenithGaussian       = " << fAngleZenithGaussian << "\n";
+  std::cout << "fAnglePolarDefined         = " << fAnglePolarDefined << "\n";
+  std::cout << "fAnglePolarUniform         = " << fAnglePolarUniform << "\n";
+  std::cout << "fOriginUniformDistMin      = " << fOriginUniformDistMin << "\n";
+  std::cout << "fOriginUniformDistMax      = " << fOriginUniformDistMax << "\n";
+  std::cout << "fOriginDefinedX            = " << fOriginDefinedX << "\n";
+  std::cout << "fOriginDefinedY            = " << fOriginDefinedY << "\n";
+  std::cout << "fAngleZenithDefinedValue   = " << fAngleZenithDefinedValue << "\n";
+  std::cout << "fAngleZenithGaussianCenter = " << fAngleZenithGaussianCenter << "\n";
+  std::cout << "fAngleZenithGaussianSigma  = " << fAngleZenithGaussianSigma << "\n";
+  std::cout << "fAnglePolarDefinedValue    = " << fAnglePolarDefinedValue << "\n";
+  std::cout << "fAnglePolarUniformMin      = " << fAnglePolarUniformMin << "\n";
+  std::cout << "fAnglePolarUniformMax      = " << fAnglePolarUniformMax << "\n";
+  std::cout << "fGap                       = " << fGap << "\n";
 }
 
 // __________________________________________________________________
@@ -125,7 +132,7 @@ void evg::RunEvents()
   std::map<int, std::pair<double,double> > Mod2Loc = Mod2->GetMap();
   std::map<int, std::pair<double,double> > Mod3Loc = Mod3->GetMap();
   std::map<int, std::pair<double,double> >::iterator FiberItr;
-  
+
   double InitialZ = 330 + fGap;
   for ( int i = 0; i < fNEvents; i++ ) {
     Line *Mu = new Line();
@@ -148,6 +155,11 @@ void evg::RunEvents()
     else if ( fAngleZenithCosSq ) {
       std::cout << "Not using yet" << std::endl;
       fTheta = fAngleZenithDefinedValue;
+    }
+    else if ( fAngleZenithGaussian ) {
+      gRandom->SetSeed(0);
+      fTheta = fabs(gRandom->Gaus(fAngleZenithGaussianCenter,
+				  fAngleZenithGaussianSigma));
     }
     else {
       std::cout << "Muon zenith angle definition malfunction." << std::endl;
@@ -217,7 +229,7 @@ void evg::RunEvents()
   } // For fNEvents loop
   fTree->Write();
   fFile->Close();
-}
+  }
 
 
 bool evg::Intersection(double FibI, double FibJ, double Slope, double Yint)

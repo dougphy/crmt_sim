@@ -18,13 +18,16 @@
 class evg {
   
 protected:
-  // event options from config file
+  
   std::ifstream     fConfigFile;
   
   bool fOriginUniformDist;
   bool fOriginDefined;
+
   bool fAngleZenithDefined;
   bool fAngleZenithCosSq;
+  bool fAngleZenithGaussian;
+
   bool fAnglePolarDefined;
   bool fAnglePolarUniform;
 
@@ -34,6 +37,8 @@ protected:
   double fOriginDefinedY;
 
   double fAngleZenithDefinedValue;
+  double fAngleZenithGaussianCenter;
+  double fAngleZenithGaussianSigma;
   double fAnglePolarDefinedValue;
   double fAnglePolarUniformMin;
   double fAnglePolarUniformMax;
@@ -41,7 +46,6 @@ protected:
   double            fGap;
 
   int               fNEvents;
-  // Attributes of the events
   TFile            *fFile;
   TTree            *fTree;
   int               fEventID;
