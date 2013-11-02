@@ -22,6 +22,9 @@ private:
   TTree            *fTree;
   double            fGap;
   int               fSelectedEventID;
+  double            fInitialX;
+  double            fInitialY;
+  double            fInitialZ;
   double            fPhi;
   double            fTheta;
   double            fAngleXZ;

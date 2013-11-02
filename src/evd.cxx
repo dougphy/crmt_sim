@@ -27,6 +27,9 @@ void evd::InitFile(std::string file_name, int event_number)
 {
   fFile = new TFile(file_name.c_str());
   fTree = (TTree*)fFile->Get("SimulationTree");
+  fTree->SetBranchAddress("InitialX", &fInitialX);
+  fTree->SetBranchAddress("InitialY", &fInitialY);
+  fTree->SetBranchAddress("InitialZ", &fInitialZ);
   fTree->SetBranchAddress("AngleXZ",  &fAngleXZ);
   fTree->SetBranchAddress("AngleYZ",  &fAngleYZ);
   fTree->SetBranchAddress("Phi",      &fPhi);
@@ -202,6 +205,9 @@ void evd::DrawTrue(int argc, char *argv[])
   gStyle->SetPadRightMargin(0.1);
 
   char tEID[30];
+  char tIX[30];
+  char tIY[30];
+  char tIZ[30];
   char tGap[30];
   char tSlopeXZ[30];
   char tSlopeYZ[30];
@@ -211,7 +217,10 @@ void evd::DrawTrue(int argc, char *argv[])
   char tTheta[30];
   
   sprintf(tEID,     "Event %d",                 fSelectedEventID);
-  sprintf(tGap,     "Gap = %3.3f cm",                fGap);
+  sprintf(tIX,      "x^{#mu}_{0} = %3.3f",      fInitialX);
+  sprintf(tIY,      "y^{#mu}_{0} = %3.3f",      fInitialY);
+  sprintf(tIZ,      "z^{#mu}_{0} = %3.3f",      fInitialZ);
+  sprintf(tGap,     "Gap = %3.3f cm",           fGap);
   sprintf(tSlopeXZ, "Slope XZ = %3.3f",         fSlopeXZ);
   sprintf(tSlopeYZ, "Slope YZ = %3.3f",         fSlopeYZ);
   sprintf(tAngleXZ, "Angle XZ = %3.3f degrees", fAngleXZ*180/3.14159);
@@ -227,6 +236,9 @@ void evd::DrawTrue(int argc, char *argv[])
   const char *tAngleYZP = tAngleYZ;
   const char *tPhiP     = tPhi;
   const char *tThetaP   = tTheta;
+  const char *tIXP      = tIX;
+  const char *tIYP      = tIY;
+  const char *tIZP      = tIZ;
   
   TPaveText *EventTitle = new TPaveText(0.0,0.2,1,0.9,"brNDC");
   EventTitle->SetTextFont(63);
@@ -236,6 +248,9 @@ void evd::DrawTrue(int argc, char *argv[])
   EventTitle->AddText("True Event Display");
   EventTitle->AddText(tEIDP);
   EventTitle->AddText(tGapP);
+  EventTitle->AddText(tIXP);
+  EventTitle->AddText(tIYP);
+  EventTitle->AddText(tIZP);
   EventTitle->AddText(tSlopeXZP);
   EventTitle->AddText(tSlopeYZP);
   EventTitle->AddText(tAngleXZP);
@@ -421,7 +436,13 @@ void evd::DrawSim(int argc, char *argv[])
   char tAngleYZ[30];
   char tPhi[30];
   char tTheta[30];
-  
+  char tIX[30];
+  char tIY[30];
+  char tIZ[30];
+
+  sprintf(tIX,      "x^{#mu}_{0} = %3.3f",      fInitialX);
+  sprintf(tIY,      "y^{#mu}_{0} = %3.3f",      fInitialY);
+  sprintf(tIZ,      "z^{#mu}_{0} = %3.3f",      fInitialZ);
   sprintf(tEID,     "Event %d",                 fSelectedEventID);
   sprintf(tGap,     "Gap = %3.3f cm",           fGap);
   sprintf(tSlopeXZ, "Slope XZ = %3.3f",         fSlopeXZ);
@@ -430,7 +451,10 @@ void evd::DrawSim(int argc, char *argv[])
   sprintf(tAngleYZ, "Angle YZ = %3.3f degrees", fAngleYZ*180/3.14159);
   sprintf(tPhi,     "Phi = %3.3f degrees",      fPhi*180/3.14159);
   sprintf(tTheta,   "Theta = %3.3f degrees",    fTheta*180/3.14159);
-  
+
+  const char *tIXP      = tIX;
+  const char *tIYP      = tIY;
+  const char *tIZP      = tIZ;  
   const char *tEIDP     = tEID;  
   const char *tGapP     = tGap;
   const char *tSlopeXZP = tSlopeXZ;
@@ -448,6 +472,9 @@ void evd::DrawSim(int argc, char *argv[])
   EventTitle->AddText("Sim Event Display");
   EventTitle->AddText(tEIDP);
   EventTitle->AddText(tGapP);
+  EventTitle->AddText(tIXP);
+  EventTitle->AddText(tIYP);
+  EventTitle->AddText(tIZP);
   EventTitle->AddText(tSlopeXZP);
   EventTitle->AddText(tSlopeYZP);
   EventTitle->AddText(tAngleXZP);

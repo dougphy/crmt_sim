@@ -13,14 +13,15 @@
 void usage()
 {
   std::cout << "crmt usage:" << std::endl;
-  std::cout << "./crmt -g, --generate [file name] [# events] " << std::endl;
-  std::cout << "./crmt -d, --display [file name] [event #] " << std::endl;
-  std::cout << "./crmt -p, --parameters " << std::endl;
+  std::cout << "./crmt -g,--generate [file name] [# events] " << std::endl;
+  std::cout << "./crmt -d,--display -t,--true [file name] [event #] " << std::endl;
+  std::cout << "./crmt -d,--display -s,--sim [file name] [event #] " << std::endl;
+  std::cout << "./crmt -p,--parameters " << std::endl;
 }
 
 int main(int argc, char *argv[])
 {
-  if(argc < 1 )
+  if(argc < 2 )
     usage();
   else {
     std::string first_arg = argv[1];
@@ -40,15 +41,24 @@ int main(int argc, char *argv[])
     }
     
     else if ( first_arg == "-d" || first_arg == "--display") {
-      if ( argc < 4 ) 
+      if ( argc < 5 ) 
 	usage();
       else {
-	std::string n_holder  = argv[3];
-	std::string fname = argv[2];
+	std::string n_holder  = argv[4];
+	std::string fname = argv[3];
 	int event = atoi(n_holder.c_str());
 	evd *display = new evd();
 	display->InitFile(fname.c_str(),event);
-	display->DrawSim(argc,argv);
+	std::string doption = argv[2];
+	if ( doption == "-s" || doption == "--sim" ) {
+	  display->DrawSim(argc,argv);
+	}
+	else if ( doption == "-t" || doption == "--true" ) {
+	  display->DrawTrue(argc,argv);
+	}
+	else {
+	  usage();
+	}
       }  
     }
     
