@@ -195,10 +195,6 @@ void evd::DrawTrue(int argc, char *argv[])
   LineYZ->SetLineStyle(2);
   LineYZ->SetLineWidth(1);
 
-  std::string s_EventID = MakeString((double)fSelectedEventID);
-  std::string s_AngleXZ = MakeString(fAngleXZ*180/3.14159);
-  std::string s_AngleYZ = MakeString(fAngleYZ*180/3.14159);
-
   gStyle->SetFrameLineWidth(2);
   gStyle->SetPadTopMargin(0.08);
   gStyle->SetPadBottomMargin(0.12);
@@ -411,10 +407,6 @@ void evd::DrawSim(int argc, char *argv[])
   LineYZ->SetLineStyle(2);
   LineYZ->SetLineWidth(1);
 
-  std::string s_EventID = MakeString((double)fSelectedEventID);
-  std::string s_AngleXZ = MakeString(fAngleXZ*180/3.14159);
-  std::string s_AngleYZ = MakeString(fAngleYZ*180/3.14159);
-
   gStyle->SetFrameLineWidth(2);
   gStyle->SetPadTopMargin(0.08);
   gStyle->SetPadBottomMargin(0.12);
@@ -431,7 +423,7 @@ void evd::DrawSim(int argc, char *argv[])
   char tTheta[30];
   
   sprintf(tEID,     "Event %d",                 fSelectedEventID);
-  sprintf(tGap,     "Gap = %3.3f cm",                fGap);
+  sprintf(tGap,     "Gap = %3.3f cm",           fGap);
   sprintf(tSlopeXZ, "Slope XZ = %3.3f",         fSlopeXZ);
   sprintf(tSlopeYZ, "Slope YZ = %3.3f",         fSlopeYZ);
   sprintf(tAngleXZ, "Angle XZ = %3.3f degrees", fAngleXZ*180/3.14159);
