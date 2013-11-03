@@ -76,6 +76,47 @@ void evd::RawDumpSim()
     std::cout << "Module 3 -- " << i << " " << fSimMod3[i] << std::endl;
 }
 
+void evd::InitAllGraphs()
+{
+  fTree->GetEntry(fSelectedEventID);
+  double gap = fGap;
+  Module *mod0 = new Module(0,gap);
+  Module *mod1 = new Module(1,gap);
+  Module *mod2 = new Module(2,gap);
+  Module *mod3 = new Module(3,gap);
+  std::map<int, std::pair<double,double> > Mod0 = mod0->GetMap();
+  std::map<int, std::pair<double,double> > Mod1 = mod1->GetMap();
+  std::map<int, std::pair<double,double> > Mod2 = mod2->GetMap();
+  std::map<int, std::pair<double,double> > Mod3 = mod3->GetMap();
+
+  fAll0 = new TGraph(); fAll0->SetMarkerStyle(7);
+  fAll1 = new TGraph(); fAll1->SetMarkerStyle(7);
+  fAll2 = new TGraph(); fAll2->SetMarkerStyle(7);
+  fAll3 = new TGraph(); fAll3->SetMarkerStyle(7);
+  
+  int counter = 0;
+  for ( auto fib : Mod0 ) {
+    fAll0->SetPoint(counter,fib.second.first,fib.second.second);
+    counter++;
+  }
+  counter = 0;
+  for ( auto fib : Mod1 ) {
+    fAll1->SetPoint(counter,fib.second.first,fib.second.second);
+    counter++;
+  }
+  counter = 0;
+  for ( auto fib : Mod2 ) {
+    fAll2->SetPoint(counter,fib.second.first,fib.second.second);
+    counter++;
+  }
+  counter = 0;
+  for ( auto fib : Mod3 ) {
+    fAll3->SetPoint(counter,fib.second.first,fib.second.second);
+    counter++;
+  }
+}
+
+
 void evd::DrawTrue(int argc, char *argv[])
 {
   fTree->GetEntry(fSelectedEventID);
@@ -142,32 +183,8 @@ void evd::DrawTrue(int argc, char *argv[])
     }
   }
   
-  TGraph *All0 = new TGraph(); All0->SetMarkerStyle(7);
-  TGraph *All1 = new TGraph(); All1->SetMarkerStyle(7);
-  TGraph *All2 = new TGraph(); All2->SetMarkerStyle(7);
-  TGraph *All3 = new TGraph(); All3->SetMarkerStyle(7);
-  
-  counter = 0;
-  for ( auto fib : Mod0 ) {
-    All0->SetPoint(counter,fib.second.first,fib.second.second);
-    counter++;
-  }
-  counter = 0;
-  for ( auto fib : Mod1 ) {
-    All1->SetPoint(counter,fib.second.first,fib.second.second);
-    counter++;
-  }
-  counter = 0;
-  for ( auto fib : Mod2 ) {
-    All2->SetPoint(counter,fib.second.first,fib.second.second);
-    counter++;
-  }
-  counter = 0;
-  for ( auto fib : Mod3 ) {
-    All3->SetPoint(counter,fib.second.first,fib.second.second);
-    counter++;
-  }
-  
+  InitAllGraphs();
+
   TGraph *HolderXZ = new TGraph();
   TGraph *HolderYZ = new TGraph();
   HolderXZ->SetMarkerColor(kWhite);
@@ -177,18 +194,18 @@ void evd::DrawTrue(int argc, char *argv[])
   HolderYZ->SetPoint(0,0,0);
   HolderYZ->SetPoint(1,0,550+fGap);
 
-  TMultiGraph *TMGXZ = new TMultiGraph();
-  TMGXZ->Add(All1);
-  TMGXZ->Add(All3);
-  TMGXZ->Add(Graph1);
-  TMGXZ->Add(Graph3);
-  TMGXZ->Add(HolderXZ);
-  TMultiGraph *TMGYZ = new TMultiGraph();
-  TMGYZ->Add(All0);
-  TMGYZ->Add(All2);
-  TMGYZ->Add(Graph0);
-  TMGYZ->Add(Graph2);
-  TMGYZ->Add(HolderYZ);
+  fTMGXZ = new TMultiGraph();
+  fTMGXZ->Add(fAll1);
+  fTMGXZ->Add(fAll3);
+  fTMGXZ->Add(Graph1);
+  fTMGXZ->Add(Graph3);
+  fTMGXZ->Add(HolderXZ);
+  fTMGYZ = new TMultiGraph();
+  fTMGYZ->Add(fAll0);
+  fTMGYZ->Add(fAll2);
+  fTMGYZ->Add(Graph0);
+  fTMGYZ->Add(Graph2);
+  fTMGYZ->Add(HolderYZ);
   TF1 *LineXZ = new TF1("LineXZ","pol1",0,660);
   LineXZ->SetParameters(fYintXZ,fSlopeXZ);
   LineXZ->SetLineStyle(2);
@@ -279,12 +296,12 @@ void evd::DrawTrue(int argc, char *argv[])
   TPad *padT  = new TPad("padT", "padT",.0,.3,.20,.9);
 
   padXZ->cd();
-  TMGXZ->Draw("AP");
+  fTMGXZ->Draw("AP");
   LineXZ->Draw("same");
   XZ_title->Draw("same");
 
   padYZ->cd();
-  TMGYZ->Draw("AP");
+  fTMGYZ->Draw("AP");
   LineYZ->Draw("same");
   YZ_title->Draw("same");
 
@@ -366,31 +383,7 @@ void evd::DrawSim(int argc, char *argv[])
     }
   }
   
-  TGraph *All0 = new TGraph(); All0->SetMarkerStyle(7);
-  TGraph *All1 = new TGraph(); All1->SetMarkerStyle(7);
-  TGraph *All2 = new TGraph(); All2->SetMarkerStyle(7);
-  TGraph *All3 = new TGraph(); All3->SetMarkerStyle(7);
-  
-  counter = 0;
-  for ( auto fib : Mod0 ) {
-    All0->SetPoint(counter,fib.second.first,fib.second.second);
-    counter++;
-  }
-  counter = 0;
-  for ( auto fib : Mod1 ) {
-    All1->SetPoint(counter,fib.second.first,fib.second.second);
-    counter++;
-  }
-  counter = 0;
-  for ( auto fib : Mod2 ) {
-    All2->SetPoint(counter,fib.second.first,fib.second.second);
-    counter++;
-  }
-  counter = 0;
-  for ( auto fib : Mod3 ) {
-    All3->SetPoint(counter,fib.second.first,fib.second.second);
-    counter++;
-  }
+  InitAllGraphs();
   
   TGraph *HolderXZ = new TGraph();
   TGraph *HolderYZ = new TGraph();
@@ -401,18 +394,18 @@ void evd::DrawSim(int argc, char *argv[])
   HolderYZ->SetPoint(0,0,0);
   HolderYZ->SetPoint(1,0,550+fGap);
 
-  TMultiGraph *TMGXZ = new TMultiGraph();
-  TMGXZ->Add(All1);
-  TMGXZ->Add(All3);
-  TMGXZ->Add(Graph1);
-  TMGXZ->Add(Graph3);
-  TMGXZ->Add(HolderXZ);
-  TMultiGraph *TMGYZ = new TMultiGraph();
-  TMGYZ->Add(All0);
-  TMGYZ->Add(All2);
-  TMGYZ->Add(Graph0);
-  TMGYZ->Add(Graph2);
-  TMGYZ->Add(HolderYZ);
+  fTMGXZ = new TMultiGraph();
+  fTMGXZ->Add(fAll1);
+  fTMGXZ->Add(fAll3);
+  fTMGXZ->Add(Graph1);
+  fTMGXZ->Add(Graph3);
+  fTMGXZ->Add(HolderXZ);
+  fTMGYZ = new TMultiGraph();
+  fTMGYZ->Add(fAll0);
+  fTMGYZ->Add(fAll2);
+  fTMGYZ->Add(Graph0);
+  fTMGYZ->Add(Graph2);
+  fTMGYZ->Add(HolderYZ);
   TF1 *LineXZ = new TF1("LineXZ","pol1",0,660);
   LineXZ->SetParameters(fYintXZ,fSlopeXZ);
   LineXZ->SetLineStyle(2);
@@ -503,12 +496,12 @@ void evd::DrawSim(int argc, char *argv[])
   TPad *padT  = new TPad("padT", "padT",.0,.3,.20,.9);
 
   padXZ->cd();
-  TMGXZ->Draw("AP");
+  fTMGXZ->Draw("AP");
   LineXZ->Draw("same");
   XZ_title->Draw("same");
 
   padYZ->cd();
-  TMGYZ->Draw("AP");
+  fTMGYZ->Draw("AP");
   LineYZ->Draw("same");
   YZ_title->Draw("same");
 

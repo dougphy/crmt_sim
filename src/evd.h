@@ -14,6 +14,8 @@
 #include "TFile.h"
 #include "TTree.h"
 #include "TF1.h"
+#include "TGraph.h"
+#include "TMultiGraph.h"
 
 class evd {
 
@@ -43,12 +45,20 @@ private:
   int               fSimMod2[256];
   int               fSimMod3[256];
 
+  TGraph           *fAll0;
+  TGraph           *fAll1;
+  TGraph           *fAll2;
+  TGraph           *fAll3;
+  TMultiGraph      *fTMGXZ;
+  TMultiGraph      *fTMGYZ;
+
 public:
   evd();
   ~evd();
   void InitFile(std::string file_name, int event_number);
   void RawDumpTrue();
   void RawDumpSim();
+  void InitAllGraphs();
   void DrawTrue(int argc, char *argv[]);
   void DrawSim(int argc, char *argv[]);
   std::string MakeString(double value);
