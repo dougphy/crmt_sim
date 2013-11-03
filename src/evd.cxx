@@ -516,18 +516,3 @@ void evd::DrawSim(int argc, char *argv[])
 
 
 }
-
-
-void DrawSim(int argc, char *argv[])
-{
-  std::cout << "Under construction" << std::endl;
-}
-
-std::string evd::MakeString(double value)
-{
-  std::string return_me;
-  std::ostringstream s;
-  s << value;
-  return_me = s.str();
-  return return_me;
-}
