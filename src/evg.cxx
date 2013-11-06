@@ -68,20 +68,20 @@ void evg::ReadParameters()
   param_vec.reserve(20);
   while (fConfigFile >> label >> param)
     param_vec.push_back(param);
-  if (param_vec[0] == 0)   { fOriginUniformDist   = false; }
-  else                     { fOriginUniformDist   = true;  }
-  if (param_vec[1] == 0)   { fOriginDefined       = false; }
-  else                     { fOriginDefined       = true;  }
-  if (param_vec[2] == 0)   { fAngleZenithDefined  = false; }
-  else                     { fAngleZenithDefined  = true;  }
-  if (param_vec[3] == 0)   { fAngleZenithCosSq    = false; }
-  else                     { fAngleZenithCosSq    = true;  }
-  if (param_vec[4] == 0)   { fAngleZenithGaussian = false; }
-  else                     { fAngleZenithGaussian = true;  }
-  if (param_vec[5] == 0)   { fAnglePolarDefined   = false; }
-  else                     { fAnglePolarDefined   = true;  }
-  if (param_vec[6] == 0)   { fAnglePolarUniform   = false; }
-  else                     { fAnglePolarUniform   = true;  }
+  if (param_vec[0] == 0)     { fOriginUniformDist   = false; }
+  else                       { fOriginUniformDist   = true;  }
+  if (param_vec[1] == 0)     { fOriginDefined       = false; }
+  else                       { fOriginDefined       = true;  }
+  if (param_vec[2] == 0)     { fAngleZenithDefined  = false; }
+  else                       { fAngleZenithDefined  = true;  }
+  if (param_vec[3] == 0)     { fAngleZenithCosSq    = false; }
+  else                       { fAngleZenithCosSq    = true;  }
+  if (param_vec[4] == 0)     { fAngleZenithGaussian = false; }
+  else                       { fAngleZenithGaussian = true;  }
+  if (param_vec[5] == 0)     { fAnglePolarDefined   = false; }
+  else                       { fAnglePolarDefined   = true;  }
+  if (param_vec[6] == 0)     { fAnglePolarUniform   = false; }
+  else                       { fAnglePolarUniform   = true;  }
   fOriginUniformDistMin      = param_vec[7];
   fOriginUniformDistMax      = param_vec[8];
   fOriginDefinedX            = param_vec[9];
@@ -179,6 +179,9 @@ void evg::RunEvents()
     Mu->SetLinePropertiesFromPhiTheta(fPhi,fTheta);
     fAngleXZ = Mu->AngleXZ();
     fAngleYZ = Mu->AngleYZ();
+    fTraj[0] = Mu->Tx();
+    fTraj[1] = Mu->Ty();
+    fTraj[2] = Mu->Tz();
     fSlopeXZ = Mu->SlopeXZ();
     fSlopeYZ = Mu->SlopeYZ();
     fYintXZ  = Mu->YintXZ();

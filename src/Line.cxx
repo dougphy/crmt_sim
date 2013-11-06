@@ -30,6 +30,9 @@ void Line::SetLinePropertiesFromPhiTheta(double phi, double theta)
   double y = sin(theta)*sin(phi);
   double z = cos(theta);
   
+  double mag = sqrt(x*x+y*y+z*z);
+  fTx = x/mag; fTy = y/mag; fTz = z/mag;
+
   fAngleXZ = atan2(x,z);
   fAngleYZ = atan2(y,z);
 		  
