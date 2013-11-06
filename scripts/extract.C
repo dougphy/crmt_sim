@@ -1,7 +1,7 @@
 
 /*  An Example ROOT macro to extract simulation information  */
-/*  for plotting distributions of simulation variables       */
-/*  this macro assumes "afile.root" is in the output dir     */
+/*  for plotting distributions of simulation variables.      */
+/*  This macro assumes "afile.root" is in the output dir     */
 
 {
   TFile *the_file = new TFile("../output/afile.root");
