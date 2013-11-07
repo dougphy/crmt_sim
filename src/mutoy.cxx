@@ -17,6 +17,7 @@ void usage()
   std::cout << "./crmt -d,--display -t,--true [file name] [event #] " << std::endl;
   std::cout << "./crmt -d,--display -s,--sim [file name] [event #] " << std::endl;
   std::cout << "./crmt -p,--parameters " << std::endl;
+  std::cout << "./crmt -m,--module *spit fiber locations*" << std::endl;
 }
 
 int main(int argc, char *argv[])
@@ -68,6 +69,13 @@ int main(int argc, char *argv[])
       event_set->CheckParameters();
       event_set->RunEvents();
       remove("output/temp.root");
+    }
+
+    else if ( first_arg == "-m" || first_arg == "--module" ) {
+      Module *mod = new Module(3,0);
+      std::map<int, std::pair<double, double> > mymap = mod->GetMap();
+      for ( auto loc : mymap )
+	std::cout << loc.first << " == " << loc.second.first << " " << loc.second.second << std::endl;
     }
     
     else {
