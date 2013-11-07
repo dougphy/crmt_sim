@@ -43,13 +43,7 @@ evg::evg(std::string file_name, int n_events)
   fTree->Branch("YintXZ",     &fYintXZ,     "YintXZ/D");
   fTree->Branch("YintYZ",     &fYintYZ,     "YintYZ/D");
   fTree->Branch("Traj",        fTraj,       "Traj[3]/D");
-  fTree->Branch("TrueMod0",    fTrueMod0,   "TrueMod0[256]/I");
-  fTree->Branch("TrueMod1",    fTrueMod1,   "TrueMod1[256]/I");
-  fTree->Branch("TrueMod2",    fTrueMod2,   "TrueMod2[256]/I");
   fTree->Branch("TrueMod3",    fTrueMod3,   "TrueMod3[256]/I");
-  fTree->Branch("SimMod0",     fSimMod0,    "SimMod0[256]/I");
-  fTree->Branch("SimMod1",     fSimMod1,    "SimMod1[256]/I");
-  fTree->Branch("SimMod2",     fSimMod2,    "SimMod2[256]/I");
   fTree->Branch("SimMod3",     fSimMod3,    "SimMod3[256]/I");
 }
 
@@ -124,13 +118,7 @@ void evg::CheckParameters()
 void evg::RunEvents()
 {
   InitCoupleMap();
-  Module *Mod0 = new Module(0,fGap);
-  Module *Mod1 = new Module(1,fGap);
-  Module *Mod2 = new Module(2,fGap);
   Module *Mod3 = new Module(3,fGap);
-  std::map<int, std::pair<double,double> > Mod0Loc = Mod0->GetMap();
-  std::map<int, std::pair<double,double> > Mod1Loc = Mod1->GetMap();
-  std::map<int, std::pair<double,double> > Mod2Loc = Mod2->GetMap();
   std::map<int, std::pair<double,double> > Mod3Loc = Mod3->GetMap();
   std::map<int, std::pair<double,double> >::iterator FiberItr;
 
@@ -187,36 +175,6 @@ void evg::RunEvents()
     fYintXZ  = Mu->YintXZ();
     fYintYZ  = Mu->YintYZ();
     
-    for ( FiberItr = Mod0Loc.begin(); FiberItr != Mod0Loc.end(); FiberItr++ ) {
-      if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
-			fSlopeYZ,fYintYZ) ) {
-	fTrueMod0[(*FiberItr).first] = 1;
-      }
-      else {
-	fTrueMod0[(*FiberItr).first] = 0;
-      }
-    }
-    
-    for ( FiberItr = Mod1Loc.begin(); FiberItr != Mod1Loc.end(); FiberItr++ ) {
-      if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
-			fSlopeXZ,fYintXZ) ) {
-	fTrueMod1[(*FiberItr).first] = 1;
-      }
-      else {
-	fTrueMod1[(*FiberItr).first] = 0;
-      }
-    }
-
-    for ( FiberItr = Mod2Loc.begin(); FiberItr != Mod2Loc.end(); FiberItr++ ) {
-      if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
-			fSlopeYZ,fYintYZ) ) {
-	fTrueMod2[(*FiberItr).first] = 1;
-      }
-      else {
-	fTrueMod2[(*FiberItr).first] = 0;
-      }
-    }
-    
     for ( FiberItr = Mod3Loc.begin(); FiberItr != Mod3Loc.end(); FiberItr++ ) {
       if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
 			fSlopeXZ,fYintXZ) ) {
@@ -233,7 +191,7 @@ void evg::RunEvents()
   } // For fNEvents loop
   fTree->Write();
   fFile->Close();
-  }
+}
 
 
 bool evg::Intersection(double FibI, double FibJ, double Slope, double Yint)
@@ -281,48 +239,17 @@ void evg::InitCoupleMap()
 
 void evg::Multiplex()
 {
-  std::vector<int> Hits0;
-  std::vector<int> Hits1;
-  std::vector<int> Hits2;
   std::vector<int> Hits3;
   
   for ( int i = 0; i < 256; i++ ) {
-    fSimMod0[i] = 0;
-    fSimMod1[i] = 0;
-    fSimMod2[i] = 0;
     fSimMod3[i] = 0;
   }
 
   for ( int i = 0; i < 256; i++ ) {
-    if ( fTrueMod0[i] == 1 )
-      Hits0.push_back(i);
-  }
-  for ( int i = 0; i < 256; i++ ) {
-    if ( fTrueMod1[i] == 1 )
-      Hits1.push_back(i);
-  }
-  for ( int i = 0; i < 256; i++ ) {
-    if ( fTrueMod2[i] == 1 )
-      Hits2.push_back(i);
-  }
-  for ( int i = 0; i < 256; i++ ) {
     if ( fTrueMod3[i] == 1 )
       Hits3.push_back(i);
   }
-
   for ( auto iMap : fFiberCouplingMap ) {
-    for ( auto hit : Hits0 )
-      if ( std::find(iMap.second.begin(),iMap.second.end(),hit) != iMap.second.end() )
-	for ( int i = 0; i < iMap.second.size(); i++ )
-	  fSimMod0[iMap.second[i]] = 1;
-    for ( auto hit : Hits1 )
-      if ( std::find(iMap.second.begin(),iMap.second.end(),hit) != iMap.second.end() )
-	for ( int i = 0; i < iMap.second.size(); i++ )
-	  fSimMod1[iMap.second[i]] = 1;
-    for ( auto hit : Hits2 )
-      if ( std::find(iMap.second.begin(),iMap.second.end(),hit) != iMap.second.end() )
-	for ( int i = 0; i < iMap.second.size(); i++ )
-	  fSimMod2[iMap.second[i]] = 1;
     for ( auto hit : Hits3 )
       if ( std::find(iMap.second.begin(),iMap.second.end(),hit) != iMap.second.end() )
 	for ( int i = 0; i < iMap.second.size(); i++ )

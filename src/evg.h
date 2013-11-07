@@ -61,13 +61,7 @@ protected:
   double            fYintYZ;
   double            fAngleXZ;
   double            fAngleYZ;
-  int               fTrueMod0[256];
-  int               fTrueMod1[256];
-  int               fTrueMod2[256];
   int               fTrueMod3[256];
-  int               fSimMod0[256];
-  int               fSimMod1[256];
-  int               fSimMod2[256];
   int               fSimMod3[256];
   // Attributes of the detector
   double            fScintWidth  = 10.4;

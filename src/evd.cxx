@@ -38,13 +38,7 @@ void evd::InitFile(std::string file_name, int event_number)
   fTree->SetBranchAddress("SlopeYZ",  &fSlopeYZ);
   fTree->SetBranchAddress("YintXZ",   &fYintXZ);
   fTree->SetBranchAddress("YintYZ",   &fYintYZ);
-  fTree->SetBranchAddress("TrueMod0",  fTrueMod0);
-  fTree->SetBranchAddress("TrueMod1",  fTrueMod1);
-  fTree->SetBranchAddress("TrueMod2",  fTrueMod2);
   fTree->SetBranchAddress("TrueMod3",  fTrueMod3);
-  fTree->SetBranchAddress("SimMod0",   fSimMod0);
-  fTree->SetBranchAddress("SimMod1",   fSimMod1);
-  fTree->SetBranchAddress("SimMod2",   fSimMod2);
   fTree->SetBranchAddress("SimMod3",   fSimMod3);
   fTree->SetBranchAddress("Gap",      &fGap);
   fSelectedEventID = event_number;
@@ -54,24 +48,12 @@ void evd::RawDumpTrue()
 {
   fTree->GetEntry(fSelectedEventID);
   for ( int i = 0; i < 256; i++ ) 
-    std::cout << "Module 0 -- " << i << " " << fTrueMod0[i] << std::endl;
-  for ( int i = 0; i < 256; i++ ) 
-    std::cout << "Module 1 -- " << i << " " << fTrueMod1[i] << std::endl;
-  for ( int i = 0; i < 256; i++ ) 
-    std::cout << "Module 2 -- " << i << " " << fTrueMod2[i] << std::endl;
-  for ( int i = 0; i < 256; i++ ) 
     std::cout << "Module 3 -- " << i << " " << fTrueMod3[i] << std::endl;
 }
 
 void evd::RawDumpSim()
 {
   fTree->GetEntry(fSelectedEventID);
-  for ( int i = 0; i < 256; i++ ) 
-    std::cout << "Module 0 -- " << i << " " << fSimMod0[i] << std::endl;
-  for ( int i = 0; i < 256; i++ ) 
-    std::cout << "Module 1 -- " << i << " " << fSimMod1[i] << std::endl;
-  for ( int i = 0; i < 256; i++ ) 
-    std::cout << "Module 2 -- " << i << " " << fSimMod2[i] << std::endl;
   for ( int i = 0; i < 256; i++ ) 
     std::cout << "Module 3 -- " << i << " " << fSimMod3[i] << std::endl;
 }
@@ -80,36 +62,12 @@ void evd::InitAllGraphs()
 {
   fTree->GetEntry(fSelectedEventID);
   double gap = fGap;
-  Module *mod0 = new Module(0,gap);
-  Module *mod1 = new Module(1,gap);
-  Module *mod2 = new Module(2,gap);
   Module *mod3 = new Module(3,gap);
-  std::map<int, std::pair<double,double> > Mod0 = mod0->GetMap();
-  std::map<int, std::pair<double,double> > Mod1 = mod1->GetMap();
-  std::map<int, std::pair<double,double> > Mod2 = mod2->GetMap();
   std::map<int, std::pair<double,double> > Mod3 = mod3->GetMap();
 
-  fAll0 = new TGraph(); fAll0->SetMarkerStyle(7);
-  fAll1 = new TGraph(); fAll1->SetMarkerStyle(7);
-  fAll2 = new TGraph(); fAll2->SetMarkerStyle(7);
   fAll3 = new TGraph(); fAll3->SetMarkerStyle(7);
   
   int counter = 0;
-  for ( auto fib : Mod0 ) {
-    fAll0->SetPoint(counter,fib.second.first,fib.second.second);
-    counter++;
-  }
-  counter = 0;
-  for ( auto fib : Mod1 ) {
-    fAll1->SetPoint(counter,fib.second.first,fib.second.second);
-    counter++;
-  }
-  counter = 0;
-  for ( auto fib : Mod2 ) {
-    fAll2->SetPoint(counter,fib.second.first,fib.second.second);
-    counter++;
-  }
-  counter = 0;
   for ( auto fib : Mod3 ) {
     fAll3->SetPoint(counter,fib.second.first,fib.second.second);
     counter++;
@@ -121,58 +79,13 @@ void evd::DrawTrue(int argc, char *argv[])
 {
   fTree->GetEntry(fSelectedEventID);
   double gap = fGap;
-  Module *mod0 = new Module(0,gap);
-  Module *mod1 = new Module(1,gap);
-  Module *mod2 = new Module(2,gap);
   Module *mod3 = new Module(3,gap);
-  std::map<int, std::pair<double,double> > Mod0 = mod0->GetMap();
-  std::map<int, std::pair<double,double> > Mod1 = mod1->GetMap();
-  std::map<int, std::pair<double,double> > Mod2 = mod2->GetMap();
   std::map<int, std::pair<double,double> > Mod3 = mod3->GetMap();
-  TGraph *Graph0 = new TGraph();
-  Graph0->SetMarkerColor(kBlue);
-  Graph0->SetMarkerStyle(8);
-  TGraph *Graph1 = new TGraph();
-  Graph1->SetMarkerStyle(8);
-  Graph1->SetMarkerColor(kBlue);
-  TGraph *Graph2 = new TGraph();
-  Graph2->SetMarkerStyle(8);
-  Graph2->SetMarkerColor(kBlue);
   TGraph *Graph3 = new TGraph();
   Graph3->SetMarkerStyle(8);
   Graph3->SetMarkerColor(kBlue);
 
   int counter = 0;
-  for ( int i = 0; i < 256; i++ ) {
-    if ( fTrueMod0[i] == 1 ) {
-      Graph0->SetPoint(counter,Mod0[i].first,Mod0[i].second);
-      counter++;
-    }
-    else {
-      continue;
-    }
-  }
-  counter = 0;
-  for ( int i = 0; i < 256; i++ ) {
-    if ( fTrueMod1[i] == 1 ) {
-      Graph1->SetPoint(counter,Mod1[i].first,Mod1[i].second);
-      counter++;
-    }
-    else {
-      continue;
-    }
-  }
-  counter = 0;
-  for ( int i = 0; i < 256; i++ ) {
-    if ( fTrueMod2[i] == 1 ) {
-      Graph2->SetPoint(counter,Mod2[i].first,Mod2[i].second);
-      counter++;
-    }
-    else {
-      continue;
-    }
-  }
-  counter = 0;
   for ( int i = 0; i < 256; i++ ) {
     if ( fTrueMod3[i] == 1 ) {
       Graph3->SetPoint(counter,Mod3[i].first,Mod3[i].second);
@@ -195,17 +108,9 @@ void evd::DrawTrue(int argc, char *argv[])
   HolderYZ->SetPoint(1,0,550+fGap);
 
   fTMGXZ = new TMultiGraph();
-  fTMGXZ->Add(fAll1);
   fTMGXZ->Add(fAll3);
-  fTMGXZ->Add(Graph1);
   fTMGXZ->Add(Graph3);
   fTMGXZ->Add(HolderXZ);
-  fTMGYZ = new TMultiGraph();
-  fTMGYZ->Add(fAll0);
-  fTMGYZ->Add(fAll2);
-  fTMGYZ->Add(Graph0);
-  fTMGYZ->Add(Graph2);
-  fTMGYZ->Add(HolderYZ);
   TF1 *LineXZ = new TF1("LineXZ","pol1",0,660);
   LineXZ->SetParameters(fYintXZ,fSlopeXZ);
   LineXZ->SetLineStyle(2);
@@ -301,7 +206,6 @@ void evd::DrawTrue(int argc, char *argv[])
   XZ_title->Draw("same");
 
   padYZ->cd();
-  fTMGYZ->Draw("AP");
   LineYZ->Draw("same");
   YZ_title->Draw("same");
 
@@ -321,58 +225,13 @@ void evd::DrawSim(int argc, char *argv[])
 {
   fTree->GetEntry(fSelectedEventID);
   double gap = fGap;
-  Module *mod0 = new Module(0,gap);
-  Module *mod1 = new Module(1,gap);
-  Module *mod2 = new Module(2,gap);
   Module *mod3 = new Module(3,gap);
-  std::map<int, std::pair<double,double> > Mod0 = mod0->GetMap();
-  std::map<int, std::pair<double,double> > Mod1 = mod1->GetMap();
-  std::map<int, std::pair<double,double> > Mod2 = mod2->GetMap();
   std::map<int, std::pair<double,double> > Mod3 = mod3->GetMap();
-  TGraph *Graph0 = new TGraph();
-  Graph0->SetMarkerColor(kBlue);
-  Graph0->SetMarkerStyle(8);
-  TGraph *Graph1 = new TGraph();
-  Graph1->SetMarkerStyle(8);
-  Graph1->SetMarkerColor(kBlue);
-  TGraph *Graph2 = new TGraph();
-  Graph2->SetMarkerStyle(8);
-  Graph2->SetMarkerColor(kBlue);
   TGraph *Graph3 = new TGraph();
   Graph3->SetMarkerStyle(8);
   Graph3->SetMarkerColor(kBlue);
 
   int counter = 0;
-  for ( int i = 0; i < 256; i++ ) {
-    if ( fSimMod0[i] == 1 ) {
-      Graph0->SetPoint(counter,Mod0[i].first,Mod0[i].second);
-      counter++;
-    }
-    else {
-      continue;
-    }
-  }
-  counter = 0;
-  for ( int i = 0; i < 256; i++ ) {
-    if ( fSimMod1[i] == 1 ) {
-      Graph1->SetPoint(counter,Mod1[i].first,Mod1[i].second);
-      counter++;
-    }
-    else {
-      continue;
-    }
-  }
-  counter = 0;
-  for ( int i = 0; i < 256; i++ ) {
-    if ( fSimMod2[i] == 1 ) {
-      Graph2->SetPoint(counter,Mod2[i].first,Mod2[i].second);
-      counter++;
-    }
-    else {
-      continue;
-    }
-  }
-  counter = 0;
   for ( int i = 0; i < 256; i++ ) {
     if ( fSimMod3[i] == 1 ) {
       Graph3->SetPoint(counter,Mod3[i].first,Mod3[i].second);
@@ -395,17 +254,9 @@ void evd::DrawSim(int argc, char *argv[])
   HolderYZ->SetPoint(1,0,550+fGap);
 
   fTMGXZ = new TMultiGraph();
-  fTMGXZ->Add(fAll1);
   fTMGXZ->Add(fAll3);
-  fTMGXZ->Add(Graph1);
   fTMGXZ->Add(Graph3);
   fTMGXZ->Add(HolderXZ);
-  fTMGYZ = new TMultiGraph();
-  fTMGYZ->Add(fAll0);
-  fTMGYZ->Add(fAll2);
-  fTMGYZ->Add(Graph0);
-  fTMGYZ->Add(Graph2);
-  fTMGYZ->Add(HolderYZ);
   TF1 *LineXZ = new TF1("LineXZ","pol1",0,660);
   LineXZ->SetParameters(fYintXZ,fSlopeXZ);
   LineXZ->SetLineStyle(2);
@@ -501,7 +352,6 @@ void evd::DrawSim(int argc, char *argv[])
   XZ_title->Draw("same");
 
   padYZ->cd();
-  fTMGYZ->Draw("AP");
   LineYZ->Draw("same");
   YZ_title->Draw("same");
 
