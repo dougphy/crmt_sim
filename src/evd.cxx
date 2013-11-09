@@ -265,9 +265,6 @@ void evd::DrawTrue(int argc, char *argv[])
   EventTitle->AddText("True Event Display");
   EventTitle->AddText(tEIDP);
   EventTitle->AddText(tGapP);
-  EventTitle->AddText(tIXP);
-  EventTitle->AddText(tIYP);
-  EventTitle->AddText(tIZP);
   EventTitle->AddText(tSlopeXZP);
   EventTitle->AddText(tSlopeYZP);
   EventTitle->AddText(tAngleXZP);
@@ -465,9 +462,6 @@ void evd::DrawSim(int argc, char *argv[])
   EventTitle->AddText("Sim Event Display");
   EventTitle->AddText(tEIDP);
   EventTitle->AddText(tGapP);
-  EventTitle->AddText(tIXP);
-  EventTitle->AddText(tIYP);
-  EventTitle->AddText(tIZP);
   EventTitle->AddText(tSlopeXZP);
   EventTitle->AddText(tSlopeYZP);
   EventTitle->AddText(tAngleXZP);
