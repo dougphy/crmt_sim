@@ -21,7 +21,14 @@
 
 evd::evd() {}
 
-evd::~evd() {}
+evd::~evd()
+{
+  delete fApp;
+  delete fTree;
+  delete fFile;
+  delete fTMGXZ;
+  delete fTMGYZ;
+}
 
 void evd::InitFile(std::string file_name, int event_number)
 {
