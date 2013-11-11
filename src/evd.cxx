@@ -80,10 +80,10 @@ void evd::InitAllGraphs()
 {
   fTree->GetEntry(fSelectedEventID);
   double gap = fGap;
-  Module *mod0 = new Module(0,gap);
-  Module *mod1 = new Module(1,gap);
-  Module *mod2 = new Module(2,gap);
-  Module *mod3 = new Module(3,gap);
+  geo::Module *mod0 = new geo::Module(0,gap);
+  geo::Module *mod1 = new geo::Module(1,gap);
+  geo::Module *mod2 = new geo::Module(2,gap);
+  geo::Module *mod3 = new geo::Module(3,gap);
   std::map<int, std::pair<double,double> > Mod0 = mod0->GetMap();
   std::map<int, std::pair<double,double> > Mod1 = mod1->GetMap();
   std::map<int, std::pair<double,double> > Mod2 = mod2->GetMap();
@@ -121,10 +121,10 @@ void evd::DrawTrue(int argc, char *argv[])
 {
   fTree->GetEntry(fSelectedEventID);
   double gap = fGap;
-  Module *mod0 = new Module(0,gap);
-  Module *mod1 = new Module(1,gap);
-  Module *mod2 = new Module(2,gap);
-  Module *mod3 = new Module(3,gap);
+  geo::Module *mod0 = new geo::Module(0,gap);
+  geo::Module *mod1 = new geo::Module(1,gap);
+  geo::Module *mod2 = new geo::Module(2,gap);
+  geo::Module *mod3 = new geo::Module(3,gap);
   std::map<int, std::pair<double,double> > Mod0 = mod0->GetMap();
   std::map<int, std::pair<double,double> > Mod1 = mod1->GetMap();
   std::map<int, std::pair<double,double> > Mod2 = mod2->GetMap();
@@ -318,10 +318,10 @@ void evd::DrawSim(int argc, char *argv[])
 {
   fTree->GetEntry(fSelectedEventID);
   double gap = fGap;
-  Module *mod0 = new Module(0,gap);
-  Module *mod1 = new Module(1,gap);
-  Module *mod2 = new Module(2,gap);
-  Module *mod3 = new Module(3,gap);
+  geo::Module *mod0 = new geo::Module(0,gap);
+  geo::Module *mod1 = new geo::Module(1,gap);
+  geo::Module *mod2 = new geo::Module(2,gap);
+  geo::Module *mod3 = new geo::Module(3,gap);
   std::map<int, std::pair<double,double> > Mod0 = mod0->GetMap();
   std::map<int, std::pair<double,double> > Mod1 = mod1->GetMap();
   std::map<int, std::pair<double,double> > Mod2 = mod2->GetMap();

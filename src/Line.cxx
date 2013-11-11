@@ -10,35 +10,38 @@
 #include <cmath>
 #include "Line.h"
 
-Line::Line() {}
+namespace geo {
 
-Line::~Line() {}
+  Line::Line() {}
 
-void Line::SetInitialPos(double x, double y, double z)
-{
-  fX0 = x;
-  fY0 = y;
-  fZ0 = z;
-}
+  Line::~Line() {}
 
-void Line::SetLinePropertiesFromPhiTheta(double phi, double theta)
-{
-  fPhi = phi;
-  fTheta = theta;
+  void Line::SetInitialPos(double x, double y, double z)
+  {
+    fX0 = x;
+    fY0 = y;
+    fZ0 = z;
+  }
 
-  double x = sin(theta)*cos(phi);
-  double y = sin(theta)*sin(phi);
-  double z = cos(theta);
+  void Line::SetLinePropertiesFromPhiTheta(double phi, double theta)
+  {
+    fPhi = phi;
+    fTheta = theta;
+
+    double x = sin(theta)*cos(phi);
+    double y = sin(theta)*sin(phi);
+    double z = cos(theta);
   
-  double mag = sqrt(x*x+y*y+z*z);
-  fTx = x/mag; fTy = y/mag; fTz = z/mag;
+    double mag = sqrt(x*x+y*y+z*z);
+    fTx = x/mag; fTy = y/mag; fTz = z/mag;
 
-  fAngleXZ = atan2(x,z);
-  fAngleYZ = atan2(y,z);
+    fAngleXZ = atan2(x,z);
+    fAngleYZ = atan2(y,z);
 		  
-  fSlopeXZ = -1/tan(fAngleXZ);
-  fSlopeYZ = -1/tan(fAngleYZ);
+    fSlopeXZ = -1/tan(fAngleXZ);
+    fSlopeYZ = -1/tan(fAngleYZ);
 
-  fYintXZ = fZ0 - fSlopeXZ*fX0;
-  fYintYZ = fZ0 - fSlopeYZ*fY0;
+    fYintXZ = fZ0 - fSlopeXZ*fX0;
+    fYintYZ = fZ0 - fSlopeYZ*fY0;
+  }
 }

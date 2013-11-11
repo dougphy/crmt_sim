@@ -124,10 +124,10 @@ void evg::CheckParameters()
 void evg::RunEvents()
 {
   InitCoupleMap();
-  Module *Mod0 = new Module(0,fGap);
-  Module *Mod1 = new Module(1,fGap);
-  Module *Mod2 = new Module(2,fGap);
-  Module *Mod3 = new Module(3,fGap);
+  geo::Module *Mod0 = new geo::Module(0,fGap);
+  geo::Module *Mod1 = new geo::Module(1,fGap);
+  geo::Module *Mod2 = new geo::Module(2,fGap);
+  geo::Module *Mod3 = new geo::Module(3,fGap);
   std::map<int, std::pair<double,double> > Mod0Loc = Mod0->GetMap();
   std::map<int, std::pair<double,double> > Mod1Loc = Mod1->GetMap();
   std::map<int, std::pair<double,double> > Mod2Loc = Mod2->GetMap();
@@ -136,7 +136,7 @@ void evg::RunEvents()
 
   double InitialZ = 330 + fGap;
   for ( int i = 0; i < fNEvents; i++ ) {
-    Line *Mu = new Line();
+    geo::Line *Mu = new geo::Line();
     fInitialZ = InitialZ;
     if ( fOriginUniformDist ) {
       gRandom->SetSeed(0);
