@@ -87,12 +87,13 @@ evg::~evg() {}
 
 void evg::ReadParameters()
 {
-  fConfigFile.open("Parameters.cfg");
+  std::ifstream ConfigFile;
+  ConfigFile.open("Parameters.cfg");
   std::string label;
   double param;
   std::vector<double> param_vec;
   param_vec.reserve(20);
-  while (fConfigFile >> label >> param)
+  while (ConfigFile >> label >> param)
     param_vec.push_back(param);
   if (param_vec[0] == 0)     { fOriginUniformDist   = false; }
   else                       { fOriginUniformDist   = true;  }
@@ -119,6 +120,7 @@ void evg::ReadParameters()
   fAnglePolarUniformMin      = param_vec[15]*PI/180.;
   fAnglePolarUniformMax      = param_vec[16]*PI/180.;
   fGap                       = param_vec[17];
+  ConfigFile.close();
 }
 
 // __________________________________________________________________
@@ -265,7 +267,7 @@ void evg::RunEvents()
     fTree->Fill();
     
     ClearVecs();
-  } // For fNEvents loop
+  }
   fTree->Write();
   fTreeMod0->Write();
   fTreeMod1->Write();
