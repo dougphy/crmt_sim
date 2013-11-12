@@ -261,8 +261,10 @@ void evg::RunEvents()
     fTreeMod1->Fill();
     fTreeMod2->Fill();
     fTreeMod3->Fill();
-
+    
     fTree->Fill();
+    
+    ClearVecs();
   } // For fNEvents loop
   fTree->Write();
   fTreeMod0->Write();
@@ -470,4 +472,25 @@ void evg::SimHitsToPixels()
 void evg::PixelsToPins()
 {
 
+}
+
+void evg::ClearVecs()
+{
+  fHitPixelsTop0.clear();
+  fHitPixelsBot0.clear();
+  fHitPixelsTop1.clear();
+  fHitPixelsBot1.clear();
+  fHitPixelsTop2.clear();
+  fHitPixelsBot2.clear();
+  fHitPixelsTop3.clear();
+  fHitPixelsBot3.clear();
+
+  fHitPinsTop0.clear();
+  fHitPinsBot0.clear();
+  fHitPinsTop1.clear();
+  fHitPinsBot1.clear();
+  fHitPinsTop2.clear();
+  fHitPinsBot2.clear();
+  fHitPinsTop3.clear();
+  fHitPinsBot3.clear();
 }

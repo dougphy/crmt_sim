@@ -119,6 +119,7 @@ public:
   void InitFiberPixelPinPairs();
   void SimHitsToPixels();
   void PixelsToPins();
+  void ClearVecs();
 };
 
 #endif
