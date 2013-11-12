@@ -69,6 +69,35 @@ protected:
   int               fSimMod1[256];
   int               fSimMod2[256];
   int               fSimMod3[256];
+
+  std::vector< std::pair<int,int> > fRemapFiberTop;
+  std::vector< std::pair<int,int> > fRemapFiberBot;
+  std::vector< std::pair<int,int> > fPixelToPinTop;
+  std::vector< std::pair<int,int> > fPixelToPinBot;
+
+  TTree              *fTreeMod0;
+  TTree              *fTreeMod1;
+  TTree              *fTreeMod2;
+  TTree              *fTreeMod3;
+
+  std::vector<int>    fHitPixelsTop0;
+  std::vector<int>    fHitPixelsBot0;
+  std::vector<int>    fHitPixelsTop1;
+  std::vector<int>    fHitPixelsBot1;
+  std::vector<int>    fHitPixelsTop2;
+  std::vector<int>    fHitPixelsBot2;
+  std::vector<int>    fHitPixelsTop3;
+  std::vector<int>    fHitPixelsBot3;
+
+  std::vector<int>    fHitPinsTop0;
+  std::vector<int>    fHitPinsBot0;
+  std::vector<int>    fHitPinsTop1;
+  std::vector<int>    fHitPinsBot1;
+  std::vector<int>    fHitPinsTop2;
+  std::vector<int>    fHitPinsBot2;
+  std::vector<int>    fHitPinsTop3;
+  std::vector<int>    fHitPinsBot3;
+
   // Attributes of the detector
   double            fScintWidth  = 10.4;
   double            fScintHeight = 30.8;
@@ -87,7 +116,9 @@ public:
   bool Intersection(double FibI, double FibJ, double Slope, double Yint);
   void InitCoupleMap();
   void Multiplex();
-
+  void InitFiberPixelPinPairs();
+  void SimHitsToPixels();
+  void PixelsToPins();
 };
 
 #endif

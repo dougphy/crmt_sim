@@ -29,28 +29,54 @@ evg::evg(std::string file_name, int n_events)
   fNEvents  = n_events;
   fFile     = new TFile(name.c_str(),"RECREATE");
   fTree     = new TTree("SimulationTree","SimulationTree");
-  fTree->Branch("EventID",    &fEventID,    "EventID/I");
-  fTree->Branch("Gap",        &fGap,        "Gap/D");
-  fTree->Branch("InitialX",   &fInitialX,   "InitialX/D");
-  fTree->Branch("InitialY",   &fInitialY,   "InitialY/D");
-  fTree->Branch("InitialZ",   &fInitialZ,   "InitialZ/D");
-  fTree->Branch("Phi",        &fPhi,        "Phi/D");
-  fTree->Branch("Theta",      &fTheta,      "Theta/D");
-  fTree->Branch("AngleXZ",    &fAngleXZ,    "AngleXZ/D");
-  fTree->Branch("AngleYZ",    &fAngleYZ,    "AngleYZ/D");
-  fTree->Branch("SlopeXZ",    &fSlopeXZ,    "SlopeXZ/D");
-  fTree->Branch("SlopeYZ",    &fSlopeYZ,    "SlopeYZ/D");
-  fTree->Branch("YintXZ",     &fYintXZ,     "YintXZ/D");
-  fTree->Branch("YintYZ",     &fYintYZ,     "YintYZ/D");
-  fTree->Branch("Traj",        fTraj,       "Traj[3]/D");
-  fTree->Branch("TrueMod0",    fTrueMod0,   "TrueMod0[256]/I");
-  fTree->Branch("TrueMod1",    fTrueMod1,   "TrueMod1[256]/I");
-  fTree->Branch("TrueMod2",    fTrueMod2,   "TrueMod2[256]/I");
-  fTree->Branch("TrueMod3",    fTrueMod3,   "TrueMod3[256]/I");
-  fTree->Branch("SimMod0",     fSimMod0,    "SimMod0[256]/I");
-  fTree->Branch("SimMod1",     fSimMod1,    "SimMod1[256]/I");
-  fTree->Branch("SimMod2",     fSimMod2,    "SimMod2[256]/I");
-  fTree->Branch("SimMod3",     fSimMod3,    "SimMod3[256]/I");
+  fTree->Branch("EventID",     &fEventID,    "EventID/I");
+  fTree->Branch("Gap",         &fGap,        "Gap/D");
+  fTree->Branch("InitialX",    &fInitialX,   "InitialX/D");
+  fTree->Branch("InitialY",    &fInitialY,   "InitialY/D");
+  fTree->Branch("InitialZ",    &fInitialZ,   "InitialZ/D");
+  fTree->Branch("Phi",         &fPhi,        "Phi/D");
+  fTree->Branch("Theta",       &fTheta,      "Theta/D");
+  fTree->Branch("AngleXZ",     &fAngleXZ,    "AngleXZ/D");
+  fTree->Branch("AngleYZ",     &fAngleYZ,    "AngleYZ/D");
+  fTree->Branch("SlopeXZ",     &fSlopeXZ,    "SlopeXZ/D");
+  fTree->Branch("SlopeYZ",     &fSlopeYZ,    "SlopeYZ/D");
+  fTree->Branch("YintXZ",      &fYintXZ,     "YintXZ/D");
+  fTree->Branch("YintYZ",      &fYintYZ,     "YintYZ/D");
+  fTree->Branch("Traj",         fTraj,       "Traj[3]/D");
+  fTree->Branch("TrueMod0",     fTrueMod0,   "TrueMod0[256]/I");
+  fTree->Branch("TrueMod1",     fTrueMod1,   "TrueMod1[256]/I");
+  fTree->Branch("TrueMod2",     fTrueMod2,   "TrueMod2[256]/I");
+  fTree->Branch("TrueMod3",     fTrueMod3,   "TrueMod3[256]/I");
+  fTree->Branch("SimMod0",      fSimMod0,    "SimMod0[256]/I");
+  fTree->Branch("SimMod1",      fSimMod1,    "SimMod1[256]/I");
+  fTree->Branch("SimMod2",      fSimMod2,    "SimMod2[256]/I");
+  fTree->Branch("SimMod3",      fSimMod3,    "SimMod3[256]/I");
+
+  fTreeMod0 = new TTree("Mod0Tree","Mod0Tree");
+  fTreeMod1 = new TTree("Mod1Tree","Mod1Tree");
+  fTreeMod2 = new TTree("Mod2Tree","Mod2Tree");
+  fTreeMod3 = new TTree("Mod3Tree","Mod3Tree");
+
+  fTreeMod0->Branch("HitPixelsTop0",&fHitPixelsTop0);
+  fTreeMod0->Branch("HitPinsTop0",  &fHitPinsTop0);
+  fTreeMod0->Branch("HitPixelsBot0",&fHitPixelsBot0);
+  fTreeMod0->Branch("HitPinsBot0",  &fHitPinsBot0);
+
+  fTreeMod1->Branch("HitPixelsTop1",&fHitPixelsTop1);
+  fTreeMod1->Branch("HitPinsTop1",  &fHitPinsTop1);
+  fTreeMod1->Branch("HitPixelsBot1",&fHitPixelsBot1);
+  fTreeMod1->Branch("HitPinsBot1",  &fHitPinsBot1);
+
+  fTreeMod2->Branch("HitPixelsTop2",&fHitPixelsTop2);
+  fTreeMod2->Branch("HitPinsTop2",  &fHitPinsTop2);
+  fTreeMod2->Branch("HitPixelsBot2",&fHitPixelsBot2);
+  fTreeMod2->Branch("HitPinsBot2",  &fHitPinsBot2);
+
+  fTreeMod3->Branch("HitPixelsTop3",&fHitPixelsTop3);
+  fTreeMod3->Branch("HitPinsTop3",  &fHitPinsTop3);
+  fTreeMod3->Branch("HitPixelsBot3",&fHitPixelsBot3);
+  fTreeMod3->Branch("HitPinsBot3",  &fHitPinsBot3);
+
 }
 
 // __________________________________________________________________
@@ -124,6 +150,7 @@ void evg::CheckParameters()
 void evg::RunEvents()
 {
   InitCoupleMap();
+  InitFiberPixelPinPairs();
   geo::Module *Mod0 = new geo::Module(0,fGap);
   geo::Module *Mod1 = new geo::Module(1,fGap);
   geo::Module *Mod2 = new geo::Module(2,fGap);
@@ -228,13 +255,24 @@ void evg::RunEvents()
     }
 
     Multiplex();
+    SimHitsToPixels();
+
+    fTreeMod0->Fill();
+    fTreeMod1->Fill();
+    fTreeMod2->Fill();
+    fTreeMod3->Fill();
 
     fTree->Fill();
   } // For fNEvents loop
   fTree->Write();
+  fTreeMod0->Write();
+  fTreeMod1->Write();
+  fTreeMod2->Write();
+  fTreeMod3->Write();
   fFile->Close();
-  }
+}
 
+// __________________________________________________________________
 
 bool evg::Intersection(double FibI, double FibJ, double Slope, double Yint)
 {
@@ -278,6 +316,8 @@ void evg::InitCoupleMap()
   }
 
 }
+
+// __________________________________________________________________
 
 void evg::Multiplex()
 {
@@ -329,4 +369,105 @@ void evg::Multiplex()
 	  fSimMod3[iMap.second[i]] = 1;
   }
   
+}
+
+// __________________________________________________________________
+
+void evg::InitFiberPixelPinPairs()
+{
+  std::ifstream ftp_top;
+  std::ifstream ftp_bot;
+  std::ifstream ptp_top;
+  std::ifstream ptp_bot;
+
+  std::ifstream in_file;
+  int left, right;
+  in_file.open("config/remap_fibers_top.dat");
+  while (in_file >> left >> right)
+    fRemapFiberTop.push_back(std::make_pair(left,right));
+  in_file.close();
+  in_file.open("config/remap_fibers_bot.dat");
+  while (in_file >> left >> right)
+    fRemapFiberBot.push_back(std::make_pair(left,right));
+  in_file.close();
+  in_file.open("config/pixel_to_pin_top.dat");
+  while (in_file >> left >> right)
+    fPixelToPinTop.push_back(std::make_pair(left,right));
+  in_file.close();
+  in_file.open("config/pixel_to_pin_bot.dat");
+  while (in_file >> left >> right)
+    fPixelToPinBot.push_back(std::make_pair(left,right));
+}
+
+// __________________________________________________________________
+
+void evg::SimHitsToPixels()
+{
+  for ( int i = 0; i < 256; i++ ) {
+    if ( i < 128) {
+      if ( fSimMod0[i] == 1 )
+	for ( auto entry : fRemapFiberTop )
+	  if ( entry.first == i )
+	    fHitPixelsTop0.push_back(entry.second);
+    }    
+    else {
+      if ( fSimMod0[i] == 1 )
+	for ( auto entry : fRemapFiberBot )
+	  if ( entry.first == i )
+	    fHitPixelsBot0.push_back(entry.second);
+    }      
+  }
+ 
+  for ( int i = 0; i < 256; i++ ) {
+    if ( i < 128) {
+      if ( fSimMod1[i] == 1 )
+	for ( auto entry : fRemapFiberTop )
+	  if ( entry.first == i )
+	    fHitPixelsTop1.push_back(entry.second);
+    }    
+    else {
+      if ( fSimMod1[i] == 1 )
+	for ( auto entry : fRemapFiberBot )
+	  if ( entry.first == i )
+	    fHitPixelsBot1.push_back(entry.second);
+    }      
+  }
+
+  for ( int i = 0; i < 256; i++ ) {
+    if ( i < 128) {
+      if ( fSimMod2[i] == 1 )
+	for ( auto entry : fRemapFiberTop )
+	  if ( entry.first == i )
+	    fHitPixelsTop2.push_back(entry.second);
+    }    
+    else {
+      if ( fSimMod2[i] == 1 )
+	for ( auto entry : fRemapFiberBot )
+	  if ( entry.first == i )
+	    fHitPixelsBot2.push_back(entry.second);
+    }      
+  }
+
+  for ( int i = 0; i < 256; i++ ) {
+    if ( i < 128) {
+      if ( fSimMod3[i] == 1 )
+	for ( auto entry : fRemapFiberTop )
+	  if ( entry.first == i )
+	    fHitPixelsTop3.push_back(entry.second);
+    }    
+    else {
+      if ( fSimMod3[i] == 1 )
+	for ( auto entry : fRemapFiberBot )
+	  if ( entry.first == i )
+	    fHitPixelsBot3.push_back(entry.second);
+    }      
+  }
+
+ 
+}
+// __________________________________________________________________
+
+void evg::PixelsToPins()
+{
+
 }
