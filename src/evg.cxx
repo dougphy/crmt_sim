@@ -477,35 +477,35 @@ void evg::PixelsToPins()
   for ( auto entry : fHitPixelsTop0 )
     for ( auto link : fPixelToPinTop )
       if ( link.first == entry )
-	fPixelsTop0.push_back(link.second);
+	fHitPinsTop0.push_back(link.second);
   for ( auto entry : fHitPixelsBot0 )
     for ( auto link : fPixelToPinBot )
       if ( link.first == entry )
-	fPixelsBot0.push_back(link.second);
+	fHitPinsBot0.push_back(link.second);
   for ( auto entry : fHitPixelsTop1 )
     for ( auto link : fPixelToPinTop )
       if ( link.first == entry )
-	fPixelsTop1.push_back(link.second);
+	fHitPinsTop1.push_back(link.second);
   for ( auto entry : fHitPixelsBot1 )
     for ( auto link : fPixelToPinBot )
       if ( link.first == entry )
-	fPixelsBot1.push_back(link.second);
+	fHitPinsBot1.push_back(link.second);
   for ( auto entry : fHitPixelsTop2 )
     for ( auto link : fPixelToPinTop )
       if ( link.first == entry )
-	fPixelsTop2.push_back(link.second);
+	fHitPinsTop2.push_back(link.second);
   for ( auto entry : fHitPixelsBot2 )
     for ( auto link : fPixelToPinBot )
       if ( link.first == entry )
-	fPixelsBot2.push_back(link.second);
+	fHitPinsBot2.push_back(link.second);
   for ( auto entry : fHitPixelsTop3 )
     for ( auto link : fPixelToPinTop )
       if ( link.first == entry )
-	fPixelsTop3.push_back(link.second);
+	fHitPinsTop3.push_back(link.second);
   for ( auto entry : fHitPixelsBot3 )
     for ( auto link : fPixelToPinBot )
       if ( link.first == entry )
-	fPixelsBot3.push_back(link.second);
+	fHitPinsBot3.push_back(link.second);
 }
 
 void evg::ClearVecs()
