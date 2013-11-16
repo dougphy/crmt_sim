@@ -185,9 +185,12 @@ void evg::RunEvents()
       fTheta = fAngleZenithDefinedValue;
     else if ( fAngleZenithCosSq ) {
       gRandom->SetSeed(0);
-      fTheta = fabs(cossq->GetRandom());
-	//      Muon->SetAngleXZ(cossq->GetRandom());
-	//      Muon->SetAngleYZ(cossq->GetRandom());
+      Muon->SetAngleXZ(cossq->GetRandom());
+      double yz_max = asin(sqrt(1.0 - pow(sin(Muon->AngleXZ()),2)));
+      Muon->SetAngleYZ(yz_max+1);
+      while ( fabs(Muon->AngleYZ()) > yz_max ) {
+	Muon->SetAngleYZ(cossq->GetRandom());
+      }
     }
     else if ( fAngleZenithGaussian ) {
       gRandom->SetSeed(0);
@@ -207,30 +210,31 @@ void evg::RunEvents()
     else {
       std::cout << "Muon polar angle definition malfunction" << std::endl;
     }
+    if ( !fAngleZenithCosSq ) {
+      Muon->SetLinePropertiesFromPhiTheta(fPhi,fTheta);
+      fAngleXZ = Muon->AngleXZ();
+      fAngleYZ = Muon->AngleYZ();
+      fTraj[0] = Muon->Tx();
+      fTraj[1] = Muon->Ty();
+      fTraj[2] = Muon->Tz();
+      fSlopeXZ = Muon->SlopeXZ();
+      fSlopeYZ = Muon->SlopeYZ();
+      fYintXZ  = Muon->YintXZ();
+      fYintYZ  = Muon->YintYZ();
+    }
+    else {
+      Muon->SetLinePropertiesFromAngles();   
+      fAngleXZ = Muon->AngleXZ();
+      fAngleYZ = Muon->AngleYZ();
+      fTraj[0] = Muon->Tx();
+      fTraj[1] = Muon->Ty();
+      fTraj[2] = Muon->Tz();
+      fSlopeXZ = Muon->SlopeXZ();
+      fSlopeYZ = Muon->SlopeYZ();
+      fYintXZ  = Muon->YintXZ();
+      fYintYZ  = Muon->YintYZ();
+    }
     
-    Muon->SetLinePropertiesFromPhiTheta(fPhi,fTheta);
-    fAngleXZ = Muon->AngleXZ();
-    fAngleYZ = Muon->AngleYZ();
-    fTraj[0] = Muon->Tx();
-    fTraj[1] = Muon->Ty();
-    fTraj[2] = Muon->Tz();
-    fSlopeXZ = Muon->SlopeXZ();
-    fSlopeYZ = Muon->SlopeYZ();
-    fYintXZ  = Muon->YintXZ();
-    fYintYZ  = Muon->YintYZ();
-    
-    /*
-    Muon->SetLinePropertiesFromAngles();   
-    fAngleXZ = Muon->AngleXZ();
-    fAngleYZ = Muon->AngleYZ();
-    fTraj[0] = Muon->Tx();
-    fTraj[1] = Muon->Ty();
-    fTraj[2] = Muon->Tz();
-    fSlopeXZ = Muon->SlopeXZ();
-    fSlopeYZ = Muon->SlopeYZ();
-    fYintXZ  = Muon->YintXZ();
-    fYintYZ  = Muon->YintYZ();
-    */
     for ( FiberItr = Mod0Loc.begin(); FiberItr != Mod0Loc.end(); FiberItr++ ) {
       if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
 			fSlopeYZ,fYintYZ) ) {
