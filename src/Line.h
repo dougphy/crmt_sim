@@ -40,6 +40,10 @@ namespace geo {
 
     void SetInitialPos(double x, double y, double z);
     void SetLinePropertiesFromPhiTheta(double phi, double theta);
+    void SetLinePropertiesFromAngles();
+
+    void SetAngleXZ(double x);
+    void SetAngleYZ(double y);
 
     double Tx()      { return fTx;      }
     double Ty()      { return fTy;      }

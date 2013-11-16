@@ -164,6 +164,7 @@ void evg::RunEvents()
   std::map<int, std::pair<double,double> >::iterator FiberItr;
 
   double InitialZ = 330 + fGap;
+  TF1 *cossq = new TF1("cossq","cos(x)*cos(x)",-PI/2.,PI/2.);
   for ( int i = 0; i < fNEvents; i++ ) {
     geo::Line *Mu = new geo::Line();
     fInitialZ = InitialZ;
@@ -182,10 +183,12 @@ void evg::RunEvents()
     Mu->SetInitialPos(fInitialX,fInitialY,fInitialZ);
     if ( fAngleZenithDefined )
       fTheta = fAngleZenithDefinedValue;
+    
     else if ( fAngleZenithCosSq ) {
-      std::cout << "Not using yet" << std::endl;
-      fTheta = fAngleZenithDefinedValue;
+      Mu->SetAngleXZ(cossq->GetRandom());
+      Mu->SetAngleYZ(cossq->GetRandom());
     }
+    
     else if ( fAngleZenithGaussian ) {
       gRandom->SetSeed(0);
       fTheta = fabs(gRandom->Gaus(fAngleZenithGaussianCenter,
@@ -205,16 +208,30 @@ void evg::RunEvents()
       std::cout << "Muon polar angle definition malfunction" << std::endl;
     }
 
-    Mu->SetLinePropertiesFromPhiTheta(fPhi,fTheta);
-    fAngleXZ = Mu->AngleXZ();
-    fAngleYZ = Mu->AngleYZ();
-    fTraj[0] = Mu->Tx();
-    fTraj[1] = Mu->Ty();
-    fTraj[2] = Mu->Tz();
-    fSlopeXZ = Mu->SlopeXZ();
-    fSlopeYZ = Mu->SlopeYZ();
-    fYintXZ  = Mu->YintXZ();
-    fYintYZ  = Mu->YintYZ();
+    if (!fAngleZenithCosSq) {
+      Mu->SetLinePropertiesFromPhiTheta(fPhi,fTheta);
+      fAngleXZ = Mu->AngleXZ();
+      fAngleYZ = Mu->AngleYZ();
+      fTraj[0] = Mu->Tx();
+      fTraj[1] = Mu->Ty();
+      fTraj[2] = Mu->Tz();
+      fSlopeXZ = Mu->SlopeXZ();
+      fSlopeYZ = Mu->SlopeYZ();
+      fYintXZ  = Mu->YintXZ();
+      fYintYZ  = Mu->YintYZ();
+    }
+    else {
+      Mu->SetLinePropertiesFromAngles();   
+      fAngleXZ = Mu->AngleXZ();
+      fAngleYZ = Mu->AngleYZ();
+      fTraj[0] = Mu->Tx();
+      fTraj[1] = Mu->Ty();
+      fTraj[2] = Mu->Tz();
+      fSlopeXZ = Mu->SlopeXZ();
+      fSlopeYZ = Mu->SlopeYZ();
+      fYintXZ  = Mu->YintXZ();
+      fYintYZ  = Mu->YintYZ();
+    }
     
     for ( FiberItr = Mod0Loc.begin(); FiberItr != Mod0Loc.end(); FiberItr++ ) {
       if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,

@@ -23,6 +23,16 @@ namespace geo {
     fZ0 = z;
   }
 
+  void Line::SetAngleXZ(double x)
+  {
+    fAngleXZ = x;
+  }
+
+  void Line::SetAngleYZ(double y)
+  {
+    fAngleYZ = y;
+  }
+
   void Line::SetLinePropertiesFromPhiTheta(double phi, double theta)
   {
     fPhi = phi;
@@ -44,4 +54,18 @@ namespace geo {
     fYintXZ = fZ0 - fSlopeXZ*fX0;
     fYintYZ = fZ0 - fSlopeYZ*fY0;
   }
+
+  void Line::SetLinePropertiesFromAngles()
+  {
+    fSlopeXZ = -1/tan(fAngleXZ);
+    fSlopeYZ = -1/tan(fAngleYZ);
+    
+    fYintXZ = fZ0 - fSlopeXZ*fX0;
+    fYintYZ = fZ0 - fSlopeYZ*fY0;
+
+    fTx = 0; // not needed
+    fTy = 0; // not needed
+    fTz = 0; // not needed
+  }
+
 }
