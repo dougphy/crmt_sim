@@ -163,10 +163,10 @@ void evg::RunEvents()
   std::map<int, std::pair<double,double> > Mod3Loc = Mod3->GetMap();
   std::map<int, std::pair<double,double> >::iterator FiberItr;
 
-  double InitialZ = 330 + fGap;
   TF1 *cossq = new TF1("cossq","cos(x)*cos(x)",-PI/2.,PI/2.);
   for ( int i = 0; i < fNEvents; i++ ) {
-    geo::Line *Mu = new geo::Line();
+    geo::Line *Muon = new geo::Line();
+    double InitialZ = 350 + fGap;
     fInitialZ = InitialZ;
     if ( fOriginUniformDist ) {
       gRandom->SetSeed(0);
@@ -180,15 +180,15 @@ void evg::RunEvents()
     else {
       std::cout << "Muon origin definition malfunction." << std::endl;
     }
-    Mu->SetInitialPos(fInitialX,fInitialY,fInitialZ);
+    Muon->SetInitialPos(fInitialX,fInitialY,fInitialZ);
     if ( fAngleZenithDefined )
       fTheta = fAngleZenithDefinedValue;
-    
     else if ( fAngleZenithCosSq ) {
-      Mu->SetAngleXZ(cossq->GetRandom());
-      Mu->SetAngleYZ(cossq->GetRandom());
+      gRandom->SetSeed(0);
+      fTheta = fabs(cossq->GetRandom());
+	//      Muon->SetAngleXZ(cossq->GetRandom());
+	//      Muon->SetAngleYZ(cossq->GetRandom());
     }
-    
     else if ( fAngleZenithGaussian ) {
       gRandom->SetSeed(0);
       fTheta = fabs(gRandom->Gaus(fAngleZenithGaussianCenter,
@@ -207,32 +207,30 @@ void evg::RunEvents()
     else {
       std::cout << "Muon polar angle definition malfunction" << std::endl;
     }
-
-    if (!fAngleZenithCosSq) {
-      Mu->SetLinePropertiesFromPhiTheta(fPhi,fTheta);
-      fAngleXZ = Mu->AngleXZ();
-      fAngleYZ = Mu->AngleYZ();
-      fTraj[0] = Mu->Tx();
-      fTraj[1] = Mu->Ty();
-      fTraj[2] = Mu->Tz();
-      fSlopeXZ = Mu->SlopeXZ();
-      fSlopeYZ = Mu->SlopeYZ();
-      fYintXZ  = Mu->YintXZ();
-      fYintYZ  = Mu->YintYZ();
-    }
-    else {
-      Mu->SetLinePropertiesFromAngles();   
-      fAngleXZ = Mu->AngleXZ();
-      fAngleYZ = Mu->AngleYZ();
-      fTraj[0] = Mu->Tx();
-      fTraj[1] = Mu->Ty();
-      fTraj[2] = Mu->Tz();
-      fSlopeXZ = Mu->SlopeXZ();
-      fSlopeYZ = Mu->SlopeYZ();
-      fYintXZ  = Mu->YintXZ();
-      fYintYZ  = Mu->YintYZ();
-    }
     
+    Muon->SetLinePropertiesFromPhiTheta(fPhi,fTheta);
+    fAngleXZ = Muon->AngleXZ();
+    fAngleYZ = Muon->AngleYZ();
+    fTraj[0] = Muon->Tx();
+    fTraj[1] = Muon->Ty();
+    fTraj[2] = Muon->Tz();
+    fSlopeXZ = Muon->SlopeXZ();
+    fSlopeYZ = Muon->SlopeYZ();
+    fYintXZ  = Muon->YintXZ();
+    fYintYZ  = Muon->YintYZ();
+    
+    /*
+    Muon->SetLinePropertiesFromAngles();   
+    fAngleXZ = Muon->AngleXZ();
+    fAngleYZ = Muon->AngleYZ();
+    fTraj[0] = Muon->Tx();
+    fTraj[1] = Muon->Ty();
+    fTraj[2] = Muon->Tz();
+    fSlopeXZ = Muon->SlopeXZ();
+    fSlopeYZ = Muon->SlopeYZ();
+    fYintXZ  = Muon->YintXZ();
+    fYintYZ  = Muon->YintYZ();
+    */
     for ( FiberItr = Mod0Loc.begin(); FiberItr != Mod0Loc.end(); FiberItr++ ) {
       if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
 			fSlopeYZ,fYintYZ) ) {
