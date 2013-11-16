@@ -3,12 +3,6 @@
 #include "evg.h"
 #include "Line.h"
 #include "Module.h"
-#include "TF1.h"
-#include "TCanvas.h"
-#include "TMultiGraph.h"
-#include "TGraphErrors.h"
-
-#define Pi 3.1415926
 
 void usage()
 {
