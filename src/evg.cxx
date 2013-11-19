@@ -43,6 +43,7 @@ evg::evg(std::string file_name, int n_events)
   fTree->Branch("YintXZ",      &fYintXZ,     "YintXZ/D");
   fTree->Branch("YintYZ",      &fYintYZ,     "YintYZ/D");
   fTree->Branch("Traj",         fTraj,       "Traj[3]/D");
+  fTree->Branch("Coincidence", &fCoincidence,"Conincidence/O");
   fTree->Branch("TrueMod0",     fTrueMod0,   "TrueMod0[256]/I");
   fTree->Branch("TrueMod1",     fTrueMod1,   "TrueMod1[256]/I");
   fTree->Branch("TrueMod2",     fTrueMod2,   "TrueMod2[256]/I");
@@ -51,12 +52,6 @@ evg::evg(std::string file_name, int n_events)
   fTree->Branch("SimMod1",      fSimMod1,    "SimMod1[256]/I");
   fTree->Branch("SimMod2",      fSimMod2,    "SimMod2[256]/I");
   fTree->Branch("SimMod3",      fSimMod3,    "SimMod3[256]/I");
-
-  fTreeAll = new TTree("SimulationTreeAll","SimulationTreeAll");
-  fTreeAll->Branch("Phi",      &fPhi,        "Phi/D");
-  fTreeAll->Branch("Theta",    &fTheta,      "Theta/D");
-  fTreeAll->Branch("AngleXZ",  &fAngleXZ,    "AngleXZ/D");
-  fTreeAll->Branch("AngleYZ",  &fAngleYZ,    "AngleYZ/D");
 
   fTreeMod0 = new TTree("Mod0Tree","Mod0Tree");
   fTreeMod1 = new TTree("Mod1Tree","Mod1Tree");
@@ -296,9 +291,12 @@ void evg::RunEvents()
 	bot_counter += 1;
 
     bool yz_through_bottom_square = false;
+    fCoincidence = false;
     double horiz_check = (0.0 - Muon->YintYZ())/(Muon->SlopeYZ());
     if ( horiz_check > 0 && horiz_check < 640 )
       yz_through_bottom_square = true;
+    if ( yz_through_bottom_square )
+      fCoincidence = true;
     
     if ( bot_counter == 0 || top_counter == 0 || !yz_through_bottom_square ) {
       for ( int i = 0; i < 256; i++ ) {
@@ -350,12 +348,10 @@ void evg::RunEvents()
     fTreeMod2->Fill();
     fTreeMod3->Fill();
     fTree->Fill();
-    fTreeAll->Fill();
     
     ClearVecs();
   }
   fTree->Write();
-  fTreeAll->Write();
   fTreeMod0->Write();
   fTreeMod1->Write();
   fTreeMod2->Write();

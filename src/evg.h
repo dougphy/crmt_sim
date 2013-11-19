@@ -41,7 +41,6 @@ protected:
   int                                fNEvents;
   TFile                             *fFile;
   TTree                             *fTree;
-  TTree                             *fTreeAll;
   int                                fEventID;
   double                             fInitialX;
   double                             fInitialY;
@@ -55,6 +54,7 @@ protected:
   double                             fYintYZ;
   double                             fAngleXZ;
   double                             fAngleYZ;
+  bool                               fCoincidence;
   int                                fTrueMod0[256];
   int                                fTrueMod1[256];
   int                                fTrueMod2[256];
