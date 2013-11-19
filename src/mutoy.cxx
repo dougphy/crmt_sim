@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 	int events = atoi(n_holder.c_str());
 	evg *event_set = new evg(fname.c_str(),events);
 	event_set->ReadParameters();
-	event_set->CheckParameters();
+	// event_set->CheckParameters();
 	event_set->RunEvents();
       }
     }
