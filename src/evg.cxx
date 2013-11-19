@@ -285,6 +285,29 @@ void evg::RunEvents()
 	fTrueMod3[(*FiberItr).first] = 0;
       }
     }
+
+    int top_counter = 0;
+    for ( int i = 0; i < 64; i++ )
+      if ( fTrueMod0[i] == 1 )
+	top_counter += 1;
+    int bot_counter = 0;
+    for ( int i = 192; i < 256; i++ )
+      if ( fTrueMod3[i] == 1 )
+	bot_counter += 1;
+
+    bool yz_through_bottom_square = false;
+    double horiz_check = (0.0 - Muon->YintYZ())/(Muon->SlopeYZ());
+    if ( horiz_check > 0 && horiz_check < 640 )
+      yz_through_bottom_square = true;
+    
+    if ( bot_counter == 0 || top_counter == 0 || !yz_through_bottom_square ) {
+      for ( int i = 0; i < 256; i++ ) {
+	fTrueMod0[i] = 0;
+	fTrueMod1[i] = 0;
+	fTrueMod2[i] = 0;
+	fTrueMod3[i] = 0;
+      }
+    }
     
     /*
       bool hit_bot = false;
@@ -344,19 +367,24 @@ void evg::RunEvents()
 
 bool evg::Intersection2(double FibI, double FibJ, geo::Line *function, 
 			bool view_xz, double gap, int type) {
-  
+  /*  
   double top_module_no_gap = 557.113;
   double raise = 0;
   if ( type == 0 || type == 1 )
     raise += gap;
-
+  double highest_point = top_module_no_gap + raise;
   double ScintLength = 640.0;
+  */
   double Slope, Yint, Slope_perp, Yint_perp;
-  if ( view_xz ) { 
+  double TopHorizInt;
+  double BotHorizInt;
+  
+  if ( view_xz ) {
     Slope      = function->SlopeXZ();
     Yint       = function->YintXZ();
     Slope_perp = function->SlopeYZ();
     Yint_perp  = function->YintYZ();
+    
   }
   else { 
     Slope      = function->SlopeYZ();
@@ -364,16 +392,12 @@ bool evg::Intersection2(double FibI, double FibJ, geo::Line *function,
     Slope_perp = function->SlopeXZ();
     Yint_perp  = function->YintXZ();
   }
-
-  double    perp_max_height_v = top_module_no_gap + raise;
   
-
-
   // ORIGINAL STUFF BELOW STUFF BELOW
   
   double           LeftEdge_h = FibI - fScintWidth/2.0;
   double          RightEdge_h = FibI + fScintWidth/2.0;
-  double   LineLeftLocation_v = Slope*LeftEdge_h  + Yint;
+  double   LineLeftLocation_v = Slope*LeftEdge_h + Yint;
   double  LineRightLocation_v = Slope*RightEdge_h + Yint;
   double            TopEdge_v = FibJ + fScintHeight/2.0;
   double         BottomEdge_v = FibJ - fScintHeight/2.0;
