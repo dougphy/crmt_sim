@@ -54,6 +54,8 @@ protected:
   double                             fYintYZ;
   double                             fAngleXZ;
   double                             fAngleYZ;
+  double                             fAngleXZ_RF;
+  double                             fAngleYZ_RF;
   bool                               fCoincidence;
   int                                fTrueMod0[256];
   int                                fTrueMod1[256];

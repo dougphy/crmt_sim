@@ -38,12 +38,14 @@ evg::evg(std::string file_name, int n_events)
   fTree->Branch("Theta",       &fTheta,      "Theta/D");
   fTree->Branch("AngleXZ",     &fAngleXZ,    "AngleXZ/D");
   fTree->Branch("AngleYZ",     &fAngleYZ,    "AngleYZ/D");
+  fTree->Branch("AngleXZ_RF",  &fAngleXZ_RF, "AngleXZ_RF/D");
+  fTree->Branch("AngleYZ_RF",  &fAngleYZ_RF, "AngleYZ_RF/D");
   fTree->Branch("SlopeXZ",     &fSlopeXZ,    "SlopeXZ/D");
   fTree->Branch("SlopeYZ",     &fSlopeYZ,    "SlopeYZ/D");
   fTree->Branch("YintXZ",      &fYintXZ,     "YintXZ/D");
   fTree->Branch("YintYZ",      &fYintYZ,     "YintYZ/D");
-  fTree->Branch("Traj",         fTraj,       "Traj[3]/D");
   fTree->Branch("Coincidence", &fCoincidence,"Conincidence/O");
+  fTree->Branch("Traj",         fTraj,       "Traj[3]/D");
   fTree->Branch("TrueMod0",     fTrueMod0,   "TrueMod0[256]/I");
   fTree->Branch("TrueMod1",     fTrueMod1,   "TrueMod1[256]/I");
   fTree->Branch("TrueMod2",     fTrueMod2,   "TrueMod2[256]/I");
@@ -164,7 +166,8 @@ void evg::RunEvents()
   std::map<int, std::pair<double,double> > Mod3Loc = Mod3->GetMap();
   std::map<int, std::pair<double,double> >::iterator FiberItr;
 
-  TF1 *cossq = new TF1("cossq","cos(x)*cos(x)",-PI/2.,PI/2.);
+  TF1 *cossq = new TF1("cossq","cos(x)*cos(x)",PI/2.,PI);
+  //TF1 *cossq = new TF1("cossq","cos(x)*cos(x)",0.0,PI);
 
   int e_counter = 0;
 
@@ -190,12 +193,15 @@ void evg::RunEvents()
       fTheta = fAngleZenithDefinedValue;
     else if ( fAngleZenithCosSq ) {
       gRandom->SetSeed(0);
-      Muon->SetAngleXZ(cossq->GetRandom());
-      double yz_max = asin(sqrt(1.0 - pow(sin(Muon->AngleXZ()),2)));
-      Muon->SetAngleYZ(yz_max+1);
-      while ( fabs(Muon->AngleYZ()) > yz_max ) {
+      fTheta = cossq->GetRandom();
+      /*
+	Muon->SetAngleXZ(cossq->GetRandom());
+	double yz_max = asin(sqrt(1.0 - pow(sin(Muon->AngleXZ()),2)));
+	Muon->SetAngleYZ(yz_max+1);
+	while ( fabs(Muon->AngleYZ()) > yz_max ) {
 	Muon->SetAngleYZ(cossq->GetRandom());
-      }
+	}
+      */
     }
     else if ( fAngleZenithGaussian ) {
       gRandom->SetSeed(0);
@@ -215,31 +221,38 @@ void evg::RunEvents()
     else {
       std::cout << "Muon polar angle definition malfunction" << std::endl;
     }
-    if ( !fAngleZenithCosSq ) {
-      Muon->SetLinePropertiesFromPhiTheta(fPhi,fTheta);
-      fAngleXZ = Muon->AngleXZ();
-      fAngleYZ = Muon->AngleYZ();
-      fTraj[0] = Muon->Tx();
-      fTraj[1] = Muon->Ty();
-      fTraj[2] = Muon->Tz();
-      fSlopeXZ = Muon->SlopeXZ();
-      fSlopeYZ = Muon->SlopeYZ();
-      fYintXZ  = Muon->YintXZ();
-      fYintYZ  = Muon->YintYZ();
-    }
-    else {
-      Muon->SetLinePropertiesFromAngles();   
-      fAngleXZ = Muon->AngleXZ();
-      fAngleYZ = Muon->AngleYZ();
-      fTraj[0] = Muon->Tx();
-      fTraj[1] = Muon->Ty();
-      fTraj[2] = Muon->Tz();
-      fSlopeXZ = Muon->SlopeXZ();
-      fSlopeYZ = Muon->SlopeYZ();
-      fYintXZ  = Muon->YintXZ();
-      fYintYZ  = Muon->YintYZ();
-    }
-
+    
+    Muon->SetLinePropertiesFromPhiTheta(fPhi,fTheta);
+    fAngleXZ = Muon->AngleXZ();
+    fAngleYZ = Muon->AngleYZ();
+    if ( fAngleXZ > 0 )
+      fAngleXZ_RF = PI - fAngleXZ;
+    if ( fAngleXZ < 0 )
+      fAngleXZ_RF = fabs(fAngleXZ) - PI;
+    if ( fAngleYZ > 0 )
+      fAngleYZ_RF = PI - fAngleYZ;
+    if ( fAngleYZ < 0 )
+      fAngleYZ_RF = fabs(fAngleYZ) - PI;
+    fTraj[0] = Muon->Tx();
+    fTraj[1] = Muon->Ty();
+    fTraj[2] = Muon->Tz();
+    fSlopeXZ = Muon->SlopeXZ();
+    fSlopeYZ = Muon->SlopeYZ();
+    fYintXZ  = Muon->YintXZ();
+    fYintYZ  = Muon->YintYZ();
+    
+    /* for if zenith cossq
+    Muon->SetLinePropertiesFromAngles();   
+    fAngleXZ = Muon->AngleXZ();
+    fAngleYZ = Muon->AngleYZ();
+    fTraj[0] = Muon->Tx();
+    fTraj[1] = Muon->Ty();
+    fTraj[2] = Muon->Tz();
+    fSlopeXZ = Muon->SlopeXZ();
+    fSlopeYZ = Muon->SlopeYZ();
+    fYintXZ  = Muon->YintXZ();
+    fYintYZ  = Muon->YintYZ();
+    */
     
     for ( FiberItr = Mod0Loc.begin(); FiberItr != Mod0Loc.end(); FiberItr++ ) {
       if ( Intersection2((*FiberItr).second.first,(*FiberItr).second.second,
