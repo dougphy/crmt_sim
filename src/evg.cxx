@@ -52,6 +52,12 @@ evg::evg(std::string file_name, int n_events)
   fTree->Branch("SimMod2",      fSimMod2,    "SimMod2[256]/I");
   fTree->Branch("SimMod3",      fSimMod3,    "SimMod3[256]/I");
 
+  fTreeAll = new TTree("SimulationTreeAll","SimulationTreeAll");
+  fTreeAll->Branch("Phi",      &fPhi,        "Phi/D");
+  fTreeAll->Branch("Theta",    &fTheta,      "Theta/D");
+  fTreeAll->Branch("AngleXZ",  &fAngleXZ,    "AngleXZ/D");
+  fTreeAll->Branch("AngleYZ",  &fAngleYZ,    "AngleYZ/D");
+
   fTreeMod0 = new TTree("Mod0Tree","Mod0Tree");
   fTreeMod1 = new TTree("Mod1Tree","Mod1Tree");
   fTreeMod2 = new TTree("Mod2Tree","Mod2Tree");
@@ -164,7 +170,11 @@ void evg::RunEvents()
   std::map<int, std::pair<double,double> >::iterator FiberItr;
 
   TF1 *cossq = new TF1("cossq","cos(x)*cos(x)",-PI/2.,PI/2.);
-  for ( int i = 0; i < fNEvents; i++ ) {
+
+  int e_counter = 0;
+
+  //  while ( e_counter < fNEvents ) {
+  for ( int ev = 0; ev < fNEvents; ev++ ) {
     geo::Line *Muon = new geo::Line();
     double InitialZ = 350 + fGap;
     fInitialZ = InitialZ;
@@ -234,10 +244,11 @@ void evg::RunEvents()
       fYintXZ  = Muon->YintXZ();
       fYintYZ  = Muon->YintYZ();
     }
+
     
     for ( FiberItr = Mod0Loc.begin(); FiberItr != Mod0Loc.end(); FiberItr++ ) {
-      if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
-			fSlopeYZ,fYintYZ) ) {
+      if ( Intersection2((*FiberItr).second.first,(*FiberItr).second.second,
+			 Muon,false,fGap,0) ) {
 	fTrueMod0[(*FiberItr).first] = 1;
       }
       else {
@@ -246,18 +257,18 @@ void evg::RunEvents()
     }
     
     for ( FiberItr = Mod1Loc.begin(); FiberItr != Mod1Loc.end(); FiberItr++ ) {
-      if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
-			fSlopeXZ,fYintXZ) ) {
+      if ( Intersection2((*FiberItr).second.first,(*FiberItr).second.second,
+			 Muon,true,fGap,1) ) {
 	fTrueMod1[(*FiberItr).first] = 1;
       }
       else {
 	fTrueMod1[(*FiberItr).first] = 0;
       }
     }
-
+    
     for ( FiberItr = Mod2Loc.begin(); FiberItr != Mod2Loc.end(); FiberItr++ ) {
-      if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
-			fSlopeYZ,fYintYZ) ) {
+      if ( Intersection2((*FiberItr).second.first,(*FiberItr).second.second,
+			 Muon,false,fGap,2) ) {
 	fTrueMod2[(*FiberItr).first] = 1;
       }
       else {
@@ -266,29 +277,62 @@ void evg::RunEvents()
     }
     
     for ( FiberItr = Mod3Loc.begin(); FiberItr != Mod3Loc.end(); FiberItr++ ) {
-      if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
-			fSlopeXZ,fYintXZ) ) {
+      if ( Intersection2((*FiberItr).second.first,(*FiberItr).second.second,
+			 Muon,true,fGap,3) ) {
 	fTrueMod3[(*FiberItr).first] = 1;
       }
       else {
 	fTrueMod3[(*FiberItr).first] = 0;
       }
     }
-
+    
+    /*
+      bool hit_bot = false;
+      bool hit_top = false;
+      int top_counter = 0;
+      int bot_counter = 0;
+      
+      for ( int i = 0; i < 64; i++ ) {
+      if ( fTrueMod0[i] > 0 )
+      top_counter++;
+      }
+      if ( top_counter > 0 )
+      hit_top = true;
+      
+      for ( int i = 192; i < 256; i++ ) {
+      if ( fTrueMod3[i] > 0 )
+      bot_counter++;
+      }
+      if ( bot_counter > 0 )
+      hit_bot = true;
+      
+      if ( hit_top || hit_bot ) {
+      Multiplex();
+      SimHitsToPixels();
+      PixelsToPins();
+      fTreeMod0->Fill();
+      fTreeMod1->Fill();
+      fTreeMod2->Fill();
+      fTreeMod3->Fill();
+      fTree->Fill();
+      fTreeAll->Fill();
+      e_counter++;
+      }
+    */
     Multiplex();
     SimHitsToPixels();
     PixelsToPins();
-
     fTreeMod0->Fill();
     fTreeMod1->Fill();
     fTreeMod2->Fill();
     fTreeMod3->Fill();
-    
     fTree->Fill();
+    fTreeAll->Fill();
     
     ClearVecs();
   }
   fTree->Write();
+  fTreeAll->Write();
   fTreeMod0->Write();
   fTreeMod1->Write();
   fTreeMod2->Write();
@@ -298,8 +342,35 @@ void evg::RunEvents()
 
 // __________________________________________________________________
 
-bool evg::Intersection(double FibI, double FibJ, double Slope, double Yint)
-{
+bool evg::Intersection2(double FibI, double FibJ, geo::Line *function, 
+			bool view_xz, double gap, int type) {
+  
+  double top_module_no_gap = 557.113;
+  double raise = 0;
+  if ( type == 0 || type == 1 )
+    raise += gap;
+
+  double ScintLength = 640.0;
+  double Slope, Yint, Slope_perp, Yint_perp;
+  if ( view_xz ) { 
+    Slope      = function->SlopeXZ();
+    Yint       = function->YintXZ();
+    Slope_perp = function->SlopeYZ();
+    Yint_perp  = function->YintYZ();
+  }
+  else { 
+    Slope      = function->SlopeYZ();
+    Yint       = function->YintYZ();
+    Slope_perp = function->SlopeXZ();
+    Yint_perp  = function->YintXZ();
+  }
+
+  double    perp_max_height_v = top_module_no_gap + raise;
+  
+
+
+  // ORIGINAL STUFF BELOW STUFF BELOW
+  
   double           LeftEdge_h = FibI - fScintWidth/2.0;
   double          RightEdge_h = FibI + fScintWidth/2.0;
   double   LineLeftLocation_v = Slope*LeftEdge_h  + Yint;
@@ -318,7 +389,32 @@ bool evg::Intersection(double FibI, double FibJ, double Slope, double Yint)
   if ( (LineXBot_h < RightEdge_h) && (LineXBot_h > LeftEdge_h) )
     return true;
   return false;
+  
 }
+
+/*
+  bool evg::Intersection(double FibI, double FibJ, double Slope, double Yint)
+  {
+  double           LeftEdge_h = FibI - fScintWidth/2.0;
+  double          RightEdge_h = FibI + fScintWidth/2.0;
+  double   LineLeftLocation_v = Slope*LeftEdge_h  + Yint;
+  double  LineRightLocation_v = Slope*RightEdge_h + Yint;
+  double            TopEdge_v = FibJ + fScintHeight/2.0;
+  double         BottomEdge_v = FibJ - fScintHeight/2.0;
+  double           LineXTop_h = (TopEdge_v - Yint)/Slope;
+  double           LineXBot_h = (BottomEdge_v - Yint)/Slope;
+  
+  if ( (LineLeftLocation_v < TopEdge_v) && (LineLeftLocation_v > BottomEdge_v) )
+  return true;
+  if ( (LineRightLocation_v < TopEdge_v) && (LineRightLocation_v > BottomEdge_v) )
+  return true;
+  if ( (LineXTop_h < RightEdge_h) && (LineXTop_h > LeftEdge_h) )
+  return true;
+  if ( (LineXBot_h < RightEdge_h) && (LineXBot_h > LeftEdge_h) )
+  return true;
+  return false;
+  }
+*/
 
 void evg::InitCoupleMap()
 {

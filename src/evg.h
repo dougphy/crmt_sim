@@ -11,6 +11,7 @@
 
 #include "TFile.h"
 #include "TTree.h"
+#include "Line.h"
 #include <vector>
 #include <string>
 #include <fstream>
@@ -40,6 +41,7 @@ protected:
   int                                fNEvents;
   TFile                             *fFile;
   TTree                             *fTree;
+  TTree                             *fTreeAll;
   int                                fEventID;
   double                             fInitialX;
   double                             fInitialY;
@@ -102,6 +104,7 @@ public:
   void CheckParameters();
   void RunEvents();
   bool Intersection(double FibI, double FibJ, double Slope, double Yint);
+  bool Intersection2(double FibI, double FibJ, geo::Line *function, bool view_xz, double gap, int type);
   void InitCoupleMap();
   void Multiplex();
   void InitFiberPixelPinPairs();
