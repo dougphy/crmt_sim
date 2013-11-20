@@ -172,9 +172,10 @@ void evg::RunEvents()
   int e_counter = 0;
 
   //  while ( e_counter < fNEvents ) {
+  gRandom->SetSeed(0);
   for ( int ev = 0; ev < fNEvents; ev++ ) {
     geo::Line *Muon = new geo::Line();
-    double InitialZ = 350 + fGap;
+    double InitialZ = 542 + fGap;
     fInitialZ = InitialZ;
     if ( fOriginUniformDist ) {
       gRandom->SetSeed(0);
@@ -192,7 +193,6 @@ void evg::RunEvents()
     if ( fAngleZenithDefined )
       fTheta = fAngleZenithDefinedValue;
     else if ( fAngleZenithCosSq ) {
-      gRandom->SetSeed(0);
       fTheta = cossq->GetRandom();
       /*
 	Muon->SetAngleXZ(cossq->GetRandom());
