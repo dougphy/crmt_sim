@@ -151,7 +151,7 @@ void evd::DrawTrue(int argc, char *argv[])
 
   int counter = 0;
   for ( int i = 0; i < 256; i++ ) {
-    if ( fTrueMod0[i] == 1 ) {
+    if ( fTrueMod0[i] ) {
       Graph0->SetPoint(counter,Mod0[i].first,Mod0[i].second);
       counter++;
     }
@@ -161,7 +161,7 @@ void evd::DrawTrue(int argc, char *argv[])
   }
   counter = 0;
   for ( int i = 0; i < 256; i++ ) {
-    if ( fTrueMod1[i] == 1 ) {
+    if ( fTrueMod1[i] ) {
       Graph1->SetPoint(counter,Mod1[i].first,Mod1[i].second);
       counter++;
     }
@@ -171,7 +171,7 @@ void evd::DrawTrue(int argc, char *argv[])
   }
   counter = 0;
   for ( int i = 0; i < 256; i++ ) {
-    if ( fTrueMod2[i] == 1 ) {
+    if ( fTrueMod2[i] ) {
       Graph2->SetPoint(counter,Mod2[i].first,Mod2[i].second);
       counter++;
     }
@@ -181,7 +181,7 @@ void evd::DrawTrue(int argc, char *argv[])
   }
   counter = 0;
   for ( int i = 0; i < 256; i++ ) {
-    if ( fTrueMod3[i] == 1 ) {
+    if ( fTrueMod3[i] ) {
       Graph3->SetPoint(counter,Mod3[i].first,Mod3[i].second);
       counter++;
     }
@@ -348,7 +348,7 @@ void evd::DrawSim(int argc, char *argv[])
 
   int counter = 0;
   for ( int i = 0; i < 256; i++ ) {
-    if ( fSimMod0[i] == 1 ) {
+    if ( fSimMod0[i] ) {
       Graph0->SetPoint(counter,Mod0[i].first,Mod0[i].second);
       counter++;
     }
@@ -358,7 +358,7 @@ void evd::DrawSim(int argc, char *argv[])
   }
   counter = 0;
   for ( int i = 0; i < 256; i++ ) {
-    if ( fSimMod1[i] == 1 ) {
+    if ( fSimMod1[i] ) {
       Graph1->SetPoint(counter,Mod1[i].first,Mod1[i].second);
       counter++;
     }
@@ -368,7 +368,7 @@ void evd::DrawSim(int argc, char *argv[])
   }
   counter = 0;
   for ( int i = 0; i < 256; i++ ) {
-    if ( fSimMod2[i] == 1 ) {
+    if ( fSimMod2[i] ) {
       Graph2->SetPoint(counter,Mod2[i].first,Mod2[i].second);
       counter++;
     }
@@ -378,7 +378,7 @@ void evd::DrawSim(int argc, char *argv[])
   }
   counter = 0;
   for ( int i = 0; i < 256; i++ ) {
-    if ( fSimMod3[i] == 1 ) {
+    if ( fSimMod3[i] ) {
       Graph3->SetPoint(counter,Mod3[i].first,Mod3[i].second);
       counter++;
     }

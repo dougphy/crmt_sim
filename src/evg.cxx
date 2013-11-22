@@ -43,14 +43,14 @@ evg::evg(std::string file_name, int n_events)
   fTree->Branch("YintYZ",      &fYintYZ,     "YintYZ/D");
   fTree->Branch("Coincidence", &fCoincidence,"Conincidence/O");
   fTree->Branch("Traj",         fTraj,       "Traj[3]/D");
-  fTree->Branch("TrueMod0",     fTrueMod0,   "TrueMod0[256]/I");
-  fTree->Branch("TrueMod1",     fTrueMod1,   "TrueMod1[256]/I");
-  fTree->Branch("TrueMod2",     fTrueMod2,   "TrueMod2[256]/I");
-  fTree->Branch("TrueMod3",     fTrueMod3,   "TrueMod3[256]/I");
-  fTree->Branch("SimMod0",      fSimMod0,    "SimMod0[256]/I");
-  fTree->Branch("SimMod1",      fSimMod1,    "SimMod1[256]/I");
-  fTree->Branch("SimMod2",      fSimMod2,    "SimMod2[256]/I");
-  fTree->Branch("SimMod3",      fSimMod3,    "SimMod3[256]/I");
+  fTree->Branch("TrueMod0",     fTrueMod0,   "TrueMod0[256]/O");
+  fTree->Branch("TrueMod1",     fTrueMod1,   "TrueMod1[256]/O");
+  fTree->Branch("TrueMod2",     fTrueMod2,   "TrueMod2[256]/O");
+  fTree->Branch("TrueMod3",     fTrueMod3,   "TrueMod3[256]/O");
+  fTree->Branch("SimMod0",      fSimMod0,    "SimMod0[256]/O");
+  fTree->Branch("SimMod1",      fSimMod1,    "SimMod1[256]/O");
+  fTree->Branch("SimMod2",      fSimMod2,    "SimMod2[256]/O");
+  fTree->Branch("SimMod3",      fSimMod3,    "SimMod3[256]/O");
 
   fTreeMod0 = new TTree("Mod0Tree","Mod0Tree");
   fTreeMod1 = new TTree("Mod1Tree","Mod1Tree");
@@ -235,40 +235,40 @@ void evg::RunEvents()
     for ( FiberItr = Mod0Loc.begin(); FiberItr != Mod0Loc.end(); FiberItr++ ) {
       if ( Intersection2((*FiberItr).second.first,(*FiberItr).second.second,
 			 Muon,false,fGap,0) ) {
-	fTrueMod0[(*FiberItr).first] = 1;
+	fTrueMod0[(*FiberItr).first] = true;
       }
       else {
-	fTrueMod0[(*FiberItr).first] = 0;
+	fTrueMod0[(*FiberItr).first] = false;
       }
     }
     
     for ( FiberItr = Mod1Loc.begin(); FiberItr != Mod1Loc.end(); FiberItr++ ) {
       if ( Intersection2((*FiberItr).second.first,(*FiberItr).second.second,
 			 Muon,true,fGap,1) ) {
-	fTrueMod1[(*FiberItr).first] = 1;
+	fTrueMod1[(*FiberItr).first] = true;
       }
       else {
-	fTrueMod1[(*FiberItr).first] = 0;
+	fTrueMod1[(*FiberItr).first] = false;
       }
     }
     
     for ( FiberItr = Mod2Loc.begin(); FiberItr != Mod2Loc.end(); FiberItr++ ) {
       if ( Intersection2((*FiberItr).second.first,(*FiberItr).second.second,
 			 Muon,false,fGap,2) ) {
-	fTrueMod2[(*FiberItr).first] = 1;
+	fTrueMod2[(*FiberItr).first] = true;
       }
       else {
-	fTrueMod2[(*FiberItr).first] = 0;
+	fTrueMod2[(*FiberItr).first] = false;
       }
     }
     
     for ( FiberItr = Mod3Loc.begin(); FiberItr != Mod3Loc.end(); FiberItr++ ) {
       if ( Intersection2((*FiberItr).second.first,(*FiberItr).second.second,
 			 Muon,true,fGap,3) ) {
-	fTrueMod3[(*FiberItr).first] = 1;
+	fTrueMod3[(*FiberItr).first] = true;
       }
       else {
-	fTrueMod3[(*FiberItr).first] = 0;
+	fTrueMod3[(*FiberItr).first] = false;
       }
     }
 
@@ -417,19 +417,19 @@ void evg::Multiplex()
     for ( auto hit : Hits0 )
       if ( std::find(iMap.second.begin(),iMap.second.end(),hit) != iMap.second.end() )
 	for ( int i = 0; i < iMap.second.size(); i++ )
-	  fSimMod0[iMap.second[i]] = 1;
+	  fSimMod0[iMap.second[i]] = true;
     for ( auto hit : Hits1 )
       if ( std::find(iMap.second.begin(),iMap.second.end(),hit) != iMap.second.end() )
 	for ( int i = 0; i < iMap.second.size(); i++ )
-	  fSimMod1[iMap.second[i]] = 1;
+	  fSimMod1[iMap.second[i]] = true;
     for ( auto hit : Hits2 )
       if ( std::find(iMap.second.begin(),iMap.second.end(),hit) != iMap.second.end() )
 	for ( int i = 0; i < iMap.second.size(); i++ )
-	  fSimMod2[iMap.second[i]] = 1;
+	  fSimMod2[iMap.second[i]] = true;
     for ( auto hit : Hits3 )
       if ( std::find(iMap.second.begin(),iMap.second.end(),hit) != iMap.second.end() )
 	for ( int i = 0; i < iMap.second.size(); i++ )
-	  fSimMod3[iMap.second[i]] = 1;
+	  fSimMod3[iMap.second[i]] = true;
   }
   
 }

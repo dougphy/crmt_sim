@@ -36,14 +36,14 @@ private:
   double            fYintXZ;
   double            fYintYZ;
   TApplication     *fApp;
-  int               fTrueMod0[256];
-  int               fTrueMod1[256];
-  int               fTrueMod2[256];
-  int               fTrueMod3[256];
-  int               fSimMod0[256];
-  int               fSimMod1[256];
-  int               fSimMod2[256];
-  int               fSimMod3[256];
+  bool               fTrueMod0[256];
+  bool               fTrueMod1[256];
+  bool               fTrueMod2[256];
+  bool               fTrueMod3[256];
+  bool               fSimMod0[256];
+  bool               fSimMod1[256];
+  bool               fSimMod2[256];
+  bool               fSimMod3[256];
 
   TGraph           *fAll0;
   TGraph           *fAll1;
