@@ -160,7 +160,6 @@ void evg::CheckParameters()
 
 void evg::RunEvents()
 {
-  std::cout << PI << std::endl;
   InitCoupleMap();
   InitFiberPixelPinPairs();
   gRandom->SetSeed(0);
