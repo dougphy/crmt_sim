@@ -12,6 +12,7 @@
 #include "TFile.h"
 #include "TTree.h"
 #include "Line.h"
+#include <map>
 #include <vector>
 #include <string>
 #include <fstream>
@@ -90,6 +91,7 @@ protected:
   std::vector<int>                   fHitPinsBot2;
   std::vector<int>                   fHitPinsTop3;
   std::vector<int>                   fHitPinsBot3;
+
   double                             fScintWidth  = 10.4;
   double                             fScintHeight = 30.8;
   double                             fScintLength = 650.0;

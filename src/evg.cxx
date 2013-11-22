@@ -7,8 +7,6 @@
 // __________________________________________________________________
 
 #include <iostream>
-#include <map>
-#include <vector>
 #include <algorithm>
 #include "evg.h"
 #include "Line.h"
@@ -295,7 +293,6 @@ void evg::RunEvents()
 	fTrueMod3[i] = 0;
       }
     }
-    
     Multiplex();
     SimHitsToPixels();
     PixelsToPins();
@@ -303,8 +300,7 @@ void evg::RunEvents()
     fTreeMod1->Fill();
     fTreeMod2->Fill();
     fTreeMod3->Fill();
-    fTree->Fill();
-    
+    fTree->Fill(); 
     ClearVecs();
   }
   fTree->Write();
@@ -467,13 +463,13 @@ void evg::SimHitsToPixels()
 {
   for ( int i = 0; i < 256; i++ ) {
     if ( i < 128) {
-      if ( fSimMod0[i] == 1 )
+      if ( fSimMod0[i] == true )
 	for ( auto entry : fRemapFiberTop )
 	  if ( entry.first == i )
 	    fHitPixelsTop0.push_back(entry.second);
     }    
     else {
-      if ( fSimMod0[i] == 1 )
+      if ( fSimMod0[i] == true )
 	for ( auto entry : fRemapFiberBot )
 	  if ( entry.first == i )
 	    fHitPixelsBot0.push_back(entry.second);
@@ -482,13 +478,13 @@ void evg::SimHitsToPixels()
  
   for ( int i = 0; i < 256; i++ ) {
     if ( i < 128) {
-      if ( fSimMod1[i] == 1 )
+      if ( fSimMod1[i] == true )
 	for ( auto entry : fRemapFiberTop )
 	  if ( entry.first == i )
 	    fHitPixelsTop1.push_back(entry.second);
     }    
     else {
-      if ( fSimMod1[i] == 1 )
+      if ( fSimMod1[i] == true )
 	for ( auto entry : fRemapFiberBot )
 	  if ( entry.first == i )
 	    fHitPixelsBot1.push_back(entry.second);
@@ -497,13 +493,13 @@ void evg::SimHitsToPixels()
 
   for ( int i = 0; i < 256; i++ ) {
     if ( i < 128) {
-      if ( fSimMod2[i] == 1 )
+      if ( fSimMod2[i] == true )
 	for ( auto entry : fRemapFiberTop )
 	  if ( entry.first == i )
 	    fHitPixelsTop2.push_back(entry.second);
     }    
     else {
-      if ( fSimMod2[i] == 1 )
+      if ( fSimMod2[i] == true )
 	for ( auto entry : fRemapFiberBot )
 	  if ( entry.first == i )
 	    fHitPixelsBot2.push_back(entry.second);
@@ -512,13 +508,13 @@ void evg::SimHitsToPixels()
 
   for ( int i = 0; i < 256; i++ ) {
     if ( i < 128) {
-      if ( fSimMod3[i] == 1 )
+      if ( fSimMod3[i] == true )
 	for ( auto entry : fRemapFiberTop )
 	  if ( entry.first == i )
 	    fHitPixelsTop3.push_back(entry.second);
     }    
     else {
-      if ( fSimMod3[i] == 1 )
+      if ( fSimMod3[i] == true )
 	for ( auto entry : fRemapFiberBot )
 	  if ( entry.first == i )
 	    fHitPixelsBot3.push_back(entry.second);
