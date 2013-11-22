@@ -433,11 +433,6 @@ void evg::Multiplex()
 
 void evg::InitFiberPixelPinPairs()
 {
-  std::ifstream ftp_top;
-  std::ifstream ftp_bot;
-  std::ifstream ptp_top;
-  std::ifstream ptp_bot;
-
   std::ifstream in_file;
   int left, right;
   in_file.open("config/remap_fibers_top.dat");
