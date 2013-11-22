@@ -9,15 +9,12 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include <cmath>
 #include <algorithm>
 #include "evg.h"
 #include "Line.h"
 #include "Module.h"
 #include "TRandom.h"
 #include "TF1.h"
-
-#define PI 3.1415926536
 
 evg::evg() {}
 
@@ -84,7 +81,16 @@ evg::evg(std::string file_name, int n_events)
 
 // __________________________________________________________________
 
-evg::~evg() {}
+evg::~evg()
+{
+  delete fTreeMod0;
+  delete fTreeMod1;
+  delete fTreeMod2;
+  delete fTreeMod3;
+  delete fTree;
+  delete fFile;
+}
+
 
 // __________________________________________________________________
 
@@ -154,8 +160,10 @@ void evg::CheckParameters()
 
 void evg::RunEvents()
 {
+  std::cout << PI << std::endl;
   InitCoupleMap();
   InitFiberPixelPinPairs();
+  gRandom->SetSeed(0);
   geo::Module *Mod0 = new geo::Module(0,fGap);
   geo::Module *Mod1 = new geo::Module(1,fGap);
   geo::Module *Mod2 = new geo::Module(2,fGap);
@@ -167,18 +175,11 @@ void evg::RunEvents()
   std::map<int, std::pair<double,double> >::iterator FiberItr;
 
   TF1 *cossq = new TF1("cossq","cos(x)*cos(x)",PI/2.,PI);
-  //TF1 *cossq = new TF1("cossq","cos(x)*cos(x)",0.0,PI);
-
-  int e_counter = 0;
-
-  //  while ( e_counter < fNEvents ) {
-  gRandom->SetSeed(0);
   for ( int ev = 0; ev < fNEvents; ev++ ) {
     geo::Line *Muon = new geo::Line();
     double InitialZ = 542 + fGap;
     fInitialZ = InitialZ;
     if ( fOriginUniformDist ) {
-      gRandom->SetSeed(0);
       fInitialX = gRandom->Uniform(fOriginUniformDistMin,fOriginUniformDistMax);
       fInitialY = gRandom->Uniform(fOriginUniformDistMin,fOriginUniformDistMax);
     }
@@ -194,17 +195,8 @@ void evg::RunEvents()
       fTheta = fAngleZenithDefinedValue;
     else if ( fAngleZenithCosSq ) {
       fTheta = cossq->GetRandom();
-      /*
-	Muon->SetAngleXZ(cossq->GetRandom());
-	double yz_max = asin(sqrt(1.0 - pow(sin(Muon->AngleXZ()),2)));
-	Muon->SetAngleYZ(yz_max+1);
-	while ( fabs(Muon->AngleYZ()) > yz_max ) {
-	Muon->SetAngleYZ(cossq->GetRandom());
-	}
-      */
     }
     else if ( fAngleZenithGaussian ) {
-      gRandom->SetSeed(0);
       fTheta = fabs(gRandom->Gaus(fAngleZenithGaussianCenter,
 				  fAngleZenithGaussianSigma));
     }
@@ -215,7 +207,6 @@ void evg::RunEvents()
       fPhi = fAnglePolarDefinedValue;
     }
     else if ( fAnglePolarUniform ) {
-      gRandom->SetSeed(0);
       fPhi = gRandom->Uniform(fAnglePolarUniformMin,fAnglePolarUniformMax);
     }
     else {
@@ -240,19 +231,6 @@ void evg::RunEvents()
     fSlopeYZ = Muon->SlopeYZ();
     fYintXZ  = Muon->YintXZ();
     fYintYZ  = Muon->YintYZ();
-    
-    /* for if zenith cossq
-    Muon->SetLinePropertiesFromAngles();   
-    fAngleXZ = Muon->AngleXZ();
-    fAngleYZ = Muon->AngleYZ();
-    fTraj[0] = Muon->Tx();
-    fTraj[1] = Muon->Ty();
-    fTraj[2] = Muon->Tz();
-    fSlopeXZ = Muon->SlopeXZ();
-    fSlopeYZ = Muon->SlopeYZ();
-    fYintXZ  = Muon->YintXZ();
-    fYintYZ  = Muon->YintYZ();
-    */
     
     for ( FiberItr = Mod0Loc.begin(); FiberItr != Mod0Loc.end(); FiberItr++ ) {
       if ( Intersection2((*FiberItr).second.first,(*FiberItr).second.second,
@@ -302,16 +280,15 @@ void evg::RunEvents()
     for ( int i = 192; i < 256; i++ )
       if ( fTrueMod3[i] == 1 )
 	bot_counter += 1;
-
+    
     bool yz_through_bottom_square = false;
-    fCoincidence = false;
     double horiz_check = (0.0 - Muon->YintYZ())/(Muon->SlopeYZ());
     if ( horiz_check > 0 && horiz_check < 640 )
       yz_through_bottom_square = true;
-    if ( yz_through_bottom_square )
-      fCoincidence = true;
-    
+
+    fCoincidence = true;
     if ( bot_counter == 0 || top_counter == 0 || !yz_through_bottom_square ) {
+      fCoincidence = false;
       for ( int i = 0; i < 256; i++ ) {
 	fTrueMod0[i] = 0;
 	fTrueMod1[i] = 0;
@@ -320,39 +297,6 @@ void evg::RunEvents()
       }
     }
     
-    /*
-      bool hit_bot = false;
-      bool hit_top = false;
-      int top_counter = 0;
-      int bot_counter = 0;
-      
-      for ( int i = 0; i < 64; i++ ) {
-      if ( fTrueMod0[i] > 0 )
-      top_counter++;
-      }
-      if ( top_counter > 0 )
-      hit_top = true;
-      
-      for ( int i = 192; i < 256; i++ ) {
-      if ( fTrueMod3[i] > 0 )
-      bot_counter++;
-      }
-      if ( bot_counter > 0 )
-      hit_bot = true;
-      
-      if ( hit_top || hit_bot ) {
-      Multiplex();
-      SimHitsToPixels();
-      PixelsToPins();
-      fTreeMod0->Fill();
-      fTreeMod1->Fill();
-      fTreeMod2->Fill();
-      fTreeMod3->Fill();
-      fTree->Fill();
-      fTreeAll->Fill();
-      e_counter++;
-      }
-    */
     Multiplex();
     SimHitsToPixels();
     PixelsToPins();
@@ -376,18 +320,8 @@ void evg::RunEvents()
 
 bool evg::Intersection2(double FibI, double FibJ, geo::Line *function, 
 			bool view_xz, double gap, int type) {
-  /*  
-  double top_module_no_gap = 557.113;
-  double raise = 0;
-  if ( type == 0 || type == 1 )
-    raise += gap;
-  double highest_point = top_module_no_gap + raise;
-  double ScintLength = 640.0;
-  */
+
   double Slope, Yint, Slope_perp, Yint_perp;
-  double TopHorizInt;
-  double BotHorizInt;
-  
   if ( view_xz ) {
     Slope      = function->SlopeXZ();
     Yint       = function->YintXZ();
@@ -401,8 +335,6 @@ bool evg::Intersection2(double FibI, double FibJ, geo::Line *function,
     Slope_perp = function->SlopeXZ();
     Yint_perp  = function->YintXZ();
   }
-  
-  // ORIGINAL STUFF BELOW STUFF BELOW
   
   double           LeftEdge_h = FibI - fScintWidth/2.0;
   double          RightEdge_h = FibI + fScintWidth/2.0;
@@ -425,29 +357,7 @@ bool evg::Intersection2(double FibI, double FibJ, geo::Line *function,
   
 }
 
-/*
-  bool evg::Intersection(double FibI, double FibJ, double Slope, double Yint)
-  {
-  double           LeftEdge_h = FibI - fScintWidth/2.0;
-  double          RightEdge_h = FibI + fScintWidth/2.0;
-  double   LineLeftLocation_v = Slope*LeftEdge_h  + Yint;
-  double  LineRightLocation_v = Slope*RightEdge_h + Yint;
-  double            TopEdge_v = FibJ + fScintHeight/2.0;
-  double         BottomEdge_v = FibJ - fScintHeight/2.0;
-  double           LineXTop_h = (TopEdge_v - Yint)/Slope;
-  double           LineXBot_h = (BottomEdge_v - Yint)/Slope;
-  
-  if ( (LineLeftLocation_v < TopEdge_v) && (LineLeftLocation_v > BottomEdge_v) )
-  return true;
-  if ( (LineRightLocation_v < TopEdge_v) && (LineRightLocation_v > BottomEdge_v) )
-  return true;
-  if ( (LineXTop_h < RightEdge_h) && (LineXTop_h > LeftEdge_h) )
-  return true;
-  if ( (LineXBot_h < RightEdge_h) && (LineXBot_h > LeftEdge_h) )
-  return true;
-  return false;
-  }
-*/
+// __________________________________________________________________
 
 void evg::InitCoupleMap()
 {

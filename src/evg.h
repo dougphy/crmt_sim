@@ -15,6 +15,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <cmath>
 
 class evg {
   
@@ -95,6 +96,7 @@ protected:
   double                             fStripShift  = 3.333;
   double                             fScintGap    = 4.8;
   double                             fModGap      = 6.4;
+  const double                       PI           = 4*atan(1);
   std::map<int, std::vector<int> >   fFiberCouplingMap;
 
 public:

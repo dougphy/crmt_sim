@@ -1,4 +1,4 @@
-EXEC := crmt
+EXEC := ../bin/crmt
 SRC  := $(wildcard *.cxx)
 OBJ  := $(patsubst %.cxx,%.o,$(SRC))
 
@@ -9,7 +9,6 @@ LDLIBS   := $(shell root-config --libs)
 
 $(EXEC): $(OBJ)
 	@echo Linking into $@ ... Done ;$(CXX) $(LDFLAGS) $(LDLIBS) -o $@ $^
-	@cd ..;rm -rf $(EXEC);ln -s src/$(EXEC) $(EXEC)
 
 %.o: %.cxx
 	@echo Compiling source file $< into $@ ;$(CXX) $(CPPFLAGS) -c $<;
@@ -21,5 +20,5 @@ $(EXEC): $(OBJ)
 clean:
 	@echo Cleaning...
 	-@rm -f ../src/*.o
-	-@rm -f ../src/$(EXEC)
-	-@rm -f ../$(EXEC)
+	-@rm -f ../src/crmt
+	-@rm -f $(EXEC)
