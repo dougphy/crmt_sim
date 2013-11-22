@@ -534,42 +534,42 @@ void evg::PixelsToPins()
 {
   for ( auto entry : fHitPixelsTop0 )
     for ( auto link : fPixelToPinTop )
-      if ( link.second ==entry )
+      if ( link.second == entry )
 	fHitPinsTop0.push_back(link.first);
 
   for ( auto entry : fHitPixelsBot0 )
     for ( auto link : fPixelToPinBot )
-      if ( link.second ==entry )
+      if ( link.second == entry )
 	fHitPinsBot0.push_back(link.first);
 
   for ( auto entry : fHitPixelsTop1 )
     for ( auto link : fPixelToPinTop )
-      if ( link.second ==entry )
+      if ( link.second == entry )
 	fHitPinsTop1.push_back(link.first);
 
   for ( auto entry : fHitPixelsBot1 )
     for ( auto link : fPixelToPinBot )
-      if ( link.second ==entry )
+      if ( link.second == entry )
 	fHitPinsBot1.push_back(link.first);
 
   for ( auto entry : fHitPixelsTop2 )
     for ( auto link : fPixelToPinTop )
-      if ( link.second ==entry )
+      if ( link.second == entry )
 	fHitPinsTop2.push_back(link.first);
 
   for ( auto entry : fHitPixelsBot2 )
     for ( auto link : fPixelToPinBot )
-      if ( link.second ==entry )
+      if ( link.second == entry )
 	fHitPinsBot2.push_back(link.first);
 
   for ( auto entry : fHitPixelsTop3 )
     for ( auto link : fPixelToPinTop )
-      if ( link.second ==entry )
+      if ( link.second == entry )
 	fHitPinsTop3.push_back(link.first);
 
   for ( auto entry : fHitPixelsBot3 )
     for ( auto link : fPixelToPinBot )
-      if ( link.second ==entry )
+      if ( link.second == entry )
 	fHitPinsBot3.push_back(link.first);
 }
 
