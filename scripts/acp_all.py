@@ -91,7 +91,7 @@ leg.SetTextSize(14)
 leg.SetTextFont(63)
 counter = 0
 for gap_name in lof:
-    leg.AddEntry(histlist_acp[counter],'%d cm' % int(gap_name[3:7]),'f')
+    leg.AddEntry(histlist_acp[counter],'%d mm' % int(gap_name[3:7]),'f')
     counter = counter + 1
 
 leg.Draw('same')

@@ -59,14 +59,14 @@ protected:
   double                             fAngleXZ_RF;
   double                             fAngleYZ_RF;
   bool                               fCoincidence;
-  bool                                fTrueMod0[256];
-  bool                                fTrueMod1[256];
-  bool                                fTrueMod2[256];
-  bool                                fTrueMod3[256];
-  bool                                fSimMod0[256];
-  bool                                fSimMod1[256];
-  bool                                fSimMod2[256];
-  bool                                fSimMod3[256];
+  bool                               fTrueMod0[256];
+  bool                               fTrueMod1[256];
+  bool                               fTrueMod2[256];
+  bool                               fTrueMod3[256];
+  bool                               fSimMod0[256];
+  bool                               fSimMod1[256];
+  bool                               fSimMod2[256];
+  bool                               fSimMod3[256];
   std::vector< std::pair<int,int> >  fRemapFiberTop;
   std::vector< std::pair<int,int> >  fRemapFiberBot;
   std::vector< std::pair<int,int> >  fPixelToPinTop;
@@ -91,15 +91,15 @@ protected:
   std::vector<int>                   fHitPinsBot2;
   std::vector<int>                   fHitPinsTop3;
   std::vector<int>                   fHitPinsBot3;
-
+  std::map<int, std::vector<int> >   fFiberCouplingMap;
+  
   double                             fScintWidth  = 10.4;
   double                             fScintHeight = 30.8;
   double                             fScintLength = 650.0;
   double                             fStripShift  = 3.333;
   double                             fScintGap    = 4.8;
   double                             fModGap      = 6.4;
-  const double                       PI           = 4*atan(1);
-  std::map<int, std::vector<int> >   fFiberCouplingMap;
+  const double                       PI           = 4*atan(1.);
 
 public:
 

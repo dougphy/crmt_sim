@@ -247,8 +247,14 @@ void evd::DrawTrue(int argc, char *argv[])
   sprintf(tGap,     "Gap = %3.3f cm",           fGap);
   sprintf(tSlopeXZ, "Slope XZ = %3.3f",         fSlopeXZ);
   sprintf(tSlopeYZ, "Slope YZ = %3.3f",         fSlopeYZ);
-  sprintf(tAngleXZ, "Angle XZ = %3.3f degrees", fAngleXZ*180/3.14159);
-  sprintf(tAngleYZ, "Angle YZ = %3.3f degrees", fAngleYZ*180/3.14159);
+  if ( fAngleXZ > 0 ) {
+    sprintf(tAngleXZ, "Angle XZ = %3.3f degrees", fAngleXZ*180/3.14159 - 180.);
+    sprintf(tAngleYZ, "Angle YZ = %3.3f degrees", fAngleYZ*180/3.14159 - 180.);
+  }
+  else {
+    sprintf(tAngleXZ, "Angle XZ = %3.3f degrees", fAngleXZ*180/3.14159 + 180.);
+    sprintf(tAngleYZ, "Angle YZ = %3.3f degrees", fAngleYZ*180/3.14159 + 180.);
+  }
   sprintf(tPhi,     "Phi = %3.3f degrees",      fPhi*180/3.14159);
   sprintf(tTheta,   "Theta = %3.3f degrees",    fTheta*180/3.14159);
   
@@ -444,8 +450,14 @@ void evd::DrawSim(int argc, char *argv[])
   sprintf(tGap,     "Gap = %3.3f cm",           fGap);
   sprintf(tSlopeXZ, "Slope XZ = %3.3f",         fSlopeXZ);
   sprintf(tSlopeYZ, "Slope YZ = %3.3f",         fSlopeYZ);
-  sprintf(tAngleXZ, "Angle XZ = %3.3f degrees", fAngleXZ*180/3.14159);
-  sprintf(tAngleYZ, "Angle YZ = %3.3f degrees", fAngleYZ*180/3.14159);
+  if ( fAngleXZ > 0 ) {
+    sprintf(tAngleXZ, "Angle XZ = %3.3f degrees", fAngleXZ*180/3.14159 - 180.);
+    sprintf(tAngleYZ, "Angle YZ = %3.3f degrees", fAngleYZ*180/3.14159 - 180.);
+  }
+  else {
+    sprintf(tAngleXZ, "Angle XZ = %3.3f degrees", fAngleXZ*180/3.14159 + 180.);
+    sprintf(tAngleYZ, "Angle YZ = %3.3f degrees", fAngleYZ*180/3.14159 + 180.);
+  }
   sprintf(tPhi,     "Phi = %3.3f degrees",      fPhi*180/3.14159);
   sprintf(tTheta,   "Theta = %3.3f degrees",    fTheta*180/3.14159);
 
