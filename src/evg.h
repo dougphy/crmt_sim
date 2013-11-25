@@ -12,6 +12,7 @@
 #include "TFile.h"
 #include "TTree.h"
 #include "Line.h"
+#include "TestVolume.h"
 #include <map>
 #include <vector>
 #include <string>
@@ -43,6 +44,8 @@ protected:
   int                                fNEvents;
   TFile                             *fFile;
   TTree                             *fTree;
+  geo::TestVolume                   *fTestVolume;
+  bool                               fTestVolumeOnOff;
   int                                fEventID;
   double                             fInitialX;
   double                             fInitialY;

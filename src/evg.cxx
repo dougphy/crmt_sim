@@ -128,6 +128,28 @@ void evg::ReadParameters()
   fAnglePolarUniformMax      = param_vec[16]*PI/180.;
   fGap                       = param_vec[17];
   ConfigFile.close();
+
+  std::ifstream TestVolumeConfigFile;
+  TestVolumeConfigFile.open("TestVolume.cfg");
+  std::string type, temp;
+  int on_off, defo;
+  double radius, length, width, height, x0, y0, z0;
+  while ( !TestVolumeConfigFile.eof() ) {
+    TestVolumeConfigFile >> temp >> type;
+    TestVolumeConfigFile >> temp >> on_off;
+    TestVolumeConfigFile >> temp >> radius;
+    TestVolumeConfigFile >> temp >> length;
+    TestVolumeConfigFile >> temp >> width;
+    TestVolumeConfigFile >> temp >> height;
+    TestVolumeConfigFile >> temp >> defo;
+    TestVolumeConfigFile >> temp >> x0;
+    TestVolumeConfigFile >> temp >> y0;
+    TestVolumeConfigFile >> temp >> z0;
+  }
+  if ( on_off == 1 )
+    fTestVolumeOnOff = true;
+  if ( fTestVolumeOnOff ) 
+    std::cout << "im on" << std::endl;
 }
 
 // __________________________________________________________________

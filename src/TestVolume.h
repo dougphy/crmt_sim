@@ -1,3 +1,6 @@
+#ifndef TESTVOLUME_H
+#define TESTVOLUME_H
+
 #include <iostream>
 
 namespace geo {
@@ -32,3 +35,5 @@ namespace geo {
   };
 
 }
+
+#endif
