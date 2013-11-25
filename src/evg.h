@@ -104,6 +104,9 @@ protected:
   double                             fModGap      = 6.4;
   const double                       PI           = 4*atan(1.);
 
+  TTree                              *fTestVolumeTree;
+  bool                                fTVCoincidence;
+
 public:
 
   evg();
@@ -113,7 +116,8 @@ public:
   void CheckParameters();
   void RunEvents();
   bool Intersection(double FibI, double FibJ, double Slope, double Yint);
-  bool Intersection2(double FibI, double FibJ, geo::Line *function, bool view_xz, double gap, int type);
+  bool Intersection2(double FibI, double FibJ, geo::Line *function,
+		     bool view_xz, double gap, int type);
   void InitCoupleMap();
   void Multiplex();
   void InitFiberPixelPinPairs();

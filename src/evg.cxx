@@ -24,31 +24,32 @@ evg::evg(std::string file_name, int n_events)
   fNEvents  = n_events;
   fFile     = new TFile(name.c_str(),"RECREATE");
   fTree     = new TTree("SimulationTree","SimulationTree");
-  fTree->Branch("EventID",     &fEventID,    "EventID/I");
-  fTree->Branch("Gap",         &fGap,        "Gap/D");
-  fTree->Branch("InitialX",    &fInitialX,   "InitialX/D");
-  fTree->Branch("InitialY",    &fInitialY,   "InitialY/D");
-  fTree->Branch("InitialZ",    &fInitialZ,   "InitialZ/D");
-  fTree->Branch("Phi",         &fPhi,        "Phi/D");
-  fTree->Branch("Theta",       &fTheta,      "Theta/D");
-  fTree->Branch("AngleXZ",     &fAngleXZ,    "AngleXZ/D");
-  fTree->Branch("AngleYZ",     &fAngleYZ,    "AngleYZ/D");
-  fTree->Branch("AngleXZ_RF",  &fAngleXZ_RF, "AngleXZ_RF/D");
-  fTree->Branch("AngleYZ_RF",  &fAngleYZ_RF, "AngleYZ_RF/D");
-  fTree->Branch("SlopeXZ",     &fSlopeXZ,    "SlopeXZ/D");
-  fTree->Branch("SlopeYZ",     &fSlopeYZ,    "SlopeYZ/D");
-  fTree->Branch("YintXZ",      &fYintXZ,     "YintXZ/D");
-  fTree->Branch("YintYZ",      &fYintYZ,     "YintYZ/D");
-  fTree->Branch("Coincidence", &fCoincidence,"Conincidence/O");
-  fTree->Branch("Traj",         fTraj,       "Traj[3]/D");
-  fTree->Branch("TrueMod0",     fTrueMod0,   "TrueMod0[256]/O");
-  fTree->Branch("TrueMod1",     fTrueMod1,   "TrueMod1[256]/O");
-  fTree->Branch("TrueMod2",     fTrueMod2,   "TrueMod2[256]/O");
-  fTree->Branch("TrueMod3",     fTrueMod3,   "TrueMod3[256]/O");
-  fTree->Branch("SimMod0",      fSimMod0,    "SimMod0[256]/O");
-  fTree->Branch("SimMod1",      fSimMod1,    "SimMod1[256]/O");
-  fTree->Branch("SimMod2",      fSimMod2,    "SimMod2[256]/O");
-  fTree->Branch("SimMod3",      fSimMod3,    "SimMod3[256]/O");
+  fTree->Branch("EventID",         &fEventID,         "EventID/I");
+  fTree->Branch("Gap",             &fGap,             "Gap/D");
+  fTree->Branch("InitialX",        &fInitialX,        "InitialX/D");
+  fTree->Branch("InitialY",        &fInitialY,        "InitialY/D");
+  fTree->Branch("InitialZ",        &fInitialZ,        "InitialZ/D");
+  fTree->Branch("Phi",             &fPhi,             "Phi/D");
+  fTree->Branch("Theta",           &fTheta,           "Theta/D");
+  fTree->Branch("AngleXZ",         &fAngleXZ,         "AngleXZ/D");
+  fTree->Branch("AngleYZ",         &fAngleYZ,         "AngleYZ/D");
+  fTree->Branch("AngleXZ_RF",      &fAngleXZ_RF,      "AngleXZ_RF/D");
+  fTree->Branch("AngleYZ_RF",      &fAngleYZ_RF,      "AngleYZ_RF/D");
+  fTree->Branch("SlopeXZ",         &fSlopeXZ,         "SlopeXZ/D");
+  fTree->Branch("SlopeYZ",         &fSlopeYZ,         "SlopeYZ/D");
+  fTree->Branch("YintXZ",          &fYintXZ,          "YintXZ/D");
+  fTree->Branch("YintYZ",          &fYintYZ,          "YintYZ/D");
+  fTree->Branch("Coincidence",     &fCoincidence,     "Conincidence/O");
+  fTree->Branch("TestVolumeOnOff", &fTestVolumeOnOff, "TestVolumeOnOff/O");
+  fTree->Branch("Traj",             fTraj,            "Traj[3]/D");
+  fTree->Branch("TrueMod0",         fTrueMod0,        "TrueMod0[256]/O");
+  fTree->Branch("TrueMod1",         fTrueMod1,        "TrueMod1[256]/O");
+  fTree->Branch("TrueMod2",         fTrueMod2,        "TrueMod2[256]/O");
+  fTree->Branch("TrueMod3",         fTrueMod3,        "TrueMod3[256]/O");
+  fTree->Branch("SimMod0",          fSimMod0,         "SimMod0[256]/O");
+  fTree->Branch("SimMod1",          fSimMod1,         "SimMod1[256]/O");
+  fTree->Branch("SimMod2",          fSimMod2,         "SimMod2[256]/O");
+  fTree->Branch("SimMod3",          fSimMod3,         "SimMod3[256]/O");
 
   fTreeMod0 = new TTree("Mod0Tree","Mod0Tree");
   fTreeMod1 = new TTree("Mod1Tree","Mod1Tree");
@@ -74,6 +75,10 @@ evg::evg(std::string file_name, int n_events)
   fTreeMod3->Branch("HitPinsTop3",  &fHitPinsTop3);
   fTreeMod3->Branch("HitPixelsBot3",&fHitPixelsBot3);
   fTreeMod3->Branch("HitPinsBot3",  &fHitPinsBot3);
+
+  fTestVolumeTree = new TTree("TestVolumeTree","TestVolumeTree");
+  fTestVolumeTree->Branch("TVCoincidence",&fTVCoincidence,"TVCoincidence/O");
+  fTestVolumeTree->Branch("Coincidence",  &fCoincidence,  "Coincidence/O");
 
 }
 
@@ -146,10 +151,25 @@ void evg::ReadParameters()
     TestVolumeConfigFile >> temp >> y0;
     TestVolumeConfigFile >> temp >> z0;
   }
+  //fTestVolumeOnOff = false;
   if ( on_off == 1 )
     fTestVolumeOnOff = true;
-  if ( fTestVolumeOnOff ) 
-    std::cout << "im on" << std::endl;
+  if ( fTestVolumeOnOff ) {
+    if ( type == "box" )
+      fTestVolume = new geo::TestVolume(type,length,width,height);
+    else if ( type == "sphere" )
+      fTestVolume = new geo::TestVolume(type,radius);
+    else { 
+      std::cout << "WARNING: Bad test volume shape definition." << std::endl;
+    }
+    double default_x0 = 330.;
+    double default_y0 = 330.;
+    double default_z0 = 282.+fGap/2.;
+    if ( defo == 1 )
+      fTestVolume->SetOrigin(default_x0 + x0,default_y0 + y0,default_z0 + z0);
+    else 
+      fTestVolume->SetOrigin(default_x0, default_y0, default_z0);
+  }
 }
 
 // __________________________________________________________________
@@ -207,7 +227,7 @@ void evg::RunEvents()
       fInitialY = fOriginDefinedY;
     }
     else {
-      std::cout << "Muon origin definition malfunction." << std::endl;
+      std::cout << "WARNING: Muon origin definition malfunction." << std::endl;
     }
     Muon->SetInitialPos(fInitialX,fInitialY,fInitialZ);
     if ( fAngleZenithDefined )
@@ -220,7 +240,7 @@ void evg::RunEvents()
 				  fAngleZenithGaussianSigma));
     }
     else {
-      std::cout << "Muon zenith angle definition malfunction." << std::endl;
+      std::cout << "WARNING: Muon zenith angle definition malfunction." << std::endl;
     }
     if ( fAnglePolarDefined ) {
       fPhi = fAnglePolarDefinedValue;
@@ -229,7 +249,7 @@ void evg::RunEvents()
       fPhi = gRandom->Uniform(fAnglePolarUniformMin,fAnglePolarUniformMax);
     }
     else {
-      std::cout << "Muon polar angle definition malfunction" << std::endl;
+      std::cout << "WARNING: Muon polar angle definition malfunction" << std::endl;
     }
     
     Muon->SetLinePropertiesFromPhiTheta(fPhi,fTheta);

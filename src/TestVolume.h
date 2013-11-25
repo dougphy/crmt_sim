@@ -31,6 +31,9 @@ namespace geo {
     double GetRadius() { return fRadius; }
     
     void SetOrigin(double x, double y, double z);
+    double GetXO() { return fXO; }
+    double GetYO() { return fYO; }
+    double GetZO() { return fZO; }
 
   };
 
