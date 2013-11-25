@@ -79,13 +79,14 @@ evg::evg(std::string file_name, int n_events)
   fTestVolumeTree = new TTree("TestVolumeTree","TestVolumeTree");
   fTestVolumeTree->Branch("TVCoincidence",&fTVCoincidence,"TVCoincidence/O");
   fTestVolumeTree->Branch("Coincidence",  &fCoincidence,  "Coincidence/O");
-
+  fTestVolumeTree->Branch("TVType",       &fTVType);
 }
 
 // __________________________________________________________________
 
 evg::~evg()
 {
+  delete fTestVolumeTree;
   delete fTreeMod0;
   delete fTreeMod1;
   delete fTreeMod2;
@@ -335,6 +336,10 @@ void evg::RunEvents()
 	fTrueMod3[i] = 0;
       }
     }
+
+    if ( fTestVolumeOnOff ) 
+      fTestVolumeTree->Fill();
+      
     Multiplex();
     SimHitsToPixels();
     PixelsToPins();
@@ -345,6 +350,9 @@ void evg::RunEvents()
     fTree->Fill(); 
     ClearVecs();
   }
+  if ( fTestVolumeOnOff )
+    fTestVolumeTree->Write();
+
   fTree->Write();
   fTreeMod0->Write();
   fTreeMod1->Write();
@@ -560,6 +568,7 @@ void evg::SimHitsToPixels()
 
  
 }
+
 // __________________________________________________________________
 
 void evg::PixelsToPins()
@@ -605,6 +614,8 @@ void evg::PixelsToPins()
 	fHitPinsBot3.push_back(link.first);
 }
 
+// __________________________________________________________________
+
 void evg::ClearVecs()
 {
   fHitPixelsTop0.clear();
@@ -624,4 +635,28 @@ void evg::ClearVecs()
   fHitPinsBot2.clear();
   fHitPinsTop3.clear();
   fHitPinsBot3.clear();
+}
+
+// __________________________________________________________________
+
+bool evg::SphereIntersect(geo::Line *line, geo::TestVolume *vol)
+{
+  double R     = vol->GetRadius();
+  
+  double y1_XZ = vol->GetZO();
+  double x1_XZ = vol->GetXO();
+  double m_XZ  = line->SlopeXZ();
+  double b_XZ  = line->YintXZ();
+  
+  double y1_YZ = vol->GetZO();
+  double x1_YZ = vol->GetYO();
+  double m_YZ  = line->SlopeYZ();
+  double b_YZ  = line->YintYZ();
+  
+  double D_XZ = fabs(y1_XZ - m_XZ*x1_XZ - b_XZ) / sqrt(m_XZ*m_XZ + 1);
+  double D_YZ = fabs(y1_YZ - m_YZ*x1_YZ - b_YZ) / sqrt(m_YZ*m_YZ + 1);
+  
+  if ( (D_XZ < R) && (D_YZ < R) )
+    return true;
+  return false;
 }

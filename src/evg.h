@@ -44,8 +44,11 @@ protected:
   int                                fNEvents;
   TFile                             *fFile;
   TTree                             *fTree;
+
   geo::TestVolume                   *fTestVolume;
+  std::string                        fTVType;
   bool                               fTestVolumeOnOff;
+
   int                                fEventID;
   double                             fInitialX;
   double                             fInitialY;
@@ -124,6 +127,8 @@ public:
   void SimHitsToPixels();
   void PixelsToPins();
   void ClearVecs();
+
+  bool SphereIntersect(geo::Line *line, geo::TestVolume *vol);
 };
 
 #endif
