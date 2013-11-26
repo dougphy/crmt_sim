@@ -40,7 +40,7 @@ evg::evg(std::string file_name, int n_events)
   fTree->Branch("YintXZ",          &fYintXZ,          "YintXZ/D");
   fTree->Branch("YintYZ",          &fYintYZ,          "YintYZ/D");
   fTree->Branch("Coincidence",     &fCoincidence,     "Conincidence/O");
-  fTree->Branch("TestVolumeOnOff", &fTestVolumeOnOff, "TestVolumeOnOff/O");
+  fTree->Branch("TVCoincidence",   &fTVCoincidence,   "TVCoincidence/O");
   fTree->Branch("Traj",             fTraj,            "Traj[3]/D");
   fTree->Branch("TrueMod0",         fTrueMod0,        "TrueMod0[256]/O");
   fTree->Branch("TrueMod1",         fTrueMod1,        "TrueMod1[256]/O");
@@ -77,8 +77,6 @@ evg::evg(std::string file_name, int n_events)
   fTreeMod3->Branch("HitPinsBot3",  &fHitPinsBot3);
 
   fTestVolumeTree = new TTree("TestVolumeTree","TestVolumeTree");
-  fTestVolumeTree->Branch("TVCoincidence", &fTVCoincidence, "TVCoincidence/O");
-  fTestVolumeTree->Branch("Coincidence",   &fCoincidence,   "Coincidence/O");
   fTestVolumeTree->Branch("TVType",        &fTVType);
   fTestVolumeTree->Branch("TVCenter",       fTVCenter,      "TVCenter[3]/D");
   fTestVolumeTree->Branch("TVRadius",      &fTVRadius,      "TVRadius/D");
@@ -91,6 +89,7 @@ evg::evg(std::string file_name, int n_events)
 
 evg::~evg()
 {
+  delete fTestVolume;
   delete fTestVolumeTree;
   delete fTreeMod0;
   delete fTreeMod1;
@@ -162,6 +161,10 @@ void evg::ReadParameters()
   if ( on_off == 1 )
     fTestVolumeOnOff = true;
   if ( fTestVolumeOnOff ) {
+    fTVRadius = radius;
+    fTVLength = length;
+    fTVWidth  = width;
+    fTVHeight = height;
     fTVType = type;
     if ( type == "box" )
       fTestVolume = new geo::TestVolume(type,length,width,height);
@@ -173,10 +176,18 @@ void evg::ReadParameters()
     double default_x0 = 330.;
     double default_y0 = 330.;
     double default_z0 = 282.+fGap/2.;
-    if ( defo == 1 )
+    if ( defo == 1 ) {
       fTestVolume->SetOrigin(default_x0 + x0,default_y0 + y0,default_z0 + z0);
-    else 
+      fTVCenter[0] = default_x0 + x0;
+      fTVCenter[1] = default_y0 + x0;
+      fTVCenter[2] = default_z0 + x0;
+    }
+    else {
       fTestVolume->SetOrigin(default_x0, default_y0, default_z0);
+      fTVCenter[0] = default_x0;
+      fTVCenter[1] = default_y0;
+      fTVCenter[2] = default_z0;
+    }
   }
 }
 
@@ -280,7 +291,7 @@ void evg::RunEvents()
     fYintYZ  = Muon->YintYZ();
     
     for ( FiberItr = Mod0Loc.begin(); FiberItr != Mod0Loc.end(); FiberItr++ ) {
-      if ( Intersection2((*FiberItr).second.first,(*FiberItr).second.second,
+      if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
 			 Muon,false,fGap,0) ) {
 	fTrueMod0[(*FiberItr).first] = true;
       }
@@ -290,7 +301,7 @@ void evg::RunEvents()
     }
     
     for ( FiberItr = Mod1Loc.begin(); FiberItr != Mod1Loc.end(); FiberItr++ ) {
-      if ( Intersection2((*FiberItr).second.first,(*FiberItr).second.second,
+      if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
 			 Muon,true,fGap,1) ) {
 	fTrueMod1[(*FiberItr).first] = true;
       }
@@ -300,7 +311,7 @@ void evg::RunEvents()
     }
     
     for ( FiberItr = Mod2Loc.begin(); FiberItr != Mod2Loc.end(); FiberItr++ ) {
-      if ( Intersection2((*FiberItr).second.first,(*FiberItr).second.second,
+      if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
 			 Muon,false,fGap,2) ) {
 	fTrueMod2[(*FiberItr).first] = true;
       }
@@ -310,7 +321,7 @@ void evg::RunEvents()
     }
     
     for ( FiberItr = Mod3Loc.begin(); FiberItr != Mod3Loc.end(); FiberItr++ ) {
-      if ( Intersection2((*FiberItr).second.first,(*FiberItr).second.second,
+      if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
 			 Muon,true,fGap,3) ) {
 	fTrueMod3[(*FiberItr).first] = true;
       }
@@ -345,14 +356,15 @@ void evg::RunEvents()
     }
     
     if ( fTestVolumeOnOff ) {
-      //      std::cout << fTVType << std::endl;
       if ( fTVType == "sphere" ) {
 	if ( SphereIntersect(Muon,fTestVolume) )
 	  fTVCoincidence = true;
 	else
 	  fTVCoincidence = false;
       }
-      fTestVolumeTree->Fill();
+      else {
+	std::cout << "WARNING: Test Volume type not valid" << std::endl;
+      }
     }
     
     Multiplex();
@@ -366,8 +378,10 @@ void evg::RunEvents()
     ClearVecs();
   }
   
-  if ( fTestVolumeOnOff )
+  if ( fTestVolumeOnOff ) {
+    fTestVolumeTree->Fill();
     fTestVolumeTree->Write();
+  }
   fTree->Write();
   fTreeMod0->Write();
   fTreeMod1->Write();
@@ -379,7 +393,7 @@ void evg::RunEvents()
 
 // __________________________________________________________________
 
-bool evg::Intersection2(double FibI, double FibJ, geo::Line *function, 
+bool evg::Intersection(double FibI, double FibJ, geo::Line *function, 
 			bool view_xz, double gap, int type) {
 
   double Slope, Yint, Slope_perp, Yint_perp;
