@@ -80,6 +80,11 @@ evg::evg(std::string file_name, int n_events)
   fTestVolumeTree->Branch("TVCoincidence", &fTVCoincidence, "TVCoincidence/O");
   fTestVolumeTree->Branch("Coincidence",   &fCoincidence,   "Coincidence/O");
   fTestVolumeTree->Branch("TVType",        &fTVType);
+  fTestVolumeTree->Branch("TVCenter",       fTVCenter,      "TVCenter[3]/D");
+  fTestVolumeTree->Branch("TVRadius",      &fTVRadius,      "TVRadius/D");
+  fTestVolumeTree->Branch("TVLength",      &fTVLength,      "TVLength/D");
+  fTestVolumeTree->Branch("TVWidth",       &fTVWidth,       "TVWidth/D");
+  fTestVolumeTree->Branch("TVHeight",      &fTVHeight,      "TVHeight/D");
 }
 
 // __________________________________________________________________

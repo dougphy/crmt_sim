@@ -44,11 +44,6 @@ protected:
   int                                fNEvents;
   TFile                             *fFile;
   TTree                             *fTree;
-
-  geo::TestVolume                   *fTestVolume;
-  std::string                        fTVType;
-  bool                               fTestVolumeOnOff;
-
   int                                fEventID;
   double                             fInitialX;
   double                             fInitialY;
@@ -106,10 +101,18 @@ protected:
   double                             fScintGap    = 4.8;
   double                             fModGap      = 6.4;
   const double                       PI           = 4*atan(1.);
-
-  TTree                              *fTestVolumeTree;
-  bool                                fTVCoincidence;
-
+  
+  TTree                             *fTestVolumeTree;
+  geo::TestVolume                   *fTestVolume;
+  std::string                        fTVType;
+  bool                               fTestVolumeOnOff;
+  bool                               fTVCoincidence;
+  double                             fTVCenter[3];
+  double                             fTVRadius;
+  double                             fTVLength;
+  double                             fTVWidth;
+  double                             fTVHeight;
+  
 public:
 
   evg();
