@@ -77,9 +77,9 @@ evg::evg(std::string file_name, int n_events)
   fTreeMod3->Branch("HitPinsBot3",  &fHitPinsBot3);
 
   fTestVolumeTree = new TTree("TestVolumeTree","TestVolumeTree");
-  fTestVolumeTree->Branch("TVCoincidence",&fTVCoincidence,"TVCoincidence/O");
-  fTestVolumeTree->Branch("Coincidence",  &fCoincidence,  "Coincidence/O");
-  fTestVolumeTree->Branch("TVType",       &fTVType);
+  fTestVolumeTree->Branch("TVCoincidence", &fTVCoincidence, "TVCoincidence/O");
+  fTestVolumeTree->Branch("Coincidence",   &fCoincidence,   "Coincidence/O");
+  fTestVolumeTree->Branch("TVType",        &fTVType);
 }
 
 // __________________________________________________________________
@@ -152,10 +152,12 @@ void evg::ReadParameters()
     TestVolumeConfigFile >> temp >> y0;
     TestVolumeConfigFile >> temp >> z0;
   }
-  //fTestVolumeOnOff = false;
+  
+  fTestVolumeOnOff = false;
   if ( on_off == 1 )
     fTestVolumeOnOff = true;
   if ( fTestVolumeOnOff ) {
+    fTVType = type;
     if ( type == "box" )
       fTestVolume = new geo::TestVolume(type,length,width,height);
     else if ( type == "sphere" )
@@ -314,11 +316,11 @@ void evg::RunEvents()
 
     int top_counter = 0;
     for ( int i = 0; i < 64; i++ )
-      if ( fTrueMod0[i] == 1 )
+      if ( fTrueMod0[i] )
 	top_counter += 1;
     int bot_counter = 0;
     for ( int i = 192; i < 256; i++ )
-      if ( fTrueMod3[i] == 1 )
+      if ( fTrueMod3[i] )
 	bot_counter += 1;
     
     bool yz_through_bottom_square = false;
@@ -330,16 +332,24 @@ void evg::RunEvents()
     if ( bot_counter == 0 || top_counter == 0 || !yz_through_bottom_square ) {
       fCoincidence = false;
       for ( int i = 0; i < 256; i++ ) {
-	fTrueMod0[i] = 0;
-	fTrueMod1[i] = 0;
-	fTrueMod2[i] = 0;
-	fTrueMod3[i] = 0;
+	fTrueMod0[i] = false;
+	fTrueMod1[i] = false;
+	fTrueMod2[i] = false;
+	fTrueMod3[i] = false;
       }
     }
-
-    if ( fTestVolumeOnOff ) 
+    
+    if ( fTestVolumeOnOff ) {
+      //      std::cout << fTVType << std::endl;
+      if ( fTVType == "sphere" ) {
+	if ( SphereIntersect(Muon,fTestVolume) )
+	  fTVCoincidence = true;
+	else
+	  fTVCoincidence = false;
+      }
       fTestVolumeTree->Fill();
-      
+    }
+    
     Multiplex();
     SimHitsToPixels();
     PixelsToPins();
@@ -350,15 +360,16 @@ void evg::RunEvents()
     fTree->Fill(); 
     ClearVecs();
   }
+  
   if ( fTestVolumeOnOff )
     fTestVolumeTree->Write();
-
   fTree->Write();
   fTreeMod0->Write();
   fTreeMod1->Write();
   fTreeMod2->Write();
   fTreeMod3->Write();
   fFile->Close();
+
 }
 
 // __________________________________________________________________
