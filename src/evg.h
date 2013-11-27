@@ -131,6 +131,8 @@ public:
   void ClearVecs();
 
   bool SphereIntersect(geo::Line *line, geo::TestVolume *vol);
+  bool BoxIntersect(geo::Line *line, geo::TestVolume *vol);
+
 };
 
 #endif

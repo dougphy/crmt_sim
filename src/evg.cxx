@@ -690,3 +690,15 @@ bool evg::SphereIntersect(geo::Line *line, geo::TestVolume *vol)
     return true;
   return false;
 }
+
+// __________________________________________________________________
+
+bool evg::BoxIntersect(geo::Line *line, geo::TestVolume *vol)
+{
+  double SlopeXZ = line->SlopeXZ();
+  double SlopeYZ = line->SlopeYZ();
+  double YintXZ  = line->YintXZ();
+  double YintYZ  = line->YintYZ();
+
+  return false;
+}

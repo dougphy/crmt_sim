@@ -18,6 +18,7 @@
 #include "TPaveText.h"
 #include "TStyle.h"
 #include "TPad.h"
+#include "TEllipse.h"
 
 evd::evd() {}
 
@@ -500,6 +501,9 @@ void evd::DrawSim(int argc, char *argv[])
   YZ_title->SetBorderSize(0);
   YZ_title->SetFillColor(0);
   YZ_title->AddText("YZ plane");
+
+  //TEllipse *ellipse = new TEllipse(330,400,10,10);
+
 
   fApp = new TApplication("app",&argc,argv);
   TCanvas *can = new TCanvas("evd","evd",1300,800);

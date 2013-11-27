@@ -33,15 +33,15 @@ namespace geo {
     TestVolume(const std::string type, double length, double width, double height);
     ~TestVolume();
     
+    virtual void SetOrigin(double x, double y, double z);    
+
     double GetLength() { return fLength; }
     double GetWidth()  { return fWidth;  }
     double GetHeight() { return fHeight; }
-    double GetRadius() { return fRadius; }
-    
-    void SetOrigin(double x, double y, double z);
-    double GetXO() { return fXO; }
-    double GetYO() { return fYO; }
-    double GetZO() { return fZO; }
+    double GetRadius() { return fRadius; }    
+    double GetXO()     { return fXO;     }
+    double GetYO()     { return fYO;     }
+    double GetZO()     { return fZO;     }
 
   };
 
