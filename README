@@ -3,9 +3,14 @@ Fall 2014 STC Project -- crmt
 See the doc directory for a short
 description of the objective of this work
 
+A detailed report is currently being written
+in the doc directory
+
 To compile on TACC:
 module swap intel gcc/4.7.1
 export ROOTSYS=/work/02078/drd764/ROOT/v5-34-10
 source $ROOTSYS/bin/thisroot.sh
 make
+
+Execute with:
 bin/crmt
