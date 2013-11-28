@@ -145,8 +145,8 @@ void evg::ReadParameters()
   int on_off, defo;
   double radius, length, width, height, x0, y0, z0;
   while ( !TestVolumeConfigFile.eof() ) {
-    TestVolumeConfigFile >> temp >> type;
     TestVolumeConfigFile >> temp >> on_off;
+    TestVolumeConfigFile >> temp >> type;
     TestVolumeConfigFile >> temp >> radius;
     TestVolumeConfigFile >> temp >> length;
     TestVolumeConfigFile >> temp >> width;

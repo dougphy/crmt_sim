@@ -33,7 +33,7 @@ namespace geo {
     TestVolume(const std::string type, double length, double width, double height);
     ~TestVolume();
     
-    virtual void SetOrigin(double x, double y, double z);    
+    void SetOrigin(double x, double y, double z);
 
     double GetLength() { return fLength; }
     double GetWidth()  { return fWidth;  }

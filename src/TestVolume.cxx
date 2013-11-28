@@ -14,6 +14,11 @@ namespace geo {
   
   TestVolume::TestVolume(const std::string type, double radius)
   {
+    if ( type != "sphere" ) {
+      std::cout << "Test Volume Constructor Bad" << std::endl;
+      return;
+    }
+
     fType   = type;
     fRadius = radius;
     fLength = 0;
@@ -23,6 +28,11 @@ namespace geo {
   
   TestVolume::TestVolume(const std::string type, double length, double width, double height)
   {
+    if ( type != "box" ) {
+      std::cout << "Test Volume Constructor Bad" << std::endl;
+      return;
+    }
+
     fType   = type;
     fRadius = 0;
     fLength = length;
