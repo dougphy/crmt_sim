@@ -161,15 +161,22 @@ void evg::ReadParameters()
   if ( on_off == 1 )
     fTestVolumeOnOff = true;
   if ( fTestVolumeOnOff ) {
-    fTVRadius = radius;
-    fTVLength = length;
-    fTVWidth  = width;
-    fTVHeight = height;
+    std::cout << type << std::endl;
     fTVType = type;
-    if ( type == "box" )
+    if ( type == "box" ) {
       fTestVolume = new geo::TestVolume(type,length,width,height);
-    else if ( type == "sphere" )
+      fTVRadius   = 0;
+      fTVLength   = length;
+      fTVWidth    = width;
+      fTVHeight   = height;
+    }
+    else if ( type == "sphere" ) {
+      fTVRadius = radius;
+      fTVLength = 0;
+      fTVWidth  = 0;
+      fTVHeight = 0;
       fTestVolume = new geo::TestVolume(type,radius);
+    }
     else { 
       std::cout << "WARNING: Bad test volume shape definition." << std::endl;
     }
@@ -363,7 +370,7 @@ void evg::RunEvents()
 	  fTVCoincidence = false;
       }
       else {
-	std::cout << "WARNING: Test Volume type not valid" << std::endl;
+	std::cout << "WARNING: Test Volume type not a used one." << std::endl;
       }
     }
     
@@ -378,10 +385,9 @@ void evg::RunEvents()
     ClearVecs();
   }
   
-  if ( fTestVolumeOnOff ) {
-    fTestVolumeTree->Fill();
-    fTestVolumeTree->Write();
-  }
+  fTestVolumeTree->Fill();
+  fTestVolumeTree->Write();
+  
   fTree->Write();
   fTreeMod0->Write();
   fTreeMod1->Write();
