@@ -77,6 +77,7 @@ evg::evg(std::string file_name, int n_events)
   fTreeMod3->Branch("HitPinsBot3",  &fHitPinsBot3);
 
   fTestVolumeTree = new TTree("TestVolumeTree","TestVolumeTree");
+  fTestVolumeTree->Branch("TVOn",          &fTVOn,          "TVOn/O");
   fTestVolumeTree->Branch("TVType",        &fTVType);
   fTestVolumeTree->Branch("TVCenter",       fTVCenter,      "TVCenter[3]/D");
   fTestVolumeTree->Branch("TVRadius",      &fTVRadius,      "TVRadius/D");
@@ -158,8 +159,11 @@ void evg::ReadParameters()
   }
   
   fTestVolumeOnOff = false;
-  if ( on_off == 1 )
+  fTVOn            = false;
+  if ( on_off == 1 ) {
     fTestVolumeOnOff = true;
+    fTVOn            = true;
+  }
   if ( fTestVolumeOnOff ) {
     std::cout << type << std::endl;
     fTVType = type;

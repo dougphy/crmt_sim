@@ -107,6 +107,7 @@ protected:
   std::string                        fTVType;
   bool                               fTestVolumeOnOff;
   bool                               fTVCoincidence;
+  bool                               fTVOn;
   double                             fTVCenter[3];
   double                             fTVRadius;
   double                             fTVLength;
