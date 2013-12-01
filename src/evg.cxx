@@ -375,6 +375,7 @@ void evg::RunEvents()
       }
       else {
 	std::cout << "WARNING: Test Volume type not a used one." << std::endl;
+	fTVCoincidence = false;
       }
     }
     
@@ -387,16 +388,16 @@ void evg::RunEvents()
     fTreeMod3->Fill();
     fTree->Fill(); 
     ClearVecs();
-  }
-  
+  }  
+
   fTestVolumeTree->Fill();
-  fTestVolumeTree->Write();
   
   fTree->Write();
   fTreeMod0->Write();
   fTreeMod1->Write();
   fTreeMod2->Write();
   fTreeMod3->Write();
+  fTestVolumeTree->Write();
   fFile->Close();
 
 }
