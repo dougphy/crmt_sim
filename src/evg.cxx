@@ -711,5 +711,13 @@ bool evg::BoxIntersect(geo::Line *line, geo::TestVolume *vol)
   double YintXZ  = line->YintXZ();
   double YintYZ  = line->YintYZ();
 
+  double XO = vol->GetXO();
+  double YO = vol->GetYO();
+  double ZO = vol->GetZO();
+
+  double Length = vol->GetLength();
+  double Width  = vol->GetWidth();
+  double Height = vol->GetHeight();
+
   return false;
 }

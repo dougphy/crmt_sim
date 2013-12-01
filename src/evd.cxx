@@ -27,11 +27,19 @@ evd::~evd()
   delete fApp;
   delete fTree;
   delete fFile;
+  delete fAll0;
+  delete fAll1;
+  delete fAll2;
+  delete fAll3;
   delete fTMGXZ;
   delete fTMGYZ;
+  delete fEllipseXZ;
+  delete fEllipseYZ;
+  delete fBoxXZ;
+  delete fBoxYZ;
 }
 
-void evd::InitFile(std::string file_name, int event_number)
+void evd::InitFile(const std::string file_name, int event_number)
 {
   fFile = new TFile(file_name.c_str());
   fTree = (TTree*)fFile->Get("SimulationTree");
@@ -56,6 +64,14 @@ void evd::InitFile(std::string file_name, int event_number)
   fTree->SetBranchAddress("SimMod3",   fSimMod3);
   fTree->SetBranchAddress("Gap",      &fGap);
   fSelectedEventID = event_number;
+
+  fVolTree = (TTree*)fFile->Get("TestVolumeTree");
+  fVolTree->SetBranchAddress("TVOn",    &fTVOn);
+  fVolTree->SetBranchAddress("TVCenter", fTVCenter);
+  fVolTree->SetBranchAddress("TVRadius",&fTVRadius);
+  fVolTree->SetBranchAddress("TVLength",&fTVLength);
+  fVolTree->SetBranchAddress("TVWidth", &fTVWidth);
+  fVolTree->SetBranchAddress("TVHeight",&fTVHeight);
 }
 
 void evd::RawDumpTrue()
@@ -82,6 +98,19 @@ void evd::RawDumpSim()
     std::cout << "Module 2 -- " << i << " " << fSimMod2[i] << std::endl;
   for ( int i = 0; i < 256; i++ ) 
     std::cout << "Module 3 -- " << i << " " << fSimMod3[i] << std::endl;
+}
+
+void evd::SetupTVs()
+{
+  std::cout << "got here" << std::endl;
+  fVolTree->GetEntry(0);
+  fTVChecker = false;
+  if ( fTVOn )
+    fTVChecker = true;
+  fEllipseXZ = new TEllipse(fTVCenter[0],fTVCenter[2],fTVRadius,fTVRadius);
+  fEllipseYZ = new TEllipse(fTVCenter[1],fTVCenter[2],fTVRadius,fTVRadius);
+  std::cout << fTVOn      << std::endl;
+  std::cout << fTVChecker << std::endl;
 }
 
 void evd::InitAllGraphs()
@@ -127,6 +156,7 @@ void evd::InitAllGraphs()
 
 void evd::DrawTrue(int argc, char *argv[])
 {
+  SetupTVs();
   fTree->GetEntry(fSelectedEventID);
   double gap = fGap;
   geo::Module *mod0 = new geo::Module(0,gap);
@@ -310,11 +340,15 @@ void evd::DrawTrue(int argc, char *argv[])
   fTMGXZ->Draw("AP");
   LineXZ->Draw("same");
   XZ_title->Draw("same");
+  if ( fTVChecker )
+    fEllipseXZ->Draw("same");
 
   padYZ->cd();
   fTMGYZ->Draw("AP");
   LineYZ->Draw("same");
   YZ_title->Draw("same");
+  if ( fTVChecker )
+    fEllipseYZ->Draw("same");
 
   padT->cd();
   EventTitle->Draw();
@@ -330,6 +364,7 @@ void evd::DrawTrue(int argc, char *argv[])
 
 void evd::DrawSim(int argc, char *argv[])
 {
+  SetupTVs();
   fTree->GetEntry(fSelectedEventID);
   double gap = fGap;
   geo::Module *mod0 = new geo::Module(0,gap);
@@ -502,9 +537,6 @@ void evd::DrawSim(int argc, char *argv[])
   YZ_title->SetFillColor(0);
   YZ_title->AddText("YZ plane");
 
-  //TEllipse *ellipse = new TEllipse(330,400,10,10);
-
-
   fApp = new TApplication("app",&argc,argv);
   TCanvas *can = new TCanvas("evd","evd",1300,800);
 
@@ -516,11 +548,15 @@ void evd::DrawSim(int argc, char *argv[])
   fTMGXZ->Draw("AP");
   LineXZ->Draw("same");
   XZ_title->Draw("same");
+  if ( fTVChecker )
+    fEllipseXZ->Draw("same");
 
   padYZ->cd();
   fTMGYZ->Draw("AP");
   LineYZ->Draw("same");
   YZ_title->Draw("same");
+  if ( fTVChecker )
+    fEllipseYZ->Draw("same");
 
   padT->cd();
   EventTitle->Draw();
