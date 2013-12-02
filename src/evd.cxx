@@ -343,7 +343,7 @@ void evd::DrawTrue(int argc, char *argv[])
   YZ_title->AddText("YZ plane");
 
   fApp = new TApplication("app",&argc,argv);
-  TCanvas *can = new TCanvas("evd","evd",1300,800);
+  TCanvas *can = new TCanvas("evd","evd",1300,570);
 
   TPad *padXZ = new TPad("padXZ","padXZ",.2,0.,.6,1.);
   TPad *padYZ = new TPad("padYZ","patYZ",.6,0.,1.,1.);
@@ -559,7 +559,7 @@ void evd::DrawSim(int argc, char *argv[])
   YZ_title->AddText("YZ plane");
 
   fApp = new TApplication("app",&argc,argv);
-  TCanvas *can = new TCanvas("evd","evd",1300,800);
+  TCanvas *can = new TCanvas("evd","evd",1300,570);
 
   TPad *padXZ = new TPad("padXZ","padXZ",.2,0.,.6,1.);
   TPad *padYZ = new TPad("padYZ","patYZ",.6,0.,1.,1.);
