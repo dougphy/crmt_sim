@@ -102,15 +102,21 @@ void evd::RawDumpSim()
 
 void evd::SetupTVs()
 {
-  std::cout << "got here" << std::endl;
   fVolTree->GetEntry(0);
   fTVChecker = false;
-  if ( fTVOn )
-    fTVChecker = true;
-  fEllipseXZ = new TEllipse(fTVCenter[0],fTVCenter[2],fTVRadius,fTVRadius);
-  fEllipseYZ = new TEllipse(fTVCenter[1],fTVCenter[2],fTVRadius,fTVRadius);
-  std::cout << fTVOn      << std::endl;
-  std::cout << fTVChecker << std::endl;
+  if ( fTVOn ) {
+    fTVChecker = true;  
+    if ( fTVRadius != 0 ) {
+      fEllipseXZ = new TEllipse(fTVCenter[0],fTVCenter[2],fTVRadius,fTVRadius);
+      fEllipseYZ = new TEllipse(fTVCenter[1],fTVCenter[2],fTVRadius,fTVRadius);
+    }
+    else if ( fTVLength != 0 ) {
+      // TBox
+    }
+    else {
+      std::cout << "Bad Test Volume Setup" << std::endl;
+    }
+  }
 }
 
 void evd::InitAllGraphs()
@@ -275,7 +281,7 @@ void evd::DrawTrue(int argc, char *argv[])
   sprintf(tIX,      "x^{#mu}_{0} = %3.3f",      fInitialX);
   sprintf(tIY,      "y^{#mu}_{0} = %3.3f",      fInitialY);
   sprintf(tIZ,      "z^{#mu}_{0} = %3.3f",      fInitialZ);
-  sprintf(tGap,     "Gap = %3.3f cm",           fGap);
+  sprintf(tGap,     "Gap = %3.3f mm",           fGap);
   sprintf(tSlopeXZ, "Slope XZ = %3.3f",         fSlopeXZ);
   sprintf(tSlopeYZ, "Slope YZ = %3.3f",         fSlopeYZ);
   if ( fAngleXZ > 0 ) {
@@ -341,14 +347,22 @@ void evd::DrawTrue(int argc, char *argv[])
   LineXZ->Draw("same");
   XZ_title->Draw("same");
   if ( fTVChecker )
-    fEllipseXZ->Draw("same");
+    if ( fTVRadius != 0 )
+      fEllipseXZ->Draw("same");
+  if ( fTVChecker )
+    if ( fTVLength != 0 )
+      fBoxXZ->Draw("same");
 
   padYZ->cd();
   fTMGYZ->Draw("AP");
   LineYZ->Draw("same");
   YZ_title->Draw("same");
   if ( fTVChecker )
-    fEllipseYZ->Draw("same");
+    if ( fTVRadius != 0 )
+      fEllipseYZ->Draw("same");
+  if ( fTVChecker )
+    if ( fTVLength != 0 )
+      fBoxYZ->Draw("same");
 
   padT->cd();
   EventTitle->Draw();
@@ -483,7 +497,7 @@ void evd::DrawSim(int argc, char *argv[])
   sprintf(tIY,      "y^{#mu}_{0} = %3.3f",      fInitialY);
   sprintf(tIZ,      "z^{#mu}_{0} = %3.3f",      fInitialZ);
   sprintf(tEID,     "Event %d",                 fSelectedEventID);
-  sprintf(tGap,     "Gap = %3.3f cm",           fGap);
+  sprintf(tGap,     "Gap = %3.3f mm",           fGap);
   sprintf(tSlopeXZ, "Slope XZ = %3.3f",         fSlopeXZ);
   sprintf(tSlopeYZ, "Slope YZ = %3.3f",         fSlopeYZ);
   if ( fAngleXZ > 0 ) {
@@ -549,14 +563,22 @@ void evd::DrawSim(int argc, char *argv[])
   LineXZ->Draw("same");
   XZ_title->Draw("same");
   if ( fTVChecker )
-    fEllipseXZ->Draw("same");
+    if ( fTVRadius != 0 )
+      fEllipseXZ->Draw("same");
+  if ( fTVChecker )
+    if ( fTVLength != 0 )
+      fBoxXZ->Draw("same");
 
   padYZ->cd();
   fTMGYZ->Draw("AP");
   LineYZ->Draw("same");
   YZ_title->Draw("same");
   if ( fTVChecker )
-    fEllipseYZ->Draw("same");
+    if ( fTVRadius != 0 )
+      fEllipseYZ->Draw("same");
+  if ( fTVChecker )
+    if ( fTVLength != 0 )
+      fBoxYZ->Draw("same");
 
   padT->cd();
   EventTitle->Draw();

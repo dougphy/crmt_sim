@@ -1,3 +1,7 @@
 *.o
 *.root
 crmt
+*.aux
+*.log
+*.bib
+*.pdf

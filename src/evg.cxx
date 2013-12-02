@@ -373,6 +373,12 @@ void evg::RunEvents()
 	else
 	  fTVCoincidence = false;
       }
+      else if ( fTVType == "box" ) {
+	if ( BoxIntersect(Muon,fTestVolume) )
+	  fTVCoincidence = true;
+	else
+	  fTVCoincidence = false;
+      }
       else {
 	std::cout << "WARNING: Test Volume type not a used one." << std::endl;
 	fTVCoincidence = false;
@@ -718,6 +724,46 @@ bool evg::BoxIntersect(geo::Line *line, geo::TestVolume *vol)
   double Length = vol->GetLength();
   double Width  = vol->GetWidth();
   double Height = vol->GetHeight();
+
+  double  h_left_edge_x = XO - Length/2.0;
+  double h_right_edge_x = XO + Length/2.0;
+  double  h_left_edge_y = YO - Width/2.0;
+  double h_right_edge_y = YO + Width/2.0;
+  double  v_bottom_edge = ZO - Height/2.0;
+  double     v_top_edge = ZO + Height/2.0;
+
+  double v_line_left_x   = SlopeXZ*h_left_edge_x + YintXZ;
+  double v_line_right_x  = SlopeXZ*h_right_edge_x + YintXZ;
+  double v_line_left_y   = SlopeYZ*h_left_edge_y + YintYZ;
+  double v_line_right_y  = SlopeYZ*h_right_edge_y + YintYZ;
+  double h_line_top_x    = (v_top_edge - YintXZ)/SlopeXZ;
+  double h_line_bottom_x = (v_bottom_edge - YintXZ)/SlopeXZ;
+  double h_line_top_y    = (v_top_edge - YintYZ)/SlopeYZ;
+  double h_line_bottom_y = (v_bottom_edge - YintYZ)/SlopeYZ;
+
+  bool X_GOOD = false;
+  bool Y_GOOD = false;
+
+  if ( (h_line_top_x < h_right_edge_x) && (h_line_top_x > h_left_edge_x) )
+    X_GOOD = true;
+  if ( (h_line_bottom_x < h_right_edge_x) && (h_line_bottom_x > h_left_edge_x) )
+    X_GOOD = true;
+  if ( (v_line_left_x < v_top_edge) && (v_line_left_x > v_bottom_edge) )
+    X_GOOD = true;
+  if ( (v_line_right_x < v_top_edge) && (v_line_right_x > v_bottom_edge) )
+    X_GOOD = true;
+
+  if ( (h_line_top_y < h_right_edge_y) && (h_line_top_y > h_left_edge_y) )
+    Y_GOOD = true;
+  if ( (h_line_bottom_y < h_right_edge_y) && (h_line_bottom_y > h_left_edge_y) )
+    Y_GOOD = true;
+  if ( (v_line_left_y < v_top_edge) && (v_line_left_y > v_bottom_edge) )
+    Y_GOOD = true;
+  if ( (v_line_right_y < v_top_edge) && (v_line_right_y > v_bottom_edge) )
+    Y_GOOD = true;
+
+  if ( X_GOOD && Y_GOOD )
+    return true;
 
   return false;
 }
