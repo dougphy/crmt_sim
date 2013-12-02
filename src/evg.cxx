@@ -165,7 +165,6 @@ void evg::ReadParameters()
     fTVOn            = true;
   }
   if ( fTestVolumeOnOff ) {
-    std::cout << type << std::endl;
     fTVType = type;
     if ( type == "box" ) {
       fTestVolume = new geo::TestVolume(type,length,width,height);
