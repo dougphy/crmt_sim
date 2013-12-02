@@ -111,7 +111,10 @@ void evd::SetupTVs()
       fEllipseYZ = new TEllipse(fTVCenter[1],fTVCenter[2],fTVRadius,fTVRadius);
     }
     else if ( fTVLength != 0 ) {
-      // TBox
+      fBoxXZ = new TBox(fTVCenter[0]-fTVLength/2.,fTVCenter[2]-fTVHeight/2.,
+			fTVCenter[0]+fTVLength/2.,fTVCenter[2]+fTVHeight/2.);
+      fBoxYZ = new TBox(fTVCenter[1]-fTVWidth/2.,fTVCenter[2]-fTVHeight/2.,
+			fTVCenter[1]+fTVWidth/2.,fTVCenter[2]+fTVHeight/2.);
     }
     else {
       std::cout << "Bad Test Volume Setup" << std::endl;
