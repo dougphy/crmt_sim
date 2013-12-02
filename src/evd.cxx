@@ -109,12 +109,16 @@ void evd::SetupTVs()
     if ( fTVRadius != 0 ) {
       fEllipseXZ = new TEllipse(fTVCenter[0],fTVCenter[2],fTVRadius,fTVRadius);
       fEllipseYZ = new TEllipse(fTVCenter[1],fTVCenter[2],fTVRadius,fTVRadius);
+      fEllipseXZ->SetFillColor(kBlack);
+      fEllipseYZ->SetFillColor(kBlack);
     }
     else if ( fTVLength != 0 ) {
       fBoxXZ = new TBox(fTVCenter[0]-fTVLength/2.,fTVCenter[2]-fTVHeight/2.,
 			fTVCenter[0]+fTVLength/2.,fTVCenter[2]+fTVHeight/2.);
       fBoxYZ = new TBox(fTVCenter[1]-fTVWidth/2.,fTVCenter[2]-fTVHeight/2.,
 			fTVCenter[1]+fTVWidth/2.,fTVCenter[2]+fTVHeight/2.);
+      fBoxXZ->SetFillColor(kBlack);
+      fBoxYZ->SetFillColor(kBlack);
     }
     else {
       std::cout << "Bad Test Volume Setup" << std::endl;
