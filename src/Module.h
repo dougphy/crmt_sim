@@ -33,7 +33,7 @@ namespace geo {
     Module(int module_type, double gap);
     ~Module();
     std::map<int, std::pair<double,double> > GetMap() { return fFiberMap; }
-    int GetModuleType() { return fModuleType; }
+    int GetModuleType() const { return fModuleType; }
   };
 }
 
