@@ -35,13 +35,13 @@ namespace geo {
     
     void SetOrigin(double x, double y, double z);
 
-    inline double GetLength() const {return fLength; }
-    inline double GetWidth()  const {return fWidth;  }
-    inline double GetHeight() const {return fHeight; }
-    inline double GetRadius() const {return fRadius; }    
-    inline double GetXO()     const {return fXO;     }
-    inline double GetYO()     const {return fYO;     }
-    inline double GetZO()     const {return fZO;     }
+    inline double GetLength() const { return fLength; }
+    inline double GetWidth()  const { return fWidth;  }
+    inline double GetHeight() const { return fHeight; }
+    inline double GetRadius() const { return fRadius; }    
+    inline double GetXO()     const { return fXO;     }
+    inline double GetYO()     const { return fYO;     }
+    inline double GetZO()     const { return fZO;     }
 
   };
 
