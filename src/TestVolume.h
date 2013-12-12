@@ -31,17 +31,17 @@ namespace geo {
     TestVolume();
     TestVolume(const std::string type, double radius);
     TestVolume(const std::string type, double length, double width, double height);
-    ~TestVolume();
+    virtual ~TestVolume();
     
     void SetOrigin(double x, double y, double z);
 
-    double GetLength() const {return fLength; }
-    double GetWidth()  const {return fWidth;  }
-    double GetHeight() const {return fHeight; }
-    double GetRadius() const {return fRadius; }    
-    double GetXO()     const {return fXO;     }
-    double GetYO()     const {return fYO;     }
-    double GetZO()     const {return fZO;     }
+    inline double GetLength() const {return fLength; }
+    inline double GetWidth()  const {return fWidth;  }
+    inline double GetHeight() const {return fHeight; }
+    inline double GetRadius() const {return fRadius; }    
+    inline double GetXO()     const {return fXO;     }
+    inline double GetYO()     const {return fYO;     }
+    inline double GetZO()     const {return fZO;     }
 
   };
 

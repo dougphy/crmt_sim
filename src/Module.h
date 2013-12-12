@@ -31,9 +31,9 @@ namespace geo {
   public:
     Module();
     Module(int module_type, double gap);
-    ~Module();
-    std::map<int, std::pair<double,double> > GetMap()        const { return fFiberMap;   }
-    int                                      GetModuleType() const { return fModuleType; }
+    virtual ~Module();
+    inline std::map<int, std::pair<double,double> > GetMap()        const { return fFiberMap;   }
+    inline int                                      GetModuleType() const { return fModuleType; }
   };
 }
 

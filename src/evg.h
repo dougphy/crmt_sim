@@ -118,21 +118,22 @@ public:
 
   evg();
   evg(std::string fname, int n_events);
-  ~evg();
+  virtual ~evg();
+  
   void ReadParameters();
   void CheckParameters();
   void RunEvents();
-  bool Intersection(double FibI, double FibJ, geo::Line *function,
-		     bool view_xz, double gap, int type);
-  void InitCoupleMap();
-  void Multiplex();
-  void InitFiberPixelPinPairs();
-  void SimHitsToPixels();
-  void PixelsToPins();
-  void ClearVecs();
 
-  bool SphereIntersect(geo::Line *line, geo::TestVolume *vol);
-  bool BoxIntersect(geo::Line *line, geo::TestVolume *vol);
+  inline bool Intersection(double FibI, double FibJ, geo::Line *function,
+		     bool view_xz, double gap, int type);
+  inline void InitCoupleMap();
+  inline void Multiplex();
+  inline void InitFiberPixelPinPairs();
+  inline void SimHitsToPixels();
+  inline void PixelsToPins();
+  inline void ClearVecs();  
+  inline bool SphereIntersect(geo::Line *line, geo::TestVolume *vol);
+  inline bool BoxIntersect(geo::Line *line, geo::TestVolume *vol);
 
 };
 

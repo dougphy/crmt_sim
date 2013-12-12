@@ -67,7 +67,8 @@ private:
 
 public:
   evd();
-  ~evd();
+  virtual ~evd();
+
   void InitFile(const std::string file_name, int event_number);
   void RawDumpTrue();
   void RawDumpSim();
