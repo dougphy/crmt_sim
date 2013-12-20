@@ -1,16 +1,20 @@
-Fall 2014 STC Project -- crmt
 
-See the doc directory for a short
-description of the objective of this work
 
-A detailed report is currently being written
-in the doc directory
+     ===========================
+     +      crmt_sim           +
+     +      Douglas Davis      +
+     +      UTKL               +
+     ===========================
 
-To compile on TACC:
-module swap intel gcc/4.7.1
-export ROOTSYS=/work/02078/drd764/ROOT/v5-34-10
-source $ROOTSYS/bin/thisroot.sh
-make
+     See UTKLDocDB-doc-780 for a description of this software
 
-Execute with:
-bin/crmt
+     === To compile ===
+     $ mkdir build
+     $ cd build
+     $ cmake -DROOT_HOME=<ROOT system> ..
+     $ make
+
+     === Running ===
+     Once compiled return back to main directory (cd ..) from previous step
+     execute with:
+     $ bin/crmt
