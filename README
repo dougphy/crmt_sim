@@ -21,6 +21,7 @@
      (* If compiled with CMake return back to main directory (cd ..) from previous step *)
      execute with:
      $ bin/crmt
+     usage will be displayed
 
    === Configuration file setting ===
-     See above DocDB entry to description
+     See above DocDB entry for description
