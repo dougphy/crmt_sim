@@ -66,7 +66,6 @@ int main(int argc, char *argv[])
 	int events = atoi(n_holder.c_str());
 	gen::evg *event_set = new gen::evg(fname.c_str(),events);
 	event_set->ReadParameters();
-	// event_set->CheckParameters();
 	event_set->RunEvents();
       }
     }
