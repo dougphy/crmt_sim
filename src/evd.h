@@ -1,10 +1,8 @@
-
-// __________________________________________________________________
-// __________________________________________________________________
-// _______ crmt evd class ___________________________________________
-// _______ Douglas Davis ____________________________________________
-// _______ Fall 2013 ________________________________________________
-// __________________________________________________________________
+//////////////////////////////////////////////////////////////////////
+/// \file evd.h
+/// \brief A class which describes a single event display
+/// \author Douglas Davis < douglasdavis@utexas.edu >
+//////////////////////////////////////////////////////////////////////
 
 #ifndef EVD_H
 #define EVD_H
@@ -19,63 +17,66 @@
 #include "TEllipse.h"
 #include "TBox.h"
 
-class evd {
+namespace disp {
 
-private:
-  TFile            *fFile;
-  TTree            *fTree;
-  TTree            *fVolTree;
-  double            fGap;
-  int               fSelectedEventID;
-  double            fInitialX;
-  double            fInitialY;
-  double            fInitialZ;
-  double            fPhi;
-  double            fTheta;
-  double            fAngleXZ;
-  double            fAngleYZ;
-  double            fSlopeXZ;
-  double            fSlopeYZ;
-  double            fYintXZ;
-  double            fYintYZ;
-  bool              fTrueMod0[256];
-  bool              fTrueMod1[256];
-  bool              fTrueMod2[256];
-  bool              fTrueMod3[256];
-  bool              fSimMod0[256];
-  bool              fSimMod1[256];
-  bool              fSimMod2[256];
-  bool              fSimMod3[256];
-  TApplication     *fApp;
-  TGraph           *fAll0;
-  TGraph           *fAll1;
-  TGraph           *fAll2;
-  TGraph           *fAll3;
-  TMultiGraph      *fTMGXZ;
-  TMultiGraph      *fTMGYZ;
-  bool              fTVOn;
-  bool              fTVChecker;
-  double            fTVCenter[3];
-  double            fTVRadius;
-  double            fTVLength;
-  double            fTVWidth;
-  double            fTVHeight;
-  TEllipse         *fEllipseXZ;
-  TEllipse         *fEllipseYZ;
-  TBox             *fBoxXZ;
-  TBox             *fBoxYZ;
+  class evd {
 
-public:
-  evd();
-  virtual ~evd();
+  private:
+    TFile            *fFile;
+    TTree            *fTree;
+    TTree            *fVolTree;
+    double            fGap;
+    int               fSelectedEventID;
+    double            fInitialX;
+    double            fInitialY;
+    double            fInitialZ;
+    double            fPhi;
+    double            fTheta;
+    double            fAngleXZ;
+    double            fAngleYZ;
+    double            fSlopeXZ;
+    double            fSlopeYZ;
+    double            fYintXZ;
+    double            fYintYZ;
+    bool              fTrueMod0[256];
+    bool              fTrueMod1[256];
+    bool              fTrueMod2[256];
+    bool              fTrueMod3[256];
+    bool              fSimMod0[256];
+    bool              fSimMod1[256];
+    bool              fSimMod2[256];
+    bool              fSimMod3[256];
+    TApplication     *fApp;
+    TGraph           *fAll0;
+    TGraph           *fAll1;
+    TGraph           *fAll2;
+    TGraph           *fAll3;
+    TMultiGraph      *fTMGXZ;
+    TMultiGraph      *fTMGYZ;
+    bool              fTVOn;
+    bool              fTVChecker;
+    double            fTVCenter[3];
+    double            fTVRadius;
+    double            fTVLength;
+    double            fTVWidth;
+    double            fTVHeight;
+    TEllipse         *fEllipseXZ;
+    TEllipse         *fEllipseYZ;
+    TBox             *fBoxXZ;
+    TBox             *fBoxYZ;
 
-  void InitFile(const std::string file_name, int event_number);
-  void RawDumpTrue();
-  void RawDumpSim();
-  void SetupTVs();
-  void InitAllGraphs();
-  void DrawTrue(int argc, char *argv[]);
-  void DrawSim(int argc, char *argv[]);
-};
+  public:
+    evd();
+    virtual ~evd();
+
+    void InitFile(const std::string file_name, int event_number);
+    void RawDumpTrue();
+    void RawDumpSim();
+    void SetupTVs();
+    void InitAllGraphs();
+    void DrawTrue(int argc, char *argv[]);
+    void DrawSim(int argc, char *argv[]);
+  };
+}
 
 #endif
