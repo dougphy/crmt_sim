@@ -16,31 +16,42 @@ namespace geo {
     
   private:
     
-    double fTx;
-    double fTy;
-    double fTz;
-    double fX0;
-    double fY0;
-    double fZ0;
-    double fTheta;
-    double fPhi;
-    double fAngleXZ;
-    double fAngleYZ;
-    double fSlopeXZ;
-    double fSlopeYZ;
-    double fYintXZ;
-    double fYintYZ;
+    double fTx;        ///< x trajectory unit vector
+    double fTy;        ///< y trajectory unit vector
+    double fTz;        ///< z trajectory unit vector
+    double fX0;        ///< x initial position
+    double fY0;        ///< y initial position
+    double fZ0;        ///< z initial position
+    double fTheta;     ///< theta, spherical zenith)
+    double fPhi;       ///< phi, spherical polar)
+    double fAngleXZ;   ///< xz projection zenith angle
+    double fAngleYZ;   ///< yz projection zenith angle
+    double fSlopeXZ;   ///< xz projection line slope
+    double fSlopeYZ;   ///< yz projection line slope
+    double fYintXZ;    ///< xz projection line y-int
+    double fYintYZ;    ///< yz projection line y-int
 
   public:
 
+    /// Default constructor
     Line();
+
+    /// Virtual destructor
     virtual ~Line();
 
+    /// Set's the initial position of the muon (x,y,z)
     void SetInitialPos(double x, double y, double z);
+
+    /// Set's the angles in spherical 3D space (phi,theta)
     void SetLinePropertiesFromPhiTheta(double phi, double theta);
+
+    /// Set's the remaining attributes of the line from Phi and Theta
     void SetLinePropertiesFromAngles();
 
+    /// Manually sets the xz projection angle
     inline void SetAngleXZ(double x);
+
+    /// Manually sets the yz projection angle
     inline void SetAngleYZ(double y);
 
     inline double Tx()      const { return fTx;      }

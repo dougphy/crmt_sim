@@ -1,6 +1,7 @@
 //////////////////////////////////////////////////////////////////////
 /// \file evd.h
-/// \brief A class which describes a single event display
+/// \brief A class which describes a single event display.
+///        inherits some variables from gen::evg  
 /// \author Douglas Davis < douglasdavis@utexas.edu >
 //////////////////////////////////////////////////////////////////////
 
@@ -16,65 +17,60 @@
 #include "TMultiGraph.h"
 #include "TEllipse.h"
 #include "TBox.h"
+#include "evg.h"
 
 namespace disp {
 
-  class evd {
+  class evd : public gen::evg {
 
   private:
-    TFile            *fFile;
-    TTree            *fTree;
-    TTree            *fVolTree;
-    double            fGap;
-    int               fSelectedEventID;
-    double            fInitialX;
-    double            fInitialY;
-    double            fInitialZ;
-    double            fPhi;
-    double            fTheta;
-    double            fAngleXZ;
-    double            fAngleYZ;
-    double            fSlopeXZ;
-    double            fSlopeYZ;
-    double            fYintXZ;
-    double            fYintYZ;
-    bool              fTrueMod0[256];
-    bool              fTrueMod1[256];
-    bool              fTrueMod2[256];
-    bool              fTrueMod3[256];
-    bool              fSimMod0[256];
-    bool              fSimMod1[256];
-    bool              fSimMod2[256];
-    bool              fSimMod3[256];
-    TApplication     *fApp;
-    TGraph           *fAll0;
-    TGraph           *fAll1;
-    TGraph           *fAll2;
-    TGraph           *fAll3;
-    TMultiGraph      *fTMGXZ;
-    TMultiGraph      *fTMGYZ;
-    bool              fTVOn;
-    bool              fTVChecker;
-    double            fTVCenter[3];
-    double            fTVRadius;
-    double            fTVLength;
-    double            fTVWidth;
-    double            fTVHeight;
-    TEllipse         *fEllipseXZ;
-    TEllipse         *fEllipseYZ;
-    TBox             *fBoxXZ;
-    TBox             *fBoxYZ;
+    TFile            *fFile; ///< file to be read
+    TTree            *fTree; ///< simulation tree to read simulation info
+    TTree            *fVolTree; ///< test volume tree to read test volume info
+    int               fSelectedEventID; ///< event to display id#
+    double            fGap; ///< gap for event
+    double            fInitialX; ///< initial x
+    double            fInitialY; ///< initial y
+    TApplication     *fApp; ///< ROOT application to draw with X11
+    TGraph           *fAll0; ///< contains all points for mod0
+    TGraph           *fAll1; ///< contains all points for mod1
+    TGraph           *fAll2; ///< contains all points for mod2
+    TGraph           *fAll3; ///< contains all points for mod3
+    TMultiGraph      *fTMGXZ; ///< contains points for xz plane
+    TMultiGraph      *fTMGYZ; ///< contains points for yz plane
+    bool              fTVChecker; ///< checks for a test volume
+    TEllipse         *fEllipseXZ; ///< ellipse object to draw sphere projection xz
+    TEllipse         *fEllipseYZ; ///< ellipse object to draw sphere projection yz
+    TBox             *fBoxXZ; ///< box object to draw box projection xz
+    TBox             *fBoxYZ; ///< box object to draw box projection yz
 
   public:
+
+    /// Default constructor
     evd();
+
+    /// Virtual destructor
     virtual ~evd();
 
+    /// Initialized file to read event from
     void InitFile(const std::string file_name, int event_number);
+
+    /// Dump raw hit fibers
     void RawDumpTrue();
+
+    /// Dump raw hit simulated fibers (multiplexed)
     void RawDumpSim();
+
+    /// Sets up test volume info
     void SetupTVs();
+    
+    /// Initialized the graphs which draw all points
     void InitAllGraphs();
+
+    /// Draws the true event display
     void DrawTrue(int argc, char *argv[]);
+
+    /// Draws the simulated event display (multiplxed)
     void DrawSim(int argc, char *argv[]);
   };
 }
