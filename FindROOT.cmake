@@ -157,7 +157,7 @@ IF( exit_code EQUAL 0 )
     ENDFOREACH()
 
     IF( NOT ROOT_FIND_QUIETLY )
-        MESSAGE( STATUS "Check for ROOT: detected libraries: ${ROOT_LIB_NAMES}" )
+        MESSAGE( STATUS "Check for ROOT: detected" )
     ENDIF()
 
 ELSE()
