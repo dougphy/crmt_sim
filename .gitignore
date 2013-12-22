@@ -7,3 +7,5 @@ crmt
 *.pdf
 build
 doxygen_doc
+*.so
+*.dylib

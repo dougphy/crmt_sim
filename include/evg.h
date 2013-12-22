@@ -17,7 +17,7 @@
 #include <fstream>
 #include <cmath>
 
-namespace gen {
+namespace ev {
 
   class evg {
   

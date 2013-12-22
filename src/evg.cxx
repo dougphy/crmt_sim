@@ -12,7 +12,7 @@
 #include "TRandom.h"
 #include "TF1.h"
 
-namespace gen {
+namespace ev {
 
   evg::evg() {}
 
