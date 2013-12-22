@@ -5,3 +5,5 @@ crmt
 *.log
 *.bib
 *.pdf
+build
+doxygen_doc
