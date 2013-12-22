@@ -6,7 +6,9 @@
    +      UTKL               +
    ===========================
 
-   See UTKLDocDB-doc-780 for a description of this software
+   * See UTKLDocDB-doc-780 for a description of this software *
+   * The compilation  method from this document is outdated   *
+   * Use the below instructions to compile                    *
 
    === Compile with cmake  ===
      $ mkdir build
@@ -16,10 +18,10 @@
 
 
    === Running ===
-     (* Return back to main directory (cd .. from previous step) *)
+     (* Return back to main directory (cd .. from compile step) *)
      execute with:
      $ bin/crmt
-     usage will be displayed
+     usage will be displayed, see document for details
 
    === Configuration file setting ===
      See above DocDB entry for description
