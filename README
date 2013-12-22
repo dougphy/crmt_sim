@@ -8,17 +8,15 @@
 
    See UTKLDocDB-doc-780 for a description of this software
 
-   === To compile with CMake ===
+   === Compile with cmake  ===
      $ mkdir build
      $ cd build
      $ cmake -DROOT_HOME=<ROOTSYS> ..
      $ make
 
-   === To compile with GNU make === (** CMake is probably more reliable! **)
-     $ make
 
    === Running ===
-     (* If compiled with CMake return back to main directory (cd ..) from previous step *)
+     (* Return back to main directory (cd .. from previous step *)
      execute with:
      $ bin/crmt
      usage will be displayed
