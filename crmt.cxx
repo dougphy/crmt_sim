@@ -20,11 +20,8 @@
  * $ cmake -DROOT_HOME=<ROOTSYS> .. <BR>
  * $ make <BR>
  * <BR>
- * === To compile with GNU make === (** CMake is probably more reliable! **) <BR>
- * $ make <BR>
- * <BR>
  * === Running === <BR>
- * (* If compiled with CMake return back to main directory (cd ..) from previous step *) <BR>
+ * (* return back to main directory (cd .. from previous step) *) <BR>
  * execute with: <BR>
  * $ bin/crmt <BR>
  * usage will be displayed <BR>

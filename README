@@ -16,7 +16,7 @@
 
 
    === Running ===
-     (* Return back to main directory (cd .. from previous step *)
+     (* Return back to main directory (cd .. from previous step) *)
      execute with:
      $ bin/crmt
      usage will be displayed
