@@ -32,6 +32,11 @@
  */
 
 #include <iostream>
+// Check to see if GNU C++ compiler
+#if __GNUG__
+#include <cstdlib>
+#endif
+// crmt library includes
 #include "evd.h"
 #include "evg.h"
 #include "Line.h"
