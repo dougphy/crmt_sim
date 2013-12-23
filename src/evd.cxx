@@ -43,26 +43,27 @@ namespace ev {
   {
     fFile = new TFile(file_name.c_str());
     fTree = (TTree*)fFile->Get("SimulationTree");
-    fTree->SetBranchAddress("InitialX", &fInitialX);
-    fTree->SetBranchAddress("InitialY", &fInitialY);
-    fTree->SetBranchAddress("InitialZ", &fInitialZ);
-    fTree->SetBranchAddress("AngleXZ",  &fAngleXZ);
-    fTree->SetBranchAddress("AngleYZ",  &fAngleYZ);
-    fTree->SetBranchAddress("Phi",      &fPhi);
-    fTree->SetBranchAddress("Theta",    &fTheta);
-    fTree->SetBranchAddress("SlopeXZ",  &fSlopeXZ);
-    fTree->SetBranchAddress("SlopeYZ",  &fSlopeYZ);
-    fTree->SetBranchAddress("YintXZ",   &fYintXZ);
-    fTree->SetBranchAddress("YintYZ",   &fYintYZ);
-    fTree->SetBranchAddress("TrueMod0",  fTrueMod0);
-    fTree->SetBranchAddress("TrueMod1",  fTrueMod1);
-    fTree->SetBranchAddress("TrueMod2",  fTrueMod2);
-    fTree->SetBranchAddress("TrueMod3",  fTrueMod3);
-    fTree->SetBranchAddress("SimMod0",   fSimMod0);
-    fTree->SetBranchAddress("SimMod1",   fSimMod1);
-    fTree->SetBranchAddress("SimMod2",   fSimMod2);
-    fTree->SetBranchAddress("SimMod3",   fSimMod3);
-    fTree->SetBranchAddress("Gap",      &fGap);
+    fTree->SetBranchAddress("InitialX",   &fInitialX);
+    fTree->SetBranchAddress("InitialY",   &fInitialY);
+    fTree->SetBranchAddress("InitialZ",   &fInitialZ);
+    fTree->SetBranchAddress("AngleXZ",    &fAngleXZ);
+    fTree->SetBranchAddress("AngleYZ",    &fAngleYZ);
+    fTree->SetBranchAddress("Phi",        &fPhi);
+    fTree->SetBranchAddress("Theta",      &fTheta);
+    fTree->SetBranchAddress("SlopeXZ",    &fSlopeXZ);
+    fTree->SetBranchAddress("SlopeYZ",    &fSlopeYZ);
+    fTree->SetBranchAddress("YintXZ",     &fYintXZ);
+    fTree->SetBranchAddress("YintYZ",     &fYintYZ);
+    fTree->SetBranchAddress("Gap",        &fGap);
+    fTree->SetBranchAddress("Coincidence",&fCoincidence);
+    fTree->SetBranchAddress("TrueMod0",    fTrueMod0);
+    fTree->SetBranchAddress("TrueMod1",    fTrueMod1);
+    fTree->SetBranchAddress("TrueMod2",    fTrueMod2);
+    fTree->SetBranchAddress("TrueMod3",    fTrueMod3);
+    fTree->SetBranchAddress("SimMod0",     fSimMod0);
+    fTree->SetBranchAddress("SimMod1",     fSimMod1);
+    fTree->SetBranchAddress("SimMod2",     fSimMod2);
+    fTree->SetBranchAddress("SimMod3",     fSimMod3);
     fSelectedEventID = event_number;
 
     fVolTree = (TTree*)fFile->Get("TestVolumeTree");
@@ -248,14 +249,18 @@ namespace ev {
     fTMGXZ = new TMultiGraph();
     fTMGXZ->Add(fAll1);
     fTMGXZ->Add(fAll3);
-    fTMGXZ->Add(Graph1);
-    fTMGXZ->Add(Graph3);
+    if ( fCoincidence ) {
+      fTMGXZ->Add(Graph1);
+      fTMGXZ->Add(Graph3);
+    }
     fTMGXZ->Add(HolderXZ);
     fTMGYZ = new TMultiGraph();
     fTMGYZ->Add(fAll0);
     fTMGYZ->Add(fAll2);
-    fTMGYZ->Add(Graph0);
-    fTMGYZ->Add(Graph2);
+    if ( fCoincidence ) {
+      fTMGYZ->Add(Graph0);
+      fTMGYZ->Add(Graph2);
+    }
     fTMGYZ->Add(HolderYZ);
     TF1 *LineXZ = new TF1("LineXZ","pol1",0,660);
     LineXZ->SetParameters(fYintXZ,fSlopeXZ);
@@ -460,18 +465,22 @@ namespace ev {
     HolderXZ->SetPoint(1,0,550+fGap);
     HolderYZ->SetPoint(0,0,0);
     HolderYZ->SetPoint(1,0,550+fGap);
-
+    
     fTMGXZ = new TMultiGraph();
     fTMGXZ->Add(fAll1);
     fTMGXZ->Add(fAll3);
-    fTMGXZ->Add(Graph1);
-    fTMGXZ->Add(Graph3);
+    if ( fCoincidence ) {
+      fTMGXZ->Add(Graph1);
+      fTMGXZ->Add(Graph3);
+    }
     fTMGXZ->Add(HolderXZ);
     fTMGYZ = new TMultiGraph();
     fTMGYZ->Add(fAll0);
     fTMGYZ->Add(fAll2);
-    fTMGYZ->Add(Graph0);
-    fTMGYZ->Add(Graph2);
+    if ( fCoincidence ) {
+      fTMGYZ->Add(Graph0);
+      fTMGYZ->Add(Graph2);
+    }
     fTMGYZ->Add(HolderYZ);
     TF1 *LineXZ = new TF1("LineXZ","pol1",0,660);
     LineXZ->SetParameters(fYintXZ,fSlopeXZ);

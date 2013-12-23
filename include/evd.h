@@ -29,6 +29,7 @@ namespace ev {
     TTree            *fVolTree; ///< test volume tree to read test volume info
     int               fSelectedEventID; ///< event to display id#
     double            fGap; ///< gap for event
+    bool              fCoincidence; ///< coincidence check
     double            fInitialX; ///< initial x
     double            fInitialY; ///< initial y
     TApplication     *fApp; ///< ROOT application to draw with X11
