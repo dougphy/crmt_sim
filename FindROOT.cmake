@@ -172,7 +172,7 @@ SET( ROOT_COMPONENT_LIBS )
 MARK_AS_ADVANCED( ROOT_COMPONENT_LIBS )
 
 # Minuit2 is always included (for backwards compatibility )
-LIST( APPEND ROOT_FIND_COMPONENTS Minuit2 )
+#LIST( APPEND ROOT_FIND_COMPONENTS Minuit2 )
 
 # append components defined in the variable ROOT_USE_COMPONENTS
 IF( DEFINED ROOT_USE_COMPONENTS )
