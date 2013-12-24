@@ -17,7 +17,7 @@
  * === To compile with CMake === <BR>
  * $ mkdir build <BR>
  * $ cd build <BR>
- * $ cmake -DROOT_HOME=<ROOTSYS> .. <BR>
+ * $ cmake -DROOT_HOME=$ROOTSYS .. <BR>
  * $ make <BR>
  * <BR>
  * === Running === <BR>
@@ -29,10 +29,19 @@
  * === Configuration file setting === <BR>
  * See above DocDB entry for description <BR>
  * <BR>
+ * === Tested Compilers === <BR>
+ * * LLVM/Clang 3.3 on OS X <BR>
+ * * LLVM/Clang 3.2 on Ubuntu <BR>
+ * * LLVM/Clang 3.0 on FreeBSD <BR>
+ * * GCC g++ 4.8.2 on OS X <BR>
+ * * GCC g++ 4.8.1 on Ubuntu <BR>
+ * * GCC g++ 4.8.2 on FreeBSD <BR>
+ *
  */
 
 #include <iostream>
 // Check to see if GNU C++ compiler
+// (Needed for g++48 w/ FreeBSD)
 #if __GNUG__
 #include <cstdlib>
 #endif
