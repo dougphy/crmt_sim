@@ -10,10 +10,10 @@
   TH1D *hAngXZ = new TH1D("hAngXZ",";Angle XZ;Counts",100,1,0);
   double Traj[3];
   double AngleXZ;
+  the_tree->SetBranchAddress("Traj",Traj);
+  the_tree->SetBranchAddress("AngleXZ",&AngleXZ);
   for (int i = 0; i < the_tree->GetEntries(); i++) {
     the_tree->GetEntry(i);
-    the_tree->SetBranchAddress("Traj",Traj);
-    the_tree->SetBranchAddress("AngleXZ",&AngleXZ);
     hTrajX->Fill(Traj[0]);
     hAngXZ->Fill(AngleXZ);
   }
