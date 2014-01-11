@@ -54,20 +54,20 @@ namespace geo {
     /// Manually sets the yz projection angle
     inline void SetAngleYZ(double y);
 
-    inline double Tx()      const { return fTx;      }
-    inline double Ty()      const { return fTy;      }
-    inline double Tz()      const { return fTz;      }
-    inline double X0()      const { return fX0;      }
-    inline double Y0()      const { return fY0;      }
-    inline double Z0()      const { return fZ0;      }
-    inline double Theta()   const { return fTheta;   }
-    inline double Phi()     const { return fPhi;     }
-    inline double AngleYZ() const { return fAngleYZ; }
-    inline double AngleXZ() const { return fAngleXZ; }
-    inline double SlopeXZ() const { return fSlopeXZ; }
-    inline double SlopeYZ() const { return fSlopeYZ; }
-    inline double YintXZ()  const { return fYintXZ;  }
-    inline double YintYZ()  const { return fYintYZ;  }
+    const double& Tx()      const { return fTx;      }
+    const double& Ty()      const { return fTy;      }
+    const double& Tz()      const { return fTz;      }
+    const double& X0()      const { return fX0;      }
+    const double& Y0()      const { return fY0;      }
+    const double& Z0()      const { return fZ0;      }
+    const double& Theta()   const { return fTheta;   }
+    const double& Phi()     const { return fPhi;     }
+    const double& AngleYZ() const { return fAngleYZ; }
+    const double& AngleXZ() const { return fAngleXZ; }
+    const double& SlopeXZ() const { return fSlopeXZ; }
+    const double& SlopeYZ() const { return fSlopeYZ; }
+    const double& YintXZ()  const { return fYintXZ;  }
+    const double& YintYZ()  const { return fYintYZ;  }
 
   };
 

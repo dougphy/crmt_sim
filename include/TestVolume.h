@@ -41,13 +41,13 @@ namespace geo {
     /// Set the origin of the test volume
     void SetOrigin(double x, double y, double z);
 
-    inline double GetLength() const { return fLength; }
-    inline double GetWidth()  const { return fWidth;  }
-    inline double GetHeight() const { return fHeight; }
-    inline double GetRadius() const { return fRadius; }    
-    inline double GetXO()     const { return fXO;     }
-    inline double GetYO()     const { return fYO;     }
-    inline double GetZO()     const { return fZO;     }
+    const double& GetLength() const { return fLength; }
+    const double& GetWidth()  const { return fWidth;  }
+    const double& GetHeight() const { return fHeight; }
+    const double& GetRadius() const { return fRadius; }    
+    const double& GetXO()     const { return fXO;     }
+    const double& GetYO()     const { return fYO;     }
+    const double& GetZO()     const { return fZO;     }
 
   };
 

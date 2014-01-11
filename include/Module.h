@@ -37,8 +37,8 @@ namespace geo {
     /// Virtual destructor
     virtual ~Module();
 
-    inline std::map<int, std::pair<double,double> > GetMap()        const { return fFiberMap;   }
-    inline int                                      GetModuleType() const { return fModuleType; }
+    const std::map<int, std::pair<double,double> >& GetMap()        const { return fFiberMap;   }
+    const int&                                      GetModuleType() const { return fModuleType; }
   };
 }
 
