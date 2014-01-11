@@ -4,11 +4,13 @@
 /// \author Douglas Davis < douglasdavis@utexas.edu >
 //////////////////////////////////////////////////////////////////////
 
-/*! \mainpage The crmt_sim software package
+/*! \mainpage The crmt_sim software package (v1.0)
  *
  * \section intro_sec Introduction
  *
- * crmt_sim is a simulation of the UTuT detector at UT Austin.
+ * crmt_sim is a simulation of the UTuT detector at UT Austin. <BR>
+ * The package is dependent on ROOT (http://root.cern.ch/)
+ * Tested versions of ROOT, v5-34-10 and later (as of 01/2014)
  *
  * \section install_sec Installation and running
  *
@@ -33,7 +35,6 @@
  * * LLVM/Clang 3.3 on OS X <BR>
  * * LLVM/Clang 3.2 on Ubuntu <BR>
  * * LLVM/Clang 3.0 on FreeBSD <BR>
- * * GCC g++ 4.8.2 on OS X <BR>
  * * GCC g++ 4.8.1 on Ubuntu <BR>
  * * GCC g++ 4.8.2 on FreeBSD <BR>
  *
