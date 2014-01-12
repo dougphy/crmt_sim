@@ -30,6 +30,5 @@
      * LLVM/Clang 3.3 on OS X
      * LLVM/Clang 3.2 on Ubuntu
      * LLVM/Clang 3.0 on FreeBSD
-     * GCC g++ 4.8.2 on OS X
      * GCC g++ 4.8.1 on Ubuntu
      * GCC g++ 4.8.2 on FreeBSD
