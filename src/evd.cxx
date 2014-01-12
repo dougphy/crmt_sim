@@ -39,7 +39,7 @@ namespace ev {
     delete fBoxYZ;
   }
 
-  void evd::InitFile(const std::string file_name, int event_number)
+  void evd::InitFile(const std::string& file_name, unsigned int event_number)
   {
     fFile = new TFile(file_name.c_str());
     fTree = (TTree*)fFile->Get("SimulationTree");
@@ -290,9 +290,9 @@ namespace ev {
     char tTheta[30];
   
     sprintf(tEID,     "Event %d",                 fSelectedEventID);
-    sprintf(tIX,      "x^{#mu}_{0} = %3.3f",      fInitialX);
-    sprintf(tIY,      "y^{#mu}_{0} = %3.3f",      fInitialY);
-    sprintf(tIZ,      "z^{#mu}_{0} = %3.3f",      fInitialZ);
+    sprintf(tIX,      "x_{0} = %3.3f",      fInitialX);
+    sprintf(tIY,      "y_{0} = %3.3f",      fInitialY);
+    sprintf(tIZ,      "z_{0} = %3.3f",      fInitialZ);
     sprintf(tGap,     "Gap = %3.3f mm",           fGap);
     sprintf(tSlopeXZ, "Slope XZ = %3.3f",         fSlopeXZ);
     sprintf(tSlopeYZ, "Slope YZ = %3.3f",         fSlopeYZ);
@@ -333,6 +333,9 @@ namespace ev {
     EventTitle->AddText(tAngleYZP);
     EventTitle->AddText(tPhiP);
     EventTitle->AddText(tThetaP);
+    EventTitle->AddText(tIXP);
+    EventTitle->AddText(tIYP);
+    EventTitle->AddText(tIZP);
   
     TPaveText *XZ_title = new TPaveText(0.36,.93,.7,.95,"brNDC");
     XZ_title->SetTextSize(22);
@@ -509,13 +512,15 @@ namespace ev {
     char tIY[30];
     char tIZ[30];
 
-    sprintf(tIX,      "x^{#mu}_{0} = %3.3f",      fInitialX);
-    sprintf(tIY,      "y^{#mu}_{0} = %3.3f",      fInitialY);
-    sprintf(tIZ,      "z^{#mu}_{0} = %3.3f",      fInitialZ);
+    sprintf(tIX,      "x_{0} = %3.3f",      fInitialX);
+    sprintf(tIY,      "y_{0} = %3.3f",      fInitialY);
+    sprintf(tIZ,      "z_{0} = %3.3f",      fInitialZ);
     sprintf(tEID,     "Event %d",                 fSelectedEventID);
     sprintf(tGap,     "Gap = %3.3f mm",           fGap);
     sprintf(tSlopeXZ, "Slope XZ = %3.3f",         fSlopeXZ);
     sprintf(tSlopeYZ, "Slope YZ = %3.3f",         fSlopeYZ);
+    sprintf(tPhi,     "Phi = %3.3f degrees",      fPhi*180/3.14159);
+    sprintf(tTheta,   "Theta = %3.3f degrees",    fTheta*180/3.14159);
     if ( fAngleXZ > 0 ) {
       sprintf(tAngleXZ, "Angle XZ = %3.3f degrees", fAngleXZ*180/3.14159 - 180.);
       sprintf(tAngleYZ, "Angle YZ = %3.3f degrees", fAngleYZ*180/3.14159 - 180.);
@@ -524,8 +529,6 @@ namespace ev {
       sprintf(tAngleXZ, "Angle XZ = %3.3f degrees", fAngleXZ*180/3.14159 + 180.);
       sprintf(tAngleYZ, "Angle YZ = %3.3f degrees", fAngleYZ*180/3.14159 + 180.);
     }
-    sprintf(tPhi,     "Phi = %3.3f degrees",      fPhi*180/3.14159);
-    sprintf(tTheta,   "Theta = %3.3f degrees",    fTheta*180/3.14159);
 
     const char *tIXP      = tIX;
     const char *tIYP      = tIY;
@@ -553,6 +556,9 @@ namespace ev {
     EventTitle->AddText(tAngleYZP);
     EventTitle->AddText(tPhiP);
     EventTitle->AddText(tThetaP);
+    EventTitle->AddText(tIXP);
+    EventTitle->AddText(tIYP);
+    EventTitle->AddText(tIZP);
   
     TPaveText *XZ_title = new TPaveText(0.36,.93,.7,.95,"brNDC");
     XZ_title->SetTextSize(22);

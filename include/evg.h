@@ -120,7 +120,7 @@ namespace ev {
     evg();
 
     /// Used constructor (name for file, # events)
-    evg(std::string fname, int n_events);
+    evg(const std::string& fname, unsigned int n_events);
 
     /// Virtual destructor
     virtual ~evg();

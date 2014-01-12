@@ -18,7 +18,7 @@ namespace ev {
 
   // __________________________________________________________________
 
-  evg::evg(std::string file_name, int n_events)
+  evg::evg(const std::string& file_name, unsigned int n_events)
   {
     std::string name = "output/"+file_name;
     fNEvents  = n_events;
@@ -243,7 +243,7 @@ namespace ev {
     std::map<int, std::pair<double,double> >::iterator FiberItr;
 
     TF1 *cossq = new TF1("cossq","cos(x)*cos(x)",PI/2.,PI);
-    for ( int ev = 0; ev < fNEvents; ev++ ) {
+    for ( unsigned int ev = 0; ev < fNEvents; ev++ ) {
       geo::Line *Muon = new geo::Line();
       double InitialZ = 542 + fGap;
       fInitialZ = InitialZ;

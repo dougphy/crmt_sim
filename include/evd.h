@@ -54,7 +54,7 @@ namespace ev {
     virtual ~evd();
 
     /// Initialized file to read event from
-    void InitFile(const std::string file_name, int event_number);
+    void InitFile(const std::string& file_name, unsigned int event_number);
 
     /// Dump raw hit fibers
     void RawDumpTrue();
