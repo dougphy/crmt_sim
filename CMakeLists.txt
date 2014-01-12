@@ -6,7 +6,7 @@ project(crmt)
 ## -- set some cmake variables
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/lib")
-set(CMAKE_CXX_FLAGS "-g -m64 -O3 -std=c++11")
+set(CMAKE_CXX_FLAGS "-g -Wall -O3 -std=c++11")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR})
 
 ## -- prepare ROOT

@@ -18,17 +18,25 @@ namespace geo {
     double y;
     double x = 0;
     double raise;
-    if ( fModuleType == 0 )
+    
+    switch ( fModuleType ) {
+    case 0:
       raise = 3*(4*fScintHeight+3*fScintGap)+gap;
-    else if ( fModuleType == 1 )
+      break;
+    case 1:
       raise = 2*(4*fScintHeight+3*fScintGap)+gap;
-    else if ( fModuleType == 2 )
+      break;
+    case 2:
       raise = 1*(4*fScintHeight+3*fScintGap);
-    else if ( fModuleType == 3 )
+      break;
+    case 3:
       raise = 0;
-    else
+      break;
+    default:
       std::cout << "fModuleType bad in Module::Module" << std::endl;
-
+      break;
+    }
+    
     for (int i = 0; i < 256; i++) {
       if ( i < 64 ) {
 	y = fScintShift+fModGap+3*fScintGap+3.5*fScintHeight+raise;
