@@ -33,7 +33,8 @@ namespace geo {
       raise = 0;
       break;
     default:
-      std::cout << "fModuleType bad in Module::Module" << std::endl;
+      raise = 0;
+      std::cout << "fModuleType bad in Module::Module, raise set to 0." << std::endl;
       break;
     }
     
