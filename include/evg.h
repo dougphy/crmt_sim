@@ -41,7 +41,7 @@ namespace ev {
     double                             fAnglePolarUniformMin; ///< polar uniform min
     double                             fAnglePolarUniformMax; ///< polar uniform max
     double                             fGap; ///< detector gap
-    int                                fNEvents; ///< number of events
+    unsigned int                       fNEvents; ///< number of events
     TFile                             *fFile; ///< ROOT file
     TTree                             *fTree; ///< simulation tree
     int                                fEventID; ///< event ID for each event

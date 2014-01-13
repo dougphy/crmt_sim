@@ -366,15 +366,9 @@ namespace ev {
 	  Mod2Checker = true;
 	}
       }
-
-      bool yz_through_bottom_square = false;
-      double horiz_check = (0.0 - Muon->YintYZ())/(Muon->SlopeYZ());
-      if ( horiz_check > 0 && horiz_check < 640 )
-	yz_through_bottom_square = true;
       
       fCoincidence = true;
       if ( !Mod1Checker || !Mod0Checker || !Mod2Checker || !Mod3Checker ) {
-	//if ( bot_counter == 0 || top_counter == 0 || !yz_through_bottom_square ) {
 	fCoincidence = false;
 	for ( int i = 0; i < 256; i++ ) {
 	  fTrueMod0[i] = false;
@@ -431,19 +425,14 @@ namespace ev {
   bool evg::Intersection(double FibI, double FibJ, geo::Line *function, 
 			 bool view_xz, double gap, int type) {
 
-    double Slope, Yint, Slope_perp, Yint_perp;
+    double Slope, Yint;
     if ( view_xz ) {
       Slope      = function->SlopeXZ();
-      Yint       = function->YintXZ();
-      Slope_perp = function->SlopeYZ();
-      Yint_perp  = function->YintYZ();
-    
+      Yint       = function->YintXZ();    
     }
     else { 
       Slope      = function->SlopeYZ();
       Yint       = function->YintYZ();
-      Slope_perp = function->SlopeXZ();
-      Yint_perp  = function->YintXZ();
     }
   
     double           LeftEdge_h = FibI - fScintWidth/2.0;
@@ -526,19 +515,19 @@ namespace ev {
     for ( auto iMap : fFiberCouplingMap ) {
       for ( auto hit : Hits0 )
 	if ( std::find(iMap.second.begin(),iMap.second.end(),hit) != iMap.second.end() )
-	  for ( int i = 0; i < iMap.second.size(); i++ )
+	  for ( unsigned int i = 0; i < iMap.second.size(); i++ )
 	    fSimMod0[iMap.second[i]] = true;
       for ( auto hit : Hits1 )
 	if ( std::find(iMap.second.begin(),iMap.second.end(),hit) != iMap.second.end() )
-	  for ( int i = 0; i < iMap.second.size(); i++ )
+	  for ( unsigned int i = 0; i < iMap.second.size(); i++ )
 	    fSimMod1[iMap.second[i]] = true;
       for ( auto hit : Hits2 )
 	if ( std::find(iMap.second.begin(),iMap.second.end(),hit) != iMap.second.end() )
-	  for ( int i = 0; i < iMap.second.size(); i++ )
+	  for ( unsigned int i = 0; i < iMap.second.size(); i++ )
 	    fSimMod2[iMap.second[i]] = true;
       for ( auto hit : Hits3 )
 	if ( std::find(iMap.second.begin(),iMap.second.end(),hit) != iMap.second.end() )
-	  for ( int i = 0; i < iMap.second.size(); i++ )
+	  for ( unsigned int i = 0; i < iMap.second.size(); i++ )
 	    fSimMod3[iMap.second[i]] = true;
     }
   
