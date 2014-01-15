@@ -31,3 +31,5 @@ target_link_libraries(Ev ${ROOT_LIBS} Geo)
 add_executable(crmt crmt.cxx)
 ## -- add executable dependencies
 target_link_libraries(crmt ${ROOT_LIBS} Ev Geo)
+
+add_subdirectory(geo_test)
