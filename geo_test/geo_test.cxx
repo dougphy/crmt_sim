@@ -14,25 +14,29 @@ int main()
   auto map2 = mod2.GetMap();
   auto map3 = mod3.GetMap();
   
-  printf("MOD 0\n********\n");
+  printf("MOD 0\n");
   for ( auto loc : map0 ) {
     printf("%d ",loc.first);
     printf("%4.8f %4.8f \n",loc.second.first,loc.second.second);
   }
-  printf("MOD 1\n\n");
+
+  printf("MOD 1\n");
   for ( auto loc : map1 ) {
     printf("%d ",loc.first);
     printf("%4.8f %4.8f \n",loc.second.first,loc.second.second);
   }
-  printf("MOD 2\n\n");
+
+  printf("MOD 2\n");
   for ( auto loc : map2 ) {
     printf("%d ",loc.first);
     printf("%4.8f %4.8f \n",loc.second.first,loc.second.second);
   }
-  printf("MOD 3\n\n");
+
+  printf("MOD 3\n");
   for ( auto loc : map3 ) {
     printf("%d ",loc.first);
     printf("%4.8f %4.8f \n",loc.second.first,loc.second.second);
   }
+
   return 0;
 }
