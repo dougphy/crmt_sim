@@ -48,6 +48,8 @@ namespace ev {
     fTree->SetBranchAddress("InitialZ",   &fInitialZ);
     fTree->SetBranchAddress("AngleXZ",    &fAngleXZ);
     fTree->SetBranchAddress("AngleYZ",    &fAngleYZ);
+    fTree->SetBranchAddress("AngleXZ_RF", &fAngleXZ_RF);
+    fTree->SetBranchAddress("AngleYZ_RF", &fAngleYZ_RF);
     fTree->SetBranchAddress("Phi",        &fPhi);
     fTree->SetBranchAddress("Theta",      &fTheta);
     fTree->SetBranchAddress("SlopeXZ",    &fSlopeXZ);
@@ -296,14 +298,8 @@ namespace ev {
     sprintf(tGap,     "Gap = %3.3f mm",           fGap);
     sprintf(tSlopeXZ, "Slope XZ = %3.3f",         fSlopeXZ);
     sprintf(tSlopeYZ, "Slope YZ = %3.3f",         fSlopeYZ);
-    if ( fAngleXZ > 0 ) {
-      sprintf(tAngleXZ, "Angle XZ = %3.3f degrees", fAngleXZ*180/3.14159 - 180.);
-      sprintf(tAngleYZ, "Angle YZ = %3.3f degrees", fAngleYZ*180/3.14159 - 180.);
-    }
-    else {
-      sprintf(tAngleXZ, "Angle XZ = %3.3f degrees", fAngleXZ*180/3.14159 + 180.);
-      sprintf(tAngleYZ, "Angle YZ = %3.3f degrees", fAngleYZ*180/3.14159 + 180.);
-    }
+    sprintf(tAngleXZ, "Angle XZ = %3.3f degrees", fAngleXZ_RF*180/3.14159);
+    sprintf(tAngleYZ, "Angle YZ = %3.3f degrees", fAngleYZ_RF*180/3.14159);
     sprintf(tPhi,     "Phi = %3.3f degrees",      fPhi*180/3.14159);
     sprintf(tTheta,   "Theta = %3.3f degrees",    fTheta*180/3.14159);
   
@@ -521,14 +517,8 @@ namespace ev {
     sprintf(tSlopeYZ, "Slope YZ = %3.3f",         fSlopeYZ);
     sprintf(tPhi,     "Phi = %3.3f degrees",      fPhi*180/3.14159);
     sprintf(tTheta,   "Theta = %3.3f degrees",    fTheta*180/3.14159);
-    if ( fAngleXZ > 0 ) {
-      sprintf(tAngleXZ, "Angle XZ = %3.3f degrees", fAngleXZ*180/3.14159 - 180.);
-      sprintf(tAngleYZ, "Angle YZ = %3.3f degrees", fAngleYZ*180/3.14159 - 180.);
-    }
-    else {
-      sprintf(tAngleXZ, "Angle XZ = %3.3f degrees", fAngleXZ*180/3.14159 + 180.);
-      sprintf(tAngleYZ, "Angle YZ = %3.3f degrees", fAngleYZ*180/3.14159 + 180.);
-    }
+    sprintf(tAngleXZ, "Angle XZ = %3.3f degrees", fAngleXZ_RF*180/3.14159);
+    sprintf(tAngleYZ, "Angle YZ = %3.3f degrees", fAngleYZ_RF*180/3.14159);
 
     const char *tIXP      = tIX;
     const char *tIYP      = tIY;

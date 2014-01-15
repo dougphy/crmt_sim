@@ -285,16 +285,16 @@ namespace ev {
       fAngleXZ = Muon->AngleXZ();
       fAngleYZ = Muon->AngleYZ();
       if ( fAngleXZ > 0 )
-	fAngleXZ_RF = PI - fAngleXZ;
+	fAngleXZ_RF = -1*(PI - fAngleXZ);
       if ( fAngleXZ < 0 )
-	fAngleXZ_RF = fabs(fAngleXZ) - PI;
+	fAngleXZ_RF = -1*(fabs(fAngleXZ) - PI);
       if ( fAngleYZ > 0 )
-	fAngleYZ_RF = PI - fAngleYZ;
+	fAngleYZ_RF = -1*(PI - fAngleYZ);
       if ( fAngleYZ < 0 )
-	fAngleYZ_RF = fabs(fAngleYZ) - PI;
-      fTraj[0] = Muon->Tx();
-      fTraj[1] = Muon->Ty();
-      fTraj[2] = Muon->Tz();
+	fAngleYZ_RF = -1*(fabs(fAngleYZ) - PI);
+      fTraj[0] = -1*Muon->Tx();                      /// We use a negative sign here because
+      fTraj[1] = -1*Muon->Ty();                      /// geo::Line corresponds to upwards lines
+      fTraj[2] = -1*Muon->Tz();                      /// where the detector computes downward lines
       fSlopeXZ = Muon->SlopeXZ();
       fSlopeYZ = Muon->SlopeYZ();
       fYintXZ  = Muon->YintXZ();
