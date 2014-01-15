@@ -51,6 +51,11 @@ namespace ev {
     fTree->Branch("SimMod2",          fSimMod2,         "SimMod2[256]/O");
     fTree->Branch("SimMod3",          fSimMod3,         "SimMod3[256]/O");
 
+    fTree->Branch("PinsMod0",&fPinsMod0);
+    fTree->Branch("PinsMod1",&fPinsMod1);
+    fTree->Branch("PinsMod2",&fPinsMod2);
+    fTree->Branch("PinsMod3",&fPinsMod3);
+
     fTreeMod0 = new TTree("Mod0Tree","Mod0Tree");
     fTreeMod1 = new TTree("Mod1Tree","Mod1Tree");
     fTreeMod2 = new TTree("Mod2Tree","Mod2Tree");
@@ -400,6 +405,24 @@ namespace ev {
       Multiplex();
       SimHitsToPixels();
       PixelsToPins();
+
+      for ( auto hit : fHitPinsTop0 )
+	fPinsMod0.push_back(hit);
+      for ( auto hit : fHitPinsBot0 )
+	fPinsMod0.push_back(hit);
+      for ( auto hit : fHitPinsTop1 )
+	fPinsMod1.push_back(hit);
+      for ( auto hit : fHitPinsBot1 )
+	fPinsMod1.push_back(hit);
+      for ( auto hit : fHitPinsTop2 )
+	fPinsMod2.push_back(hit);
+      for ( auto hit : fHitPinsBot2 )
+	fPinsMod2.push_back(hit);
+      for ( auto hit : fHitPinsTop3 )
+	fPinsMod3.push_back(hit);
+      for ( auto hit : fHitPinsBot3 )
+	fPinsMod3.push_back(hit);
+
       fTreeMod0->Fill();
       fTreeMod1->Fill();
       fTreeMod2->Fill();
@@ -689,6 +712,11 @@ namespace ev {
     fHitPinsBot2.clear();
     fHitPinsTop3.clear();
     fHitPinsBot3.clear();
+
+    fPinsMod0.clear();
+    fPinsMod1.clear();
+    fPinsMod2.clear();
+    fPinsMod3.clear();
   }
 
   // __________________________________________________________________

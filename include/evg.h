@@ -76,6 +76,10 @@ namespace ev {
     TTree                             *fTreeMod1; ///< tree for mod1 pixels and pins
     TTree                             *fTreeMod2; ///< tree for mod2 pixels and pins
     TTree                             *fTreeMod3; ///< tree for mod3 pixels and pins
+    std::vector<int>                   fPinsMod0;
+    std::vector<int>                   fPinsMod1;
+    std::vector<int>                   fPinsMod2;
+    std::vector<int>                   fPinsMod3;
     std::vector<int>                   fHitPixelsTop0; ///< contains hit pixel ids (mod0 top pmt)
     std::vector<int>                   fHitPixelsBot0; ///< contains hit pixel ids (mod0 bottom pmt)
     std::vector<int>                   fHitPixelsTop1; ///< contains hit pixel ids (mod1 top pmt)
