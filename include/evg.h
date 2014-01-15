@@ -68,6 +68,10 @@ namespace ev {
     bool                               fSimMod1[256]; ///< mod1 array of hits (multiplexed)
     bool                               fSimMod2[256]; ///< mod2 array of hits (multiplexed)
     bool                               fSimMod3[256]; ///< mod3 array of hits (multiplexed)
+    bool                               fPinsArray0[32];
+    bool                               fPinsArray1[32];
+    bool                               fPinsArray2[32];
+    bool                               fPinsArray3[32];
     std::vector< std::pair<int,int> >  fRemapFiberTop; ///< pairs connecting fiber to pixel (top pmt)
     std::vector< std::pair<int,int> >  fRemapFiberBot; ///< pairs connecting fiber to pixel (bottom pmt)
     std::vector< std::pair<int,int> >  fPixelToPinTop; ///< pairs connecting pixel to pin (top pmt)

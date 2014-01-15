@@ -56,6 +56,12 @@ namespace ev {
     fTree->Branch("PinsMod2",&fPinsMod2);
     fTree->Branch("PinsMod3",&fPinsMod3);
 
+    fTree->Branch("PinsArray0", fPinsArray0, "PinsArray0[32]/O");
+    fTree->Branch("PinsArray1", fPinsArray1, "PinsArray1[32]/O");
+    fTree->Branch("PinsArray2", fPinsArray2, "PinsArray2[32]/O");
+    fTree->Branch("PinsArray3", fPinsArray3, "PinsArray3[32]/O");
+
+
     fTreeMod0 = new TTree("Mod0Tree","Mod0Tree");
     fTreeMod1 = new TTree("Mod1Tree","Mod1Tree");
     fTreeMod2 = new TTree("Mod2Tree","Mod2Tree");
@@ -229,11 +235,17 @@ namespace ev {
     std::cout << "fAnglePolarUniformMax      = " << fAnglePolarUniformMax << "\n";
     std::cout << "fGap                       = " << fGap << "\n";
   }
-
+  
   // __________________________________________________________________
-
+  
   void evg::RunEvents()
   {
+    for ( int i = 0; i < 32; i++ ) {
+      fPinsArray0[i] = false;
+      fPinsArray1[i] = false;
+      fPinsArray2[i] = false;
+      fPinsArray3[i] = false;
+    }
     InitCoupleMap();
     InitFiberPixelPinPairs();
     gRandom->SetSeed(0);
@@ -422,6 +434,19 @@ namespace ev {
 	fPinsMod3.push_back(hit);
       for ( auto hit : fHitPinsBot3 )
 	fPinsMod3.push_back(hit);
+      
+      for ( auto entry : fPinsMod0 )
+	if ( entry != 0 )
+	  fPinsArray0[entry] = true;
+      for ( auto entry : fPinsMod1 )
+	if ( entry != 0 )
+	  fPinsArray1[entry] = true;
+      for ( auto entry : fPinsMod2 )
+	if ( entry != 0 )
+	  fPinsArray2[entry] = true;
+      for ( auto entry : fPinsMod3 )
+	if ( entry != 0 )
+	  fPinsArray3[entry] = true;
 
       fTreeMod0->Fill();
       fTreeMod1->Fill();
@@ -717,8 +742,15 @@ namespace ev {
     fPinsMod1.clear();
     fPinsMod2.clear();
     fPinsMod3.clear();
+    
+    
+    for ( int i = 0; i < 32; i++ ) {
+      fPinsArray0[i] = false;
+      fPinsArray1[i] = false;
+      fPinsArray2[i] = false;
+      fPinsArray3[i] = false;
+    }
   }
-
   // __________________________________________________________________
 
   bool evg::SphereIntersect(geo::Line *line, geo::TestVolume *vol)
