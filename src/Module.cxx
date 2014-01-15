@@ -40,8 +40,8 @@ namespace geo {
     
     for (int i = 0; i < 256; i++) {
       if ( i < 64 ) {
-	y = fScintShift+fModGap+3*fScintGap+3.5*fScintHeight+raise;
-	x = (0.5+i)*fScintWidth;
+	y = fModGap+3*fScintGap+3.5*fScintHeight+raise;
+	x = fScintShift+(0.5+i)*fScintWidth;
 	fFiberMap[i] = std::make_pair(x,y);
       }
       else if ( i > 63 && i < 128 ) {
