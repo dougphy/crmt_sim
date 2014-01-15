@@ -165,10 +165,10 @@ namespace ev {
     inline void ClearVecs();  
 
     /// Checks for intersection through spherical test volume in both planes
-    inline bool SphereIntersect(geo::Line *line, geo::TestVolume *vol);
+    inline bool SphereIntersect(const geo::Line *line, const geo::TestVolume *vol);
 
     /// Checks for intersection through box test volume in both planes
-    inline bool BoxIntersect(geo::Line *line, geo::TestVolume *vol);
+    inline bool BoxIntersect(const geo::Line *line, const geo::TestVolume *vol);
 
   };
 }

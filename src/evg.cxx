@@ -753,7 +753,7 @@ namespace ev {
   }
   // __________________________________________________________________
 
-  bool evg::SphereIntersect(geo::Line *line, geo::TestVolume *vol)
+  bool evg::SphereIntersect(const geo::Line *line, const geo::TestVolume *vol)
   {
     double R     = vol->GetRadius();
   
@@ -777,7 +777,7 @@ namespace ev {
 
   // __________________________________________________________________
 
-  bool evg::BoxIntersect(geo::Line *line, geo::TestVolume *vol)
+  bool evg::BoxIntersect(const geo::Line *line, const geo::TestVolume *vol)
   {
     double SlopeXZ = line->SlopeXZ();
     double SlopeYZ = line->SlopeYZ();
