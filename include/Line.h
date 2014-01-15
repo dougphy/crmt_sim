@@ -54,22 +54,38 @@ namespace geo {
     /// Manually sets the yz projection angle
     inline void SetAngleYZ(double y);
 
-    const double& Tx()      const { return fTx;      }
-    const double& Ty()      const { return fTy;      }
-    const double& Tz()      const { return fTz;      }
-    const double& X0()      const { return fX0;      }
-    const double& Y0()      const { return fY0;      }
-    const double& Z0()      const { return fZ0;      }
-    const double& Theta()   const { return fTheta;   }
-    const double& Phi()     const { return fPhi;     }
-    const double& AngleYZ() const { return fAngleYZ; }
-    const double& AngleXZ() const { return fAngleXZ; }
-    const double& SlopeXZ() const { return fSlopeXZ; }
-    const double& SlopeYZ() const { return fSlopeYZ; }
-    const double& YintXZ()  const { return fYintXZ;  }
-    const double& YintYZ()  const { return fYintYZ;  }
+    const double Tx()      const;
+    const double Ty()      const;
+    const double Tz()      const;
+    const double X0()      const;
+    const double Y0()      const;
+    const double Z0()      const;
+    const double Theta()   const;
+    const double Phi()     const;
+    const double AngleYZ() const;
+    const double AngleXZ() const;
+    const double SlopeXZ() const;
+    const double SlopeYZ() const;
+    const double YintXZ()  const;
+    const double YintYZ()  const;
 
   };
 
 }
+
+inline const double geo::Line::Tx()      const { return fTx;      }
+inline const double geo::Line::Ty()      const { return fTy;      }
+inline const double geo::Line::Tz()      const { return fTz;      }
+inline const double geo::Line::X0()      const { return fX0;      }
+inline const double geo::Line::Y0()      const { return fY0;      }
+inline const double geo::Line::Z0()      const { return fZ0;      }
+inline const double geo::Line::Theta()   const { return fTheta;   }
+inline const double geo::Line::Phi()     const { return fPhi;     }
+inline const double geo::Line::AngleXZ() const { return fAngleXZ; }
+inline const double geo::Line::AngleYZ() const { return fAngleYZ; }
+inline const double geo::Line::SlopeXZ() const { return fSlopeXZ; }
+inline const double geo::Line::SlopeYZ() const { return fSlopeYZ; }
+inline const double geo::Line::YintXZ()  const { return fYintXZ;  }
+inline const double geo::Line::YintYZ()  const { return fYintYZ;  }
+
 #endif

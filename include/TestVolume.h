@@ -42,16 +42,24 @@ namespace geo {
     /// Set the origin of the test volume
     void SetOrigin(double x, double y, double z);
 
-    const double& GetLength() const { return fLength; }
-    const double& GetWidth()  const { return fWidth;  }
-    const double& GetHeight() const { return fHeight; }
-    const double& GetRadius() const { return fRadius; }    
-    const double& GetXO()     const { return fXO;     }
-    const double& GetYO()     const { return fYO;     }
-    const double& GetZO()     const { return fZO;     }
+    const double GetLength() const;
+    const double GetWidth()  const;
+    const double GetHeight() const;
+    const double GetRadius() const;
+    const double GetXO()     const;
+    const double GetYO()     const;
+    const double GetZO()     const;
 
   };
 
 }
+
+inline const double geo::TestVolume::GetLength() const { return fLength; }
+inline const double geo::TestVolume::GetWidth()  const { return fWidth;  }
+inline const double geo::TestVolume::GetHeight() const { return fHeight; }
+inline const double geo::TestVolume::GetRadius() const { return fRadius; }
+inline const double geo::TestVolume::GetXO()     const { return fXO;     }
+inline const double geo::TestVolume::GetYO()     const { return fYO;     }
+inline const double geo::TestVolume::GetZO()     const { return fZO;     }
 
 #endif

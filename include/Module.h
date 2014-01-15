@@ -36,10 +36,13 @@ namespace geo {
 
     /// Virtual destructor
     virtual ~Module();
-
-    const std::map<int, std::pair<double,double> >& GetMap()        const { return fFiberMap;   }
-    const unsigned int&                             GetModuleType() const { return fModuleType; }
+    
+    const std::map<int, std::pair<double,double> > GetMap()        const;
+    const unsigned int                             GetModuleType() const;
   };
 }
+
+inline const std::map<int, std::pair<double,double> > geo::Module::GetMap()        const { return fFiberMap;   }
+inline const unsigned int                             geo::Module::GetModuleType() const { return fModuleType; } 
 
 #endif
