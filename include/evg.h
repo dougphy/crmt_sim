@@ -143,7 +143,7 @@ namespace ev {
     void RunEvents();
 
     /// Checks to see if line intersected through extrusion cross section
-    inline bool Intersection(double FibI, double FibJ, geo::Line *function,
+    inline bool Intersection(double FibI, double FibJ, const geo::Line *function,
 			     bool view_xz, double gap, int type);
 
     /// Initialized map of coupled fibers (reads file from config directory)

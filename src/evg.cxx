@@ -470,7 +470,7 @@ namespace ev {
 
   // __________________________________________________________________
 
-  bool evg::Intersection(double FibI, double FibJ, geo::Line *function, 
+  bool evg::Intersection(double FibI, double FibJ, const geo::Line *function, 
 			 bool view_xz, double gap, int type) {
 
     double Slope, Yint;
