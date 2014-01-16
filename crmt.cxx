@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 	std::string n_holder  = argv[3];
 	std::string fname     = argv[2];
 	int events = atoi(n_holder.c_str());
-	ev::evg *event_set = new ev::evg(fname.c_str(),events);
+	ev::evg *event_set = new ev::evg(fname,events);
 	event_set->ReadParameters();
 	event_set->RunEvents();
       }
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 	std::string fname = argv[3];
 	int event = atoi(n_holder.c_str());
 	ev::evd *display = new ev::evd();
-	display->InitFile(fname.c_str(),event);
+	display->InitFile(fname,event);
 	std::string doption = argv[2];
 	if ( doption == "-s" || doption == "--sim" ) {
 	  display->DrawSim(argc,argv);
