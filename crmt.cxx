@@ -70,8 +70,10 @@ int main(int argc, char **argv)
   po::options_description desc("Options");
   desc.add_options()
     ("help,h","Print help message")
-    ("generate,g","generate events")
-    ("display,d","run the event display")
+    ("generate,g",po::value<std::string>(),
+     "generate events -g output file name")
+    ("display,d",po::value<std::string>(),
+     "run the event display -d input file name")
     ("true,t","true event display (without multiplexing)")
     ("sim,s","simulated event display (with multiplexing)")
     ("num-events,n",po::value<int>(),"set number of events")
@@ -81,61 +83,34 @@ int main(int argc, char **argv)
   po::store(po::parse_command_line(argc,argv,desc),vm);
   po::notify(vm);
   
-  
+  if ( argc == 0 )
+    std::cout << desc << std::endl;
 
-
-  if ( argc < 2 )
-    usage();
-  else {
-    std::string first_arg = argv[1];
-    
-    if ( first_arg == "-g" || first_arg == "--generate" ) {
-      if ( argc < 4 )
-	usage();
-      else {
-	std::string n_holder  = argv[3];
-	std::string fname     = argv[2];
-	int events = atoi(n_holder.c_str());
-	ev::evg *event_set = new ev::evg(fname,events);
-	event_set->ReadParameters();
-	event_set->RunEvents();
-      }
-    }
-    
-    else if ( first_arg == "-d" || first_arg == "--display") {
-      if ( argc < 5 ) 
-	usage();
-      else {
-	std::string n_holder  = argv[4];
-	std::string fname = argv[3];
-	int event = atoi(n_holder.c_str());
-	ev::evd *display = new ev::evd();
-	display->InitFile(fname,event);
-	std::string doption = argv[2];
-	if ( doption == "-s" || doption == "--sim" ) {
-	  display->DrawSim(argc,argv);
-	}
-	else if ( doption == "-t" || doption == "--true" ) {
-	  display->DrawTrue(argc,argv);
-	}
-	else {
-	  usage();
-	}
-      }  
-    }
-    
-    else if ( first_arg == "-p" || first_arg == "--parameters" ) {
-      ev::evg *event_set = new ev::evg("temp.root",1);
-      event_set->ReadParameters();
-      event_set->CheckParameters();
-      event_set->RunEvents();
-      remove("output/temp.root");
-    }
-    
-    else {
-      usage();
-    }
+  if ( vm.count("help") ) {
+    std::cout << desc << std::endl;
+    return 0;
   }
+  
+  if ( vm.count("generate") ) {
+    ev::evg event_set(vm["generate"].as<std::string>(),
+		      vm["num-events"].as<int>());
+    event_set.ReadParameters();
+    event_set.RunEvents();
+  }
+  
+  if ( vm.count("display") ) {
+    ev::evd display;
+    display.InitFile(vm["display"].as<std::string>(),
+		vm["event-id"].as<int>());
+    if ( vm.count("true") )
+      display.DrawTrue(argc,argv);
+    else if ( vm.count("sim") )
+      display.DrawSim(argc,argv);
+    else
+      std::cout << desc << std::endl;
+  }
+
+
   return 0;
 }
 
