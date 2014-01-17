@@ -54,17 +54,7 @@
 #include "TestVolume.h"
 #include "boost/program_options.hpp"
 
-void usage()
-{
-  std::cout << "crmt usage:" << std::endl;
-  std::cout << "./crmt -g,--generate [file name] [# events] " << std::endl;
-  std::cout << "./crmt -d,--display -t,--true [file name] [event #] " << std::endl;
-  std::cout << "./crmt -d,--display -s,--sim [file name] [event #] " << std::endl;
-  std::cout << "./crmt -p,--parameters " << std::endl;
-}
-
-
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
   namespace po = boost::program_options;
   po::options_description desc("Options");
@@ -83,22 +73,24 @@ int main(int argc, char **argv)
   po::store(po::parse_command_line(argc,argv,desc),vm);
   po::notify(vm);
   
-  if ( argc == 0 )
-    std::cout << desc << std::endl;
-
   if ( vm.count("help") ) {
     std::cout << desc << std::endl;
     return 0;
   }
   
-  if ( vm.count("generate") ) {
-    ev::evg event_set(vm["generate"].as<std::string>(),
-		      vm["num-events"].as<int>());
-    event_set.ReadParameters();
-    event_set.RunEvents();
+  else if ( vm.count("generate") ) {
+    if ( vm.count("num-events") ) {
+      ev::evg event_set(vm["generate"].as<std::string>(),
+			vm["num-events"].as<int>());
+      event_set.ReadParameters();
+      event_set.RunEvents();
+      std::cout << "root file written" << std::endl;
+    }
+    else
+      std::cout << desc << std::endl;
   }
   
-  if ( vm.count("display") ) {
+  else if ( vm.count("display") ) {
     ev::evd display;
     display.InitFile(vm["display"].as<std::string>(),
 		vm["event-id"].as<int>());
@@ -110,6 +102,8 @@ int main(int argc, char **argv)
       std::cout << desc << std::endl;
   }
 
+  else
+    std::cout << desc << std::endl;
 
   return 0;
 }
