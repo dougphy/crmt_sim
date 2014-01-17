@@ -73,9 +73,16 @@ int main(int argc, char **argv)
     ("generate,g","generate events")
     ("display,d","run the event display")
     ("true,t","true event display (without multiplexing)")
-    ("sim,s","simulated event display (with multiplexing)");
-
+    ("sim,s","simulated event display (with multiplexing)")
+    ("num-events,n",po::value<int>(),"set number of events")
+    ("event-id,e",po::value<int>(),"event ID for display");
+  
   po::variables_map vm;
+  po::store(po::parse_command_line(argc,argv,desc),vm);
+  po::notify(vm);
+  
+  
+
 
   if ( argc < 2 )
     usage();
