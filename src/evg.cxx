@@ -101,14 +101,16 @@ namespace ev {
 
   evg::~evg()
   {
+    /*
     delete fTestVolume;
-    delete fTestVolumeTree;
+    //    delete fTestVolumeTree;
     delete fTreeMod0;
     delete fTreeMod1;
     delete fTreeMod2;
     delete fTreeMod3;
     delete fTree;
     delete fFile;
+    */
   }
 
 

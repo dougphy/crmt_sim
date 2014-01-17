@@ -81,7 +81,6 @@ int main(int argc, char *argv[])
 			vm["num-events"].as<int>());
       event_set.ReadParameters();
       event_set.RunEvents();
-      std::cout << "root file written" << std::endl;
     }
     else
       std::cout << desc << std::endl;
@@ -90,7 +89,7 @@ int main(int argc, char *argv[])
   else if ( vm.count("display") ) {
     ev::evd display;
     display.InitFile(vm["display"].as<std::string>(),
-		vm["event-id"].as<int>());
+		     vm["event-id"].as<int>());
     if ( vm.count("true") )
       display.DrawTrue(argc,argv);
     else if ( vm.count("sim") )

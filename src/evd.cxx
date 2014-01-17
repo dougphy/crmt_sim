@@ -20,25 +20,12 @@
 
 namespace ev {
 
-  evd::evd() {}
-
+  evd::evd()
+  {}
+  
   evd::~evd()
-  {
-    delete fApp;
-    delete fTree;
-    delete fFile;
-    delete fAll0;
-    delete fAll1;
-    delete fAll2;
-    delete fAll3;
-    delete fTMGXZ;
-    delete fTMGYZ;
-    delete fEllipseXZ;
-    delete fEllipseYZ;
-    delete fBoxXZ;
-    delete fBoxYZ;
-  }
-
+  {}
+  
   void evd::InitFile(const std::string& file_name, unsigned int event_number)
   {
     fFile = new TFile(file_name.c_str());
