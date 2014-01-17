@@ -263,6 +263,7 @@ namespace ev {
 
     TF1 *cossq = new TF1("cossq","cos(x)*cos(x)",PI/2.,PI);
     for ( unsigned int ev = 0; ev < fNEvents; ev++ ) {
+      fEventID = ev;
       geo::Line *Muon = new geo::Line();
       double InitialZ = 542 + fGap;
       fInitialZ = InitialZ;
