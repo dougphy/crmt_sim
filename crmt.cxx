@@ -34,9 +34,7 @@
  * === Tested Compilers === <BR>
  * * LLVM/Clang 3.3 on OS X <BR>
  * * LLVM/Clang 3.2 on Ubuntu <BR>
- * * LLVM/Clang 3.0 on FreeBSD <BR>
  * * GCC g++ 4.8.1 on Ubuntu <BR>
- * * GCC g++ 4.8.2 on FreeBSD <BR>
  *
  */
 
@@ -54,13 +52,13 @@
 int main(int argc, char *argv[])
 {
   namespace po = boost::program_options;
-  po::options_description desc("Options");
+  po::options_description desc("\ncrmt Options.\n\nExample generation:\nTo generate a_file.root with 10000 events:\n  bin/crmt --generate a_file.root --num-events 10000\nTo display the true event display for file output/a_file.root event 53:\n  bin/crmt --display output/a_file.root --true --event-id 53\n\nList of options");
   desc.add_options()
     ("help,h","Print help message")
     ("generate,g",po::value<std::string>(),
-     "generate events -g output file name")
+     "generate events -g output file name, requires --num-events,-n")
     ("display,d",po::value<std::string>(),
-     "run the event display -d input file name")
+     "run the event display -d input file name, requires --event-id,-e and --sim,-s or --true,-t")
     ("true,t","true event display (without multiplexing)")
     ("sim,s","simulated event display (with multiplexing)")
     ("num-events,n",po::value<int>(),"set number of events")
