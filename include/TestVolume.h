@@ -1,4 +1,5 @@
 //////////////////////////////////////////////////////////////////////
+/// \class TestVolume
 /// \file TestVolume.h
 /// \brief A class which describes a test volume
 /// \author Douglas Davis < douglasdavis@utexas.edu >

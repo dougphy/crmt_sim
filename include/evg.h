@@ -1,4 +1,5 @@
 //////////////////////////////////////////////////////////////////////
+/// \class evg
 /// \file evg.h
 /// \brief A class which describes a set of events (generator)
 /// \author Douglas Davis < douglasdavis@utexas.edu >

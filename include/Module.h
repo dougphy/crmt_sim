@@ -1,4 +1,5 @@
 //////////////////////////////////////////////////////////////////////
+/// \class Module
 /// \file Module.h
 /// \brief A class which describes a single module
 /// \author Douglas Davis < douglasdavis@utexas.edu >

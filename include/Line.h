@@ -1,4 +1,5 @@
 //////////////////////////////////////////////////////////////////////
+/// \class Line
 /// \file Line.h
 /// \brief A class which describes the geometric muon line in 3D
 /// \author Douglas Davis < douglasdavis@utexas.edu >

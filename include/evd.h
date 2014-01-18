@@ -1,4 +1,5 @@
 //////////////////////////////////////////////////////////////////////
+/// \class evd
 /// \file evd.h
 /// \brief A class which describes a single event display.
 ///        inherits some variables from gen::evg  
