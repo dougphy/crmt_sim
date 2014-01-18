@@ -85,17 +85,21 @@ int main(int argc, char *argv[])
   }
   
   else if ( vm.count("display") ) {
-    ev::evd display;
-    display.InitFile(vm["display"].as<std::string>(),
-		     vm["event-id"].as<int>());
-    if ( vm.count("true") )
-      display.DrawTrue(argc,argv);
-    else if ( vm.count("sim") )
-      display.DrawSim(argc,argv);
+    if ( (vm.count("true") || vm.count("sim")) && vm.count("event-id") ) {
+      ev::evd display;
+      display.InitFile(vm["display"].as<std::string>(),
+		       vm["event-id"].as<int>());
+      if ( vm.count("true") )
+	display.DrawTrue(argc,argv);
+      else if ( vm.count("sim") )
+	display.DrawSim(argc,argv);
+      else
+	std::cout << desc << std::endl;
+    }
     else
       std::cout << desc << std::endl;
   }
-
+  
   else
     std::cout << desc << std::endl;
 
