@@ -43,8 +43,9 @@ namespace geo {
     double mag = sqrt(x*x+y*y+z*z);
     fTx = x/mag; fTy = y/mag; fTz = z/mag;
 
-    fAngleXZ = atan2(x,z);
-    fAngleYZ = atan2(y,z);
+    // QUAD 1 and 2 and 3 and 4 GOOD ?????????
+    fAngleXZ = atan2(-1*x,z);
+    fAngleYZ = atan2(-1*y,z);
 		  
     fSlopeXZ = -1/tan(fAngleXZ);
     fSlopeYZ = -1/tan(fAngleYZ);
