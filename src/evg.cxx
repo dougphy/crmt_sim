@@ -322,7 +322,7 @@ namespace ev {
     
       for ( FiberItr = Mod0Loc.begin(); FiberItr != Mod0Loc.end(); FiberItr++ ) {
 	if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
-			  Muon,false,fGap,0) ) {
+			  *Muon,false,fGap,0) ) {
 	  fTrueMod0[(*FiberItr).first] = true;
 	}
 	else {
@@ -332,7 +332,7 @@ namespace ev {
     
       for ( FiberItr = Mod1Loc.begin(); FiberItr != Mod1Loc.end(); FiberItr++ ) {
 	if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
-			  Muon,true,fGap,1) ) {
+			  *Muon,true,fGap,1) ) {
 	  fTrueMod1[(*FiberItr).first] = true;
 	}
 	else {
@@ -342,7 +342,7 @@ namespace ev {
     
       for ( FiberItr = Mod2Loc.begin(); FiberItr != Mod2Loc.end(); FiberItr++ ) {
 	if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
-			  Muon,false,fGap,2) ) {
+			  *Muon,false,fGap,2) ) {
 	  fTrueMod2[(*FiberItr).first] = true;
 	}
 	else {
@@ -352,7 +352,7 @@ namespace ev {
     
       for ( FiberItr = Mod3Loc.begin(); FiberItr != Mod3Loc.end(); FiberItr++ ) {
 	if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,
-			  Muon,true,fGap,3) ) {
+			  *Muon,true,fGap,3) ) {
 	  fTrueMod3[(*FiberItr).first] = true;
 	}
 	else {
@@ -400,13 +400,13 @@ namespace ev {
       
       if ( fTestVolumeOnOff ) {
 	if ( fTVType == "sphere" ) {
-	  if ( SphereIntersect(Muon,fTestVolume) )
+	  if ( SphereIntersect(*Muon,*fTestVolume) )
 	    fTVCoincidence = true;
 	  else
 	    fTVCoincidence = false;
 	}
 	else if ( fTVType == "box" ) {
-	  if ( BoxIntersect(Muon,fTestVolume) )
+	  if ( BoxIntersect(*Muon,*fTestVolume) )
 	    fTVCoincidence = true;
 	  else
 	    fTVCoincidence = false;
@@ -473,17 +473,17 @@ namespace ev {
 
   // __________________________________________________________________
 
-  bool evg::Intersection(double FibI, double FibJ, const geo::Line *function, 
-			 bool view_xz, double gap, int type) {
+  bool evg::Intersection(const double& FibI, const double& FibJ, const geo::Line& function, 
+			 const bool& view_xz, const double& gap, const int& type) {
 
     double Slope, Yint;
     if ( view_xz ) {
-      Slope      = function->SlopeXZ();
-      Yint       = function->YintXZ();    
+      Slope      = function.SlopeXZ();
+      Yint       = function.YintXZ();    
     }
     else { 
-      Slope      = function->SlopeYZ();
-      Yint       = function->YintYZ();
+      Slope      = function.SlopeYZ();
+      Yint       = function.YintYZ();
     }
   
     double           LeftEdge_h = FibI - fScintWidth/2.0;
@@ -756,19 +756,19 @@ namespace ev {
   }
   // __________________________________________________________________
 
-  bool evg::SphereIntersect(const geo::Line *line, const geo::TestVolume *vol)
+  bool evg::SphereIntersect(const geo::Line& line, const geo::TestVolume& vol)
   {
-    double R     = vol->GetRadius();
+    double R     = vol.GetRadius();
   
-    double y1_XZ = vol->GetZO();
-    double x1_XZ = vol->GetXO();
-    double m_XZ  = line->SlopeXZ();
-    double b_XZ  = line->YintXZ();
+    double y1_XZ = vol.GetZO();
+    double x1_XZ = vol.GetXO();
+    double m_XZ  = line.SlopeXZ();
+    double b_XZ  = line.YintXZ();
   
-    double y1_YZ = vol->GetZO();
-    double x1_YZ = vol->GetYO();
-    double m_YZ  = line->SlopeYZ();
-    double b_YZ  = line->YintYZ();
+    double y1_YZ = vol.GetZO();
+    double x1_YZ = vol.GetYO();
+    double m_YZ  = line.SlopeYZ();
+    double b_YZ  = line.YintYZ();
   
     double D_XZ = fabs(y1_XZ - m_XZ*x1_XZ - b_XZ) / sqrt(m_XZ*m_XZ + 1);
     double D_YZ = fabs(y1_YZ - m_YZ*x1_YZ - b_YZ) / sqrt(m_YZ*m_YZ + 1);
@@ -780,20 +780,20 @@ namespace ev {
 
   // __________________________________________________________________
 
-  bool evg::BoxIntersect(const geo::Line *line, const geo::TestVolume *vol)
+  bool evg::BoxIntersect(const geo::Line& line, const geo::TestVolume& vol)
   {
-    double SlopeXZ = line->SlopeXZ();
-    double SlopeYZ = line->SlopeYZ();
-    double YintXZ  = line->YintXZ();
-    double YintYZ  = line->YintYZ();
+    double SlopeXZ = line.SlopeXZ();
+    double SlopeYZ = line.SlopeYZ();
+    double YintXZ  = line.YintXZ();
+    double YintYZ  = line.YintYZ();
 
-    double XO = vol->GetXO();
-    double YO = vol->GetYO();
-    double ZO = vol->GetZO();
+    double XO = vol.GetXO();
+    double YO = vol.GetYO();
+    double ZO = vol.GetZO();
 
-    double Length = vol->GetLength();
-    double Width  = vol->GetWidth();
-    double Height = vol->GetHeight();
+    double Length = vol.GetLength();
+    double Width  = vol.GetWidth();
+    double Height = vol.GetHeight();
 
     double  h_left_edge_x = XO - Length/2.0;
     double h_right_edge_x = XO + Length/2.0;

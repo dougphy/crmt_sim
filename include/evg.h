@@ -144,8 +144,8 @@ namespace ev {
     void RunEvents();
 
     /// Checks to see if line intersected through extrusion cross section
-    inline bool Intersection(double FibI, double FibJ, const geo::Line *function,
-			     bool view_xz, double gap, int type);
+    inline bool Intersection(const double& FibI, const double& FibJ, const geo::Line& function,
+			     const bool& view_xz, const double& gap, const int& type);
 
     /// Initialized map of coupled fibers (reads file from config directory)
     inline void InitCoupleMap();
@@ -166,10 +166,10 @@ namespace ev {
     inline void ClearVecs();  
 
     /// Checks for intersection through spherical test volume in both planes
-    inline bool SphereIntersect(const geo::Line *line, const geo::TestVolume *vol);
+    inline bool SphereIntersect(const geo::Line& line, const geo::TestVolume& vol);
 
     /// Checks for intersection through box test volume in both planes
-    inline bool BoxIntersect(const geo::Line *line, const geo::TestVolume *vol);
+    inline bool BoxIntersect(const geo::Line& line, const geo::TestVolume& vol);
 
   };
 }

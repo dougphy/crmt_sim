@@ -26,7 +26,7 @@ namespace ev {
   evd::~evd()
   {}
   
-  void evd::InitFile(const std::string& file_name, unsigned int event_number)
+  void evd::InitFile(const std::string& file_name, const unsigned int& event_number)
   {
     fFile = new TFile(file_name.c_str());
     fTree = (TTree*)fFile->Get("SimulationTree");
