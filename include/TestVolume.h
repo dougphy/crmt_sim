@@ -31,17 +31,17 @@ namespace geo {
     TestVolume();
  
     /// Constructor for a sphere (type, radius)
-    TestVolume(const std::string& type, double radius);
+    TestVolume(const std::string& type, double& radius);
 
     /// Constructor for a box (type, length, width, height)
-    TestVolume(const std::string& type, double length,
-	       double width, double height);
+    TestVolume(const std::string& type, double& length,
+	       double& width, double& height);
 
     /// virtual destructor
     virtual ~TestVolume();
     
     /// Set the origin of the test volume
-    void SetOrigin(double x, double y, double z);
+    void SetOrigin(double& x, double& y, double& z);
 
     const double GetLength() const;
     const double GetWidth()  const;

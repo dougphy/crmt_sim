@@ -200,20 +200,21 @@ namespace ev {
       double default_y0 = 330.;
       double default_z0 = 282.+fGap/2.;
       if ( defo == 1 ) {
-	fTestVolume->SetOrigin(default_x0 + x0,default_y0 + y0,default_z0 + z0);
 	fTVCenter[0] = default_x0 + x0;
-	fTVCenter[1] = default_y0 + x0;
-	fTVCenter[2] = default_z0 + x0;
+	fTVCenter[1] = default_y0 + y0;
+	fTVCenter[2] = default_z0 + z0;
       }
       else {
-	fTestVolume->SetOrigin(default_x0, default_y0, default_z0);
 	fTVCenter[0] = default_x0;
 	fTVCenter[1] = default_y0;
 	fTVCenter[2] = default_z0;
       }
+      fTestVolume->SetOrigin(fTVCenter[0],
+			     fTVCenter[1],
+			     fTVCenter[2]);
     }
   }
-
+  
   // __________________________________________________________________
 
   void evg::CheckParameters()

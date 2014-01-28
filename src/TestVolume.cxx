@@ -10,7 +10,7 @@ namespace geo {
   
   TestVolume::TestVolume() {}
   
-  TestVolume::TestVolume(const std::string& type, double radius)
+  TestVolume::TestVolume(const std::string& type, double& radius)
   {
     if ( type != "sphere" ) {
       std::cout << "Test Volume Constructor Bad" << std::endl;
@@ -24,8 +24,8 @@ namespace geo {
     fWidth  = 0;
   }
   
-  TestVolume::TestVolume(const std::string& type, double length, 
-			 double width, double height)
+  TestVolume::TestVolume(const std::string& type, double& length, 
+			 double& width, double& height)
   {
     if ( type != "box" ) {
       std::cout << "Test Volume Constructor Bad" << std::endl;
@@ -41,7 +41,7 @@ namespace geo {
   
   TestVolume::~TestVolume() {}
 
-  void TestVolume::SetOrigin(double x, double y, double z)
+  void TestVolume::SetOrigin(double& x, double& y, double& z)
   {
     fXO = x;
     fYO = y;
