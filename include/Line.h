@@ -41,19 +41,19 @@ namespace geo {
     virtual ~Line();
 
     /// Set's the initial position of the muon (x,y,z)
-    void SetInitialPos(double x, double y, double z);
+    void SetInitialPos(const double& x, const double& y, const double& z);
 
     /// Set's the angles in spherical 3D space (phi,theta)
-    void SetLinePropertiesFromPhiTheta(double phi, double theta);
+    void SetLinePropertiesFromPhiTheta(const double& phi, const double& theta);
 
     /// Set's the remaining attributes of the line from Phi and Theta
     void SetLinePropertiesFromAngles();
 
     /// Manually sets the xz projection angle
-    inline void SetAngleXZ(double x);
+    inline void SetAngleXZ(const double& x);
 
     /// Manually sets the yz projection angle
-    inline void SetAngleYZ(double y);
+    inline void SetAngleYZ(const double& y);
 
     const double Tx()      const;
     const double Ty()      const;

@@ -14,24 +14,24 @@ namespace geo {
 
   Line::~Line() {}
 
-  void Line::SetInitialPos(double x, double y, double z)
+  void Line::SetInitialPos(const double& x, const double& y, const double& z)
   {
     fX0 = x;
     fY0 = y;
     fZ0 = z;
   }
 
-  void Line::SetAngleXZ(double x)
+  void Line::SetAngleXZ(const double& x)
   {
     fAngleXZ = x;
   }
 
-  void Line::SetAngleYZ(double y)
+  void Line::SetAngleYZ(const double& y)
   {
     fAngleYZ = y;
   }
 
-  void Line::SetLinePropertiesFromPhiTheta(double phi, double theta)
+  void Line::SetLinePropertiesFromPhiTheta(const double& phi, const double& theta)
   {
     fPhi = phi;
     fTheta = theta;

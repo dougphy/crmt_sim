@@ -18,7 +18,7 @@ namespace ev {
 
   // __________________________________________________________________
 
-  evg::evg(const std::string& file_name, unsigned int n_events)
+  evg::evg(const std::string& file_name, const unsigned int& n_events)
   {
     std::string name = "output/"+file_name;
     fNEvents  = n_events;

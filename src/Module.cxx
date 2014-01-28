@@ -11,7 +11,7 @@ namespace geo {
 
   Module::Module() {}
 
-  Module::Module(unsigned int module_type, double gap)
+  Module::Module(const unsigned int& module_type, const double& gap)
   {
     fModuleType = module_type;
     fGap        = gap;
