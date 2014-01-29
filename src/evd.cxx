@@ -238,18 +238,18 @@ namespace ev {
     fTMGXZ = new TMultiGraph();
     fTMGXZ->Add(fAll1);
     fTMGXZ->Add(fAll3);
-    //    if ( fCoincidence ) {
+    if ( Graph1->GetN() != 0 )
       fTMGXZ->Add(Graph1);
+    if ( Graph3->GetN() != 0 )
       fTMGXZ->Add(Graph3);
-      //    }
     fTMGXZ->Add(HolderXZ);
     fTMGYZ = new TMultiGraph();
     fTMGYZ->Add(fAll0);
     fTMGYZ->Add(fAll2);
-    //    if ( fCoincidence ) {
+    if ( Graph0->GetN() != 0 )
       fTMGYZ->Add(Graph0);
+    if ( Graph2->GetN() != 0 )
       fTMGYZ->Add(Graph2);
-      //    }
     fTMGYZ->Add(HolderYZ);
     TF1 *LineXZ = new TF1("LineXZ","pol1",0,660);
     LineXZ->SetParameters(fYintXZ,fSlopeXZ);
@@ -455,18 +455,18 @@ namespace ev {
     fTMGXZ = new TMultiGraph();
     fTMGXZ->Add(fAll1);
     fTMGXZ->Add(fAll3);
-    //    if ( fCoincidence ) {
+    if ( Graph1->GetN() != 0 )
       fTMGXZ->Add(Graph1);
+    if ( Graph3->GetN() != 0 )
       fTMGXZ->Add(Graph3);
-      //    }
     fTMGXZ->Add(HolderXZ);
     fTMGYZ = new TMultiGraph();
     fTMGYZ->Add(fAll0);
     fTMGYZ->Add(fAll2);
-    //    if ( fCoincidence ) {
+    if ( Graph0->GetN() != 0 )
       fTMGYZ->Add(Graph0);
+    if ( Graph2->GetN() != 0 )
       fTMGYZ->Add(Graph2);
-      //    }
     fTMGYZ->Add(HolderYZ);
     TF1 *LineXZ = new TF1("LineXZ","pol1",0,660);
     LineXZ->SetParameters(fYintXZ,fSlopeXZ);
