@@ -56,10 +56,10 @@ namespace ev {
     fTree->Branch("PinsMod2",&fPinsMod2);
     fTree->Branch("PinsMod3",&fPinsMod3);
 
-    fTree->Branch("PinsArray0", fPinsArray0, "PinsArray0[32]/O");
-    fTree->Branch("PinsArray1", fPinsArray1, "PinsArray1[32]/O");
-    fTree->Branch("PinsArray2", fPinsArray2, "PinsArray2[32]/O");
-    fTree->Branch("PinsArray3", fPinsArray3, "PinsArray3[32]/O");
+    fTree->Branch("PinsArray0",fPinsArray0,"PinsArray0[32]/O");
+    fTree->Branch("PinsArray1",fPinsArray1,"PinsArray1[32]/O");
+    fTree->Branch("PinsArray2",fPinsArray2,"PinsArray2[32]/O");
+    fTree->Branch("PinsArray3",fPinsArray3,"PinsArray3[32]/O");
 
 
     fTreeMod0 = new TTree("Mod0Tree","Mod0Tree");
@@ -100,19 +100,7 @@ namespace ev {
   // __________________________________________________________________
 
   evg::~evg()
-  {
-    /*
-    delete fTestVolume;
-    //    delete fTestVolumeTree;
-    delete fTreeMod0;
-    delete fTreeMod1;
-    delete fTreeMod2;
-    delete fTreeMod3;
-    delete fTree;
-    delete fFile;
-    */
-  }
-
+  {}
 
   // __________________________________________________________________
 
@@ -360,44 +348,37 @@ namespace ev {
 	  fTrueMod3[(*FiberItr).first] = false;
 	}
       }
-
+      
       bool Mod0Checker = false;
       bool Mod1Checker = false;
       bool Mod2Checker = false;
       bool Mod3Checker = false;
-
+      
       int top_counter = 0;
       for ( int i = 0; i < 64; i++ ) {
-	if ( fTrueMod0[i] ) {
-	  top_counter += 1;
-	  Mod0Checker = true;
-	}
-	if ( fTrueMod1[i] ) {
-	  Mod1Checker = true;
-	}
+        if ( fTrueMod0[i] ) {
+          top_counter += 1;
+          Mod0Checker = true;
+        }
+        if ( fTrueMod1[i] ) {
+          Mod1Checker = true;
+        }
       }
-
+      
       int bot_counter = 0;
       for ( int i = 192; i < 256; i++ ) {
-	if ( fTrueMod3[i] ) {
-	  Mod3Checker = true;
-	  bot_counter += 1;
-	}
-	if ( fTrueMod2[i] ) {
-	  Mod2Checker = true;
-	}
+        if ( fTrueMod3[i] ) {
+          Mod3Checker = true;
+          bot_counter += 1;
+        }
+        if ( fTrueMod2[i] ) {
+          Mod2Checker = true;
+        }
       }
       
       fCoincidence = true;
-      if ( !Mod1Checker || !Mod0Checker || !Mod2Checker || !Mod3Checker ) {
-	fCoincidence = false;
-	for ( int i = 0; i < 256; i++ ) {
-	  fTrueMod0[i] = false;
-	  fTrueMod1[i] = false;
-	  fTrueMod2[i] = false;
-	  fTrueMod3[i] = false;
-	}
-      }
+      if ( !Mod1Checker || !Mod0Checker || !Mod2Checker || !Mod3Checker )
+        fCoincidence = false;
       
       if ( fTestVolumeOnOff ) {
 	if ( fTVType == "sphere" ) {
@@ -478,15 +459,25 @@ namespace ev {
 			 const bool& view_xz, const double& gap, const int& type) {
 
     double Slope, Yint;
+    double SlopeP, YintP;
+
     if ( view_xz ) {
-      Slope      = function.SlopeXZ();
-      Yint       = function.YintXZ();    
+      Slope  = function.SlopeXZ();
+      Yint   = function.YintXZ();    
+      SlopeP = function.SlopeYZ();
+      YintP  = function.YintYZ();
     }
     else { 
-      Slope      = function.SlopeYZ();
-      Yint       = function.YintYZ();
+      Slope  = function.SlopeYZ();
+      Yint   = function.YintYZ();
+      SlopeP = function.SlopeXZ();
+      YintP  = function.YintXZ();
     }
-  
+
+    double xP = (FibJ - YintP)/SlopeP;
+    if ( (xP < 0) || (xP > 660) )
+      return false;
+
     double           LeftEdge_h = FibI - fScintWidth/2.0;
     double          RightEdge_h = FibI + fScintWidth/2.0;
     double   LineLeftLocation_v = Slope*LeftEdge_h + Yint;
