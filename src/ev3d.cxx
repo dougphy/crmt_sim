@@ -5,6 +5,8 @@
 #include "TApplication.h"
 #include "TPad.h"
 #include "TROOT.h"
+#include "TTree.h"
+#include "TFile.h"
 #include "Module.h"
 #include "ev3d.h"
 #include <vector>
@@ -12,10 +14,32 @@
 
 void Draw3DGL(const std::string& file_name, const bool& true_view, const unsigned int& event_id)
 {
-  geo::Module Mod0(0,200); auto Mod0Loc = Mod0.GetMap();
-  geo::Module Mod1(1,200); auto Mod1Loc = Mod1.GetMap();
-  geo::Module Mod2(2,200); auto Mod2Loc = Mod2.GetMap();
-  geo::Module Mod3(3,200); auto Mod3Loc = Mod3.GetMap();
+  TFile *the_file   = new TFile(file_name.c_str());
+  TTree *event_tree = (TTree*)the_file->Get("SimulationTree");
+  TTree *tv_tree    = (TTree*)the_file->Get("TestVolumeTree");
+
+  bool TrueMod0[256], SimMod0[256];
+  bool TrueMod1[256], SimMod1[256];
+  bool TrueMod2[256], SimMod2[256];
+  bool TrueMod3[256], SimMod3[256];
+  double Gap;
+
+  event_tree->SetBranchAddress("TrueMod0",TrueMod0);
+  event_tree->SetBranchAddress("TrueMod1",TrueMod1);
+  event_tree->SetBranchAddress("TrueMod2",TrueMod2);
+  event_tree->SetBranchAddress("TrueMod3",TrueMod3);
+  event_tree->SetBranchAddress("SimMod0", SimMod0);
+  event_tree->SetBranchAddress("SimMod1", SimMod1);
+  event_tree->SetBranchAddress("SimMod2", SimMod2);
+  event_tree->SetBranchAddress("SimMod3", SimMod3);
+
+  tv_tree->SetBranchAddress("Gap",&Gap);
+  tv_tree->GetEntry(0);
+
+  geo::Module Mod0(0,Gap); auto Mod0Loc = Mod0.GetMap();
+  geo::Module Mod1(1,Gap); auto Mod1Loc = Mod1.GetMap();
+  geo::Module Mod2(2,Gap); auto Mod2Loc = Mod2.GetMap();
+  geo::Module Mod3(3,Gap); auto Mod3Loc = Mod3.GetMap();
   
   TGeoVolume *extrusions0[256];
   TGeoVolume *extrusions1[256];
@@ -62,7 +86,32 @@ void Draw3DGL(const std::string& file_name, const bool& true_view, const unsigne
 		 id,
 		 new TGeoTranslation(Mod3Loc[id].first,half_scint_length,Mod3Loc[id].second));
   }
-    
+  
+  event_tree->GetEntry(event_id);
+  
+  for ( unsigned int i = 0; i < 256; i++ ) {
+    if ( true_view ) {
+      if ( TrueMod0[i] )
+	extrusions0[i]->SetLineColor(kGreen);
+      if ( TrueMod1[i] )
+	extrusions1[i]->SetLineColor(kGreen);
+      if ( TrueMod2[i] )
+	extrusions2[i]->SetLineColor(kGreen);
+      if ( TrueMod3[i] )
+	extrusions3[i]->SetLineColor(kGreen);
+    }
+    else {
+      if ( SimMod0[i] )
+	extrusions0[i]->SetLineColor(kGreen);
+      if ( SimMod1[i] )
+	extrusions1[i]->SetLineColor(kGreen);
+      if ( SimMod2[i] )
+	extrusions2[i]->SetLineColor(kGreen);
+      if ( SimMod3[i] )
+	extrusions3[i]->SetLineColor(kGreen);
+    }
+  }
+  
   gGeoManager->CloseGeometry();
   top->Draw("ogl");
 }
