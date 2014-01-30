@@ -77,7 +77,6 @@ int main(int argc, char *argv[])
     if ( vm.count("num-events") ) {
       ev::evg event_set(vm["generate"].as<std::string>(),
 			vm["num-events"].as<int>());
-      event_set.ReadParameters();
       event_set.RunEvents();
     }
     else

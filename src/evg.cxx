@@ -25,7 +25,6 @@ namespace ev {
     fFile     = new TFile(name.c_str(),"RECREATE");
     fTree     = new TTree("SimulationTree","SimulationTree");
     fTree->Branch("EventID",         &fEventID,         "EventID/I");
-    fTree->Branch("Gap",             &fGap,             "Gap/D");
     fTree->Branch("InitialX",        &fInitialX,        "InitialX/D");
     fTree->Branch("InitialY",        &fInitialY,        "InitialY/D");
     fTree->Branch("InitialZ",        &fInitialZ,        "InitialZ/D");
@@ -88,6 +87,7 @@ namespace ev {
     fTreeMod3->Branch("HitPinsBot3",  &fHitPinsBot3);
 
     fTestVolumeTree = new TTree("TestVolumeTree","TestVolumeTree");
+    fTestVolumeTree->Branch("Gap",           &fGap,           "Gap/D");
     fTestVolumeTree->Branch("TVOn",          &fTVOn,          "TVOn/O");
     fTestVolumeTree->Branch("TVType",        &fTVType);
     fTestVolumeTree->Branch("TVCenter",       fTVCenter,      "TVCenter[3]/D");
@@ -231,6 +231,7 @@ namespace ev {
   
   void evg::RunEvents()
   {
+    ReadParameters();
     for ( int i = 0; i < 32; i++ ) {
       fPinsArray0[i] = false;
       fPinsArray1[i] = false;
@@ -439,7 +440,7 @@ namespace ev {
       fTreeMod3->Fill();
       fTree->Fill(); 
       ClearVecs();
-    }  
+    }
 
     fTestVolumeTree->Fill();
   
