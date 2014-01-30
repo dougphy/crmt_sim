@@ -10,7 +10,6 @@
 #define EVD_H
 
 #include <iostream>
-#include "TApplication.h"
 #include "TFile.h"
 #include "TTree.h"
 #include "TF1.h"
@@ -33,7 +32,6 @@ namespace ev {
     bool              fCoincidence; ///< coincidence check
     double            fInitialX; ///< initial x
     double            fInitialY; ///< initial y
-    TApplication     *fApp; ///< ROOT application to draw with X11
     TGraph           *fAll0; ///< contains all points for mod0
     TGraph           *fAll1; ///< contains all points for mod1
     TGraph           *fAll2; ///< contains all points for mod2
