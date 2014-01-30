@@ -9,17 +9,7 @@
 #include <vector>
 #include <map>
 
-void DrawGL();
-
-int main(int argc, char *argv[])
-{
-  TApplication *tapp = new TApplication("tapp",&argc,argv);
-  DrawGL();
-  tapp->Run();
-  return 0;
-}
-
-void DrawGL()
+void Draw3DGL()
 {
   geo::Module Mod0(0,200); auto Mod0Loc = Mod0.GetMap();
   geo::Module Mod1(1,200); auto Mod1Loc = Mod1.GetMap();

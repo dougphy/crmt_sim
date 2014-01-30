@@ -24,7 +24,7 @@ link_directories(${CMAKE_SOURCE_DIR}/lib)
 
 ##### COMPILE CRMT LIBRARIES
 ## -- setup to compile libraries
-add_library(Ev SHARED src/evg.cxx src/evd.cxx)
+add_library(Ev SHARED src/evg.cxx src/evd.cxx src/ThreeDdisplay.cxx)
 add_library(Geo SHARED src/Line.cxx src/Module.cxx src/TestVolume.cxx)
 ## -- add library dependencies
 target_link_libraries(Geo ${ROOT_LIBS})
