@@ -70,10 +70,10 @@ namespace ev {
     void InitAllGraphs();
 
     /// Draws the true event display
-    void DrawTrue(int argc, char *argv[]);
+    void DrawTrue();
 
     /// Draws the simulated event display (multiplxed)
-    void DrawSim(int argc, char *argv[]);
+    void DrawSim();
   };
 }
 

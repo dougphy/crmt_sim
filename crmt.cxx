@@ -39,6 +39,7 @@
  */
 
 #include <iostream>
+#include "TApplication.h"
 // Check to see if GNU C++ compiler
 // (Needed for g++48 w/ FreeBSD)
 #if __GNUG__
@@ -85,13 +86,18 @@ int main(int argc, char *argv[])
   
   else if ( vm.count("display") ) {
     if ( (vm.count("true") || vm.count("sim")) && vm.count("event-id") ) {
+      TApplication tapp("tapp",&argc,argv);
       ev::evd display;
       display.InitFile(vm["display"].as<std::string>(),
 		       vm["event-id"].as<int>());
-      if ( vm.count("true") )
-	display.DrawTrue(argc,argv);
-      else if ( vm.count("sim") )
-	display.DrawSim(argc,argv);
+      if ( vm.count("true") ) {
+	display.DrawTrue(); 
+	tapp.Run();
+      }
+      else if ( vm.count("sim") ) {
+	display.DrawSim();
+	tapp.Run();
+      }
       else
 	std::cout << desc << std::endl;
     }

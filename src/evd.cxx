@@ -43,7 +43,6 @@ namespace ev {
     fTree->SetBranchAddress("SlopeYZ",    &fSlopeYZ);
     fTree->SetBranchAddress("YintXZ",     &fYintXZ);
     fTree->SetBranchAddress("YintYZ",     &fYintYZ);
-    fTree->SetBranchAddress("Gap",        &fGap);
     fTree->SetBranchAddress("Coincidence",&fCoincidence);
     fTree->SetBranchAddress("TrueMod0",    fTrueMod0);
     fTree->SetBranchAddress("TrueMod1",    fTrueMod1);
@@ -56,6 +55,7 @@ namespace ev {
     fSelectedEventID = event_number;
 
     fVolTree = (TTree*)fFile->Get("TestVolumeTree");
+    fVolTree->SetBranchAddress("Gap",     &fGap);
     fVolTree->SetBranchAddress("TVOn",    &fTVOn);
     fVolTree->SetBranchAddress("TVCenter", fTVCenter);
     fVolTree->SetBranchAddress("TVRadius",&fTVRadius);
@@ -157,7 +157,7 @@ namespace ev {
   }
 
 
-  void evd::DrawTrue(int argc, char *argv[])
+  void evd::DrawTrue()
   {
     SetupTVs();
     fTree->GetEntry(fSelectedEventID);
@@ -333,7 +333,6 @@ namespace ev {
     YZ_title->SetFillColor(0);
     YZ_title->AddText("YZ plane");
 
-    fApp = new TApplication("app",&argc,argv);
     TCanvas *can = new TCanvas("evd","evd",1300,570);
 
     TPad *padXZ = new TPad("padXZ","padXZ",.2,0.,.6,1.);
@@ -369,12 +368,11 @@ namespace ev {
     padXZ->Draw();
     padYZ->Draw();
     padT->Draw();
-    fApp->Run();
 
 
   }
 
-  void evd::DrawSim(int argc, char *argv[])
+  void evd::DrawSim()
   {
     SetupTVs();
     fTree->GetEntry(fSelectedEventID);
@@ -550,7 +548,6 @@ namespace ev {
     YZ_title->SetFillColor(0);
     YZ_title->AddText("YZ plane");
 
-    fApp = new TApplication("app",&argc,argv);
     TCanvas *can = new TCanvas("evd","evd",1300,570);
 
     TPad *padXZ = new TPad("padXZ","padXZ",.2,0.,.6,1.);
@@ -586,7 +583,6 @@ namespace ev {
     padXZ->Draw();
     padYZ->Draw();
     padT->Draw();
-    fApp->Run();
   }
 
 }
