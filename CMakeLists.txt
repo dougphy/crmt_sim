@@ -33,6 +33,3 @@ target_link_libraries(Ev ${ROOT_LIBS} Geo Geom RGL)
 add_executable(crmt crmt.cxx)
 ## -- add executable dependencies
 target_link_libraries(crmt ${ROOT_LIBS} Ev Geo ${Boost_PROGRAM_OPTIONS_LIBRARY})
-
-## geo_test is a subdir with random exe's using crmt libs
-add_subdirectory(geo_test)
