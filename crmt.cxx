@@ -92,12 +92,12 @@ int main(int argc, char *argv[])
       display.InitFile(vm["display"].as<std::string>(),
 		       vm["event-id"].as<int>());
       if ( vm.count("true") ) {
-	Draw3DGL(true,vm["event-id"].as<int>());
+	Draw3DGL(vm["display"].as<std::string>(),true,vm["event-id"].as<int>());
 	display.DrawTrue(); 
 	tapp.Run();
       }
       else if ( vm.count("sim") ) {
-	Draw3DGL(false,vm["event-id"].as<int>());
+	Draw3DGL(vm["display"].as<std::string>(),false,vm["event-id"].as<int>());
 	display.DrawSim();
 	tapp.Run();
       }

@@ -10,7 +10,7 @@
 #include <vector>
 #include <map>
 
-void Draw3DGL(const bool& true_view, const unsigned int& event_id)
+void Draw3DGL(const std::string& file_name, const bool& true_view, const unsigned int& event_id)
 {
   geo::Module Mod0(0,200); auto Mod0Loc = Mod0.GetMap();
   geo::Module Mod1(1,200); auto Mod1Loc = Mod1.GetMap();
