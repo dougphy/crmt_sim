@@ -12,23 +12,21 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR})
 ## -- boost
 find_package(Boost REQUIRED COMPONENTS program_options)
 include_directories(${Boost_INCLUDE_DIRS})
-
-## -- prepare ROOT
+## -- prepare ROOT and inc and lib dirs
 find_package(ROOT REQUIRED)
 include_directories(${ROOT_INC_DIR})
 link_directories(${ROOT_LIB_DIR})
-
 ## -- prepare project include and lib dirs
 include_directories(${CMAKE_SOURCE_DIR}/include)
 link_directories(${CMAKE_SOURCE_DIR}/lib)
 
 ##### COMPILE CRMT LIBRARIES
 ## -- setup to compile libraries
-add_library(Ev SHARED src/evg.cxx src/evd.cxx src/ThreeDdisplay.cxx)
+add_library(Ev SHARED src/evg.cxx src/evd.cxx src/ev3d.cxx)
 add_library(Geo SHARED src/Line.cxx src/Module.cxx src/TestVolume.cxx)
 ## -- add library dependencies
 target_link_libraries(Geo ${ROOT_LIBS})
-target_link_libraries(Ev ${ROOT_LIBS} Geo)
+target_link_libraries(Ev ${ROOT_LIBS} Geo Geom RGL)
 
 ##### COMPILE CRMT EXECUTABLE
 ## -- setup to compile executable 

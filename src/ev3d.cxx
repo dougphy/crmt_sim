@@ -6,6 +6,7 @@
 #include "TPad.h"
 #include "TROOT.h"
 #include "Module.h"
+#include "ev3d.h"
 #include <vector>
 #include <map>
 
