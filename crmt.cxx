@@ -47,6 +47,7 @@
 #endif
 // crmt library includes
 #include "evd.h"
+#include "ev3d.h"
 #include "evg.h"
 #include "boost/program_options.hpp"
 
@@ -91,10 +92,12 @@ int main(int argc, char *argv[])
       display.InitFile(vm["display"].as<std::string>(),
 		       vm["event-id"].as<int>());
       if ( vm.count("true") ) {
+	Draw3DGL();
 	display.DrawTrue(); 
 	tapp.Run();
       }
       else if ( vm.count("sim") ) {
+	Draw3DGL();
 	display.DrawSim();
 	tapp.Run();
       }
