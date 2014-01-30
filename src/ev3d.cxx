@@ -3,6 +3,7 @@
 #include "TGeoManager.h"
 #include "TGeoVolume.h"
 #include "TApplication.h"
+#include "TPolyLine3D.h"
 #include "TPad.h"
 #include "TROOT.h"
 #include "TTree.h"
@@ -23,6 +24,8 @@ void Draw3DGL(const std::string& file_name, const bool& true_view, const unsigne
   bool TrueMod2[256], SimMod2[256];
   bool TrueMod3[256], SimMod3[256];
   double Gap;
+  double topx,topy,topz;
+  double botx,boty,botz;
 
   event_tree->SetBranchAddress("TrueMod0",TrueMod0);
   event_tree->SetBranchAddress("TrueMod1",TrueMod1);
@@ -32,6 +35,13 @@ void Draw3DGL(const std::string& file_name, const bool& true_view, const unsigne
   event_tree->SetBranchAddress("SimMod1", SimMod1);
   event_tree->SetBranchAddress("SimMod2", SimMod2);
   event_tree->SetBranchAddress("SimMod3", SimMod3);
+
+  event_tree->SetBranchAddress("InitialX",&topx);
+  event_tree->SetBranchAddress("InitialY",&topy);
+  event_tree->SetBranchAddress("InitialZ",&topz);
+  event_tree->SetBranchAddress("BottomX",&botx);
+  event_tree->SetBranchAddress("BottomY",&boty);
+  event_tree->SetBranchAddress("BottomZ",&botz);
 
   tv_tree->SetBranchAddress("Gap",&Gap);
   tv_tree->GetEntry(0);
@@ -114,4 +124,9 @@ void Draw3DGL(const std::string& file_name, const bool& true_view, const unsigne
   
   gGeoManager->CloseGeometry();
   top->Draw("ogl");
+  TPolyLine3D *muon_line = new TPolyLine3D();
+  muon_line->SetPoint(0,topx,topy,topz);
+  muon_line->SetPoint(1,botx,boty,botz);
+  muon_line->SetLineColor(kRed);
+  muon_line->Draw();
 }

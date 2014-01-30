@@ -28,6 +28,9 @@ namespace ev {
     fTree->Branch("InitialX",        &fInitialX,        "InitialX/D");
     fTree->Branch("InitialY",        &fInitialY,        "InitialY/D");
     fTree->Branch("InitialZ",        &fInitialZ,        "InitialZ/D");
+    fTree->Branch("BottomX",         &fBottomX,         "BottomX/D");
+    fTree->Branch("BottomY",         &fBottomY,         "BottomY/D");
+    fTree->Branch("BottomZ",         &fBottomZ,         "BottomZ/D");
     fTree->Branch("Phi",             &fPhi,             "Phi/D");
     fTree->Branch("Theta",           &fTheta,           "Theta/D");
     fTree->Branch("AngleXZ",         &fAngleXZ,         "AngleXZ/D");
@@ -309,6 +312,10 @@ namespace ev {
       fSlopeYZ = Muon->SlopeYZ();
       fYintXZ  = Muon->YintXZ();
       fYintYZ  = Muon->YintYZ();
+
+      fBottomX = Muon->BottomX();
+      fBottomY = Muon->BottomY();
+      fBottomZ = Muon->BottomZ();
     
       for ( FiberItr = Mod0Loc.begin(); FiberItr != Mod0Loc.end(); FiberItr++ ) {
 	if ( Intersection((*FiberItr).second.first,(*FiberItr).second.second,

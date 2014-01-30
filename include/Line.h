@@ -23,6 +23,9 @@ namespace geo {
     double fX0;        ///< x initial position
     double fY0;        ///< y initial position
     double fZ0;        ///< z initial position
+    double fBottomX;  ///< bottom x point for drawing ev3d
+    double fBottomY;  ///< bottom y point for drawing ev3d
+    double fBottomZ;  ///< bottom z point for drawing ev3d
     double fTheta;     ///< theta, spherical zenith)
     double fPhi;       ///< phi, spherical polar)
     double fAngleXZ;   ///< xz projection zenith angle
@@ -61,6 +64,9 @@ namespace geo {
     const double X0()      const;
     const double Y0()      const;
     const double Z0()      const;
+    const double BottomX() const;
+    const double BottomY() const;
+    const double BottomZ() const;
     const double Theta()   const;
     const double Phi()     const;
     const double AngleYZ() const;
@@ -80,6 +86,9 @@ inline const double geo::Line::Tz()      const { return fTz;      }
 inline const double geo::Line::X0()      const { return fX0;      }
 inline const double geo::Line::Y0()      const { return fY0;      }
 inline const double geo::Line::Z0()      const { return fZ0;      }
+inline const double geo::Line::BottomX() const { return fBottomX; }
+inline const double geo::Line::BottomY() const { return fBottomY; }
+inline const double geo::Line::BottomZ() const { return fBottomZ; }
 inline const double geo::Line::Theta()   const { return fTheta;   }
 inline const double geo::Line::Phi()     const { return fPhi;     }
 inline const double geo::Line::AngleXZ() const { return fAngleXZ; }

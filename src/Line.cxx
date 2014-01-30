@@ -52,6 +52,10 @@ namespace geo {
 
     fYintXZ = fZ0 - fSlopeXZ*fX0;
     fYintYZ = fZ0 - fSlopeYZ*fY0;
+
+    fBottomX = -fYintXZ/fSlopeXZ;
+    fBottomY = -fYintYZ/fSlopeYZ;
+    fBottomZ = 0.0;
   }
 
   void Line::SetLinePropertiesFromAngles()

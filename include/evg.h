@@ -49,6 +49,9 @@ namespace ev {
     double                             fInitialX; ///< initial x for each event
     double                             fInitialY; ///< initial y for each event
     double                             fInitialZ; ///< initial z for each event
+    double                             fBottomX;  ///< for drawing ev3d bottom point x
+    double                             fBottomY;  ///< for drawing ev3d bottom point x
+    double                             fBottomZ;  ///< for drawing ev3d bottom point x
     double                             fTraj[3]; ///< trajectory unit vector (x,y,z)
     double                             fTheta; ///< zenith angle theta
     double                             fPhi; ///< polar angle phi
