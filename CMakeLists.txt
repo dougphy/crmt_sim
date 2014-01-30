@@ -22,14 +22,14 @@ link_directories(${CMAKE_SOURCE_DIR}/lib)
 
 ##### COMPILE CRMT LIBRARIES
 ## -- setup to compile libraries
-add_library(Ev SHARED src/evg.cxx src/evd.cxx src/ev3d.cxx)
-add_library(Geo SHARED src/Line.cxx src/Module.cxx src/TestVolume.cxx)
+add_library(crmtEv SHARED src/evg.cxx src/evd.cxx src/ev3d.cxx)
+add_library(crmtGeo SHARED src/Line.cxx src/Module.cxx src/TestVolume.cxx)
 ## -- add library dependencies
-target_link_libraries(Geo ${ROOT_LIBS})
-target_link_libraries(Ev ${ROOT_LIBS} Geo Geom RGL)
+target_link_libraries(crmtGeo ${ROOT_LIBS})
+target_link_libraries(crmtEv ${ROOT_LIBS} crmtGeo Geom RGL)
 
 ##### COMPILE CRMT EXECUTABLE
 ## -- setup to compile executable 
 add_executable(crmt crmt.cxx)
 ## -- add executable dependencies
-target_link_libraries(crmt ${ROOT_LIBS} Ev Geo ${Boost_PROGRAM_OPTIONS_LIBRARY})
+target_link_libraries(crmt ${ROOT_LIBS} crmtEv crmtGeo ${Boost_PROGRAM_OPTIONS_LIBRARY})
