@@ -7,7 +7,7 @@
 #include <iostream>
 #include <algorithm>
 #include "evg.h"
-#include "Line.h"
+#include "MCTrack.h"
 #include "Module.h"
 #include "TRandom.h"
 #include "TF1.h"
@@ -257,7 +257,7 @@ namespace ev {
     TF1 *cossq = new TF1("cossq","cos(x)*cos(x)",PI/2.,PI);
     for ( unsigned int ev = 0; ev < fNEvents; ev++ ) {
       fEventID = ev;
-      geo::Line *Muon = new geo::Line();
+      geo::MCTrack *Muon = new geo::MCTrack();
       double InitialZ = 542 + fGap;
       fInitialZ = InitialZ;
       if ( fOriginUniformDist ) {
@@ -294,7 +294,7 @@ namespace ev {
 	std::cout << "WARNING: Muon polar angle definition malfunction" << std::endl;
       }
     
-      Muon->SetLinePropertiesFromPhiTheta(fPhi,fTheta);
+      Muon->SetMCTrackPropertiesFromPhiTheta(fPhi,fTheta);
       fAngleXZ = Muon->AngleXZ();
       fAngleYZ = Muon->AngleYZ();
       if ( fAngleXZ > 0 )
@@ -306,7 +306,7 @@ namespace ev {
       if ( fAngleYZ < 0 )
 	fAngleYZ_RF = -1*(fabs(fAngleYZ) - PI);
       fTraj[0] = -1*Muon->Tx();                      /// We use a negative sign here because
-      fTraj[1] = -1*Muon->Ty();                      /// geo::Line corresponds to upwards lines
+      fTraj[1] = -1*Muon->Ty();                      /// geo::MCTrack corresponds to upwards lines
       fTraj[2] = -1*Muon->Tz();                      /// where the detector computes downward lines
       fSlopeXZ = Muon->SlopeXZ();
       fSlopeYZ = Muon->SlopeYZ();
@@ -463,7 +463,7 @@ namespace ev {
 
   // __________________________________________________________________
 
-  bool evg::Intersection(const double& FibI, const double& FibJ, const geo::Line& function, 
+  bool evg::Intersection(const double& FibI, const double& FibJ, const geo::MCTrack& function, 
 			 const bool& view_xz, const double& gap, const int& type) {
 
     double Slope, Yint;
@@ -488,20 +488,20 @@ namespace ev {
 
     double           LeftEdge_h = FibI - fScintWidth/2.0;
     double          RightEdge_h = FibI + fScintWidth/2.0;
-    double   LineLeftLocation_v = Slope*LeftEdge_h + Yint;
-    double  LineRightLocation_v = Slope*RightEdge_h + Yint;
+    double   MCTrackLeftLocation_v = Slope*LeftEdge_h + Yint;
+    double  MCTrackRightLocation_v = Slope*RightEdge_h + Yint;
     double            TopEdge_v = FibJ + fScintHeight/2.0;
     double         BottomEdge_v = FibJ - fScintHeight/2.0;
-    double           LineXTop_h = (TopEdge_v - Yint)/Slope;
-    double           LineXBot_h = (BottomEdge_v - Yint)/Slope;
+    double           MCTrackXTop_h = (TopEdge_v - Yint)/Slope;
+    double           MCTrackXBot_h = (BottomEdge_v - Yint)/Slope;
   
-    if ( (LineLeftLocation_v < TopEdge_v) && (LineLeftLocation_v > BottomEdge_v) )
+    if ( (MCTrackLeftLocation_v < TopEdge_v) && (MCTrackLeftLocation_v > BottomEdge_v) )
       return true;
-    if ( (LineRightLocation_v < TopEdge_v) && (LineRightLocation_v > BottomEdge_v) )
+    if ( (MCTrackRightLocation_v < TopEdge_v) && (MCTrackRightLocation_v > BottomEdge_v) )
       return true;
-    if ( (LineXTop_h < RightEdge_h) && (LineXTop_h > LeftEdge_h) )
+    if ( (MCTrackXTop_h < RightEdge_h) && (MCTrackXTop_h > LeftEdge_h) )
       return true;
-    if ( (LineXBot_h < RightEdge_h) && (LineXBot_h > LeftEdge_h) )
+    if ( (MCTrackXBot_h < RightEdge_h) && (MCTrackXBot_h > LeftEdge_h) )
       return true;
     return false;
   
@@ -756,7 +756,7 @@ namespace ev {
   }
   // __________________________________________________________________
 
-  bool evg::SphereIntersect(const geo::Line& line, const geo::TestVolume& vol)
+  bool evg::SphereIntersect(const geo::MCTrack& line, const geo::TestVolume& vol)
   {
     double R     = vol.GetRadius();
   
@@ -780,7 +780,7 @@ namespace ev {
 
   // __________________________________________________________________
 
-  bool evg::BoxIntersect(const geo::Line& line, const geo::TestVolume& vol)
+  bool evg::BoxIntersect(const geo::MCTrack& line, const geo::TestVolume& vol)
   {
     double SlopeXZ = line.SlopeXZ();
     double SlopeYZ = line.SlopeYZ();

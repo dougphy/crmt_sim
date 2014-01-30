@@ -23,7 +23,7 @@ link_directories(${CMAKE_SOURCE_DIR}/lib)
 ##### COMPILE CRMT LIBRARIES
 ## -- setup to compile libraries
 add_library(crmtEv SHARED src/evg.cxx src/evd.cxx src/ev3d.cxx)
-add_library(crmtGeo SHARED src/Line.cxx src/Module.cxx src/TestVolume.cxx)
+add_library(crmtGeo SHARED src/MCTrack.cxx src/Module.cxx src/TestVolume.cxx)
 ## -- add library dependencies
 target_link_libraries(crmtGeo ${ROOT_LIBS})
 target_link_libraries(crmtEv ${ROOT_LIBS} crmtGeo Geom RGL)

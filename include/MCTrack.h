@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////
-/// \class Line
-/// \file Line.h
+/// \class MCTrack
+/// \file MCTrack.h
 /// \brief A class which describes the geometric muon line in 3D
 /// \author Douglas Davis < douglasdavis@utexas.edu >
 //////////////////////////////////////////////////////////////////////
@@ -13,7 +13,7 @@
 
 namespace geo {
 
-  class Line {
+  class MCTrack {
     
   private:
     
@@ -38,19 +38,19 @@ namespace geo {
   public:
 
     /// Default constructor
-    Line();
+    MCTrack();
 
     /// Virtual destructor
-    virtual ~Line();
+    virtual ~MCTrack();
 
     /// Set's the initial position of the muon (x,y,z)
     void SetInitialPos(const double& x, const double& y, const double& z);
 
     /// Set's the angles in spherical 3D space (phi,theta)
-    void SetLinePropertiesFromPhiTheta(const double& phi, const double& theta);
+    void SetMCTrackPropertiesFromPhiTheta(const double& phi, const double& theta);
 
     /// Set's the remaining attributes of the line from Phi and Theta
-    void SetLinePropertiesFromAngles();
+    void SetMCTrackPropertiesFromAngles();
 
     /// Manually sets the xz projection angle
     inline void SetAngleXZ(const double& x);
@@ -80,22 +80,22 @@ namespace geo {
 
 }
 
-inline const double geo::Line::Tx()      const { return fTx;      }
-inline const double geo::Line::Ty()      const { return fTy;      }
-inline const double geo::Line::Tz()      const { return fTz;      }
-inline const double geo::Line::X0()      const { return fX0;      }
-inline const double geo::Line::Y0()      const { return fY0;      }
-inline const double geo::Line::Z0()      const { return fZ0;      }
-inline const double geo::Line::BottomX() const { return fBottomX; }
-inline const double geo::Line::BottomY() const { return fBottomY; }
-inline const double geo::Line::BottomZ() const { return fBottomZ; }
-inline const double geo::Line::Theta()   const { return fTheta;   }
-inline const double geo::Line::Phi()     const { return fPhi;     }
-inline const double geo::Line::AngleXZ() const { return fAngleXZ; }
-inline const double geo::Line::AngleYZ() const { return fAngleYZ; }
-inline const double geo::Line::SlopeXZ() const { return fSlopeXZ; }
-inline const double geo::Line::SlopeYZ() const { return fSlopeYZ; }
-inline const double geo::Line::YintXZ()  const { return fYintXZ;  }
-inline const double geo::Line::YintYZ()  const { return fYintYZ;  }
+inline const double geo::MCTrack::Tx()      const { return fTx;      }
+inline const double geo::MCTrack::Ty()      const { return fTy;      }
+inline const double geo::MCTrack::Tz()      const { return fTz;      }
+inline const double geo::MCTrack::X0()      const { return fX0;      }
+inline const double geo::MCTrack::Y0()      const { return fY0;      }
+inline const double geo::MCTrack::Z0()      const { return fZ0;      }
+inline const double geo::MCTrack::BottomX() const { return fBottomX; }
+inline const double geo::MCTrack::BottomY() const { return fBottomY; }
+inline const double geo::MCTrack::BottomZ() const { return fBottomZ; }
+inline const double geo::MCTrack::Theta()   const { return fTheta;   }
+inline const double geo::MCTrack::Phi()     const { return fPhi;     }
+inline const double geo::MCTrack::AngleXZ() const { return fAngleXZ; }
+inline const double geo::MCTrack::AngleYZ() const { return fAngleYZ; }
+inline const double geo::MCTrack::SlopeXZ() const { return fSlopeXZ; }
+inline const double geo::MCTrack::SlopeYZ() const { return fSlopeYZ; }
+inline const double geo::MCTrack::YintXZ()  const { return fYintXZ;  }
+inline const double geo::MCTrack::YintYZ()  const { return fYintYZ;  }
 
 #endif

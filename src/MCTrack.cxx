@@ -1,37 +1,37 @@
 //////////////////////////////////////////////////////////////////////
-/// \file Line.cxx
-/// \brief Line class methods
+/// \file MCTrack.cxx
+/// \brief MCTrack class methods
 /// \author Douglas Davis < douglasdavis@utexas.edu >
 //////////////////////////////////////////////////////////////////////
 
 #include <iostream>
 #include <cmath>
-#include "Line.h"
+#include "MCTrack.h"
 
 namespace geo {
 
-  Line::Line() {}
+  MCTrack::MCTrack() {}
 
-  Line::~Line() {}
+  MCTrack::~MCTrack() {}
 
-  void Line::SetInitialPos(const double& x, const double& y, const double& z)
+  void MCTrack::SetInitialPos(const double& x, const double& y, const double& z)
   {
     fX0 = x;
     fY0 = y;
     fZ0 = z;
   }
 
-  void Line::SetAngleXZ(const double& x)
+  void MCTrack::SetAngleXZ(const double& x)
   {
     fAngleXZ = x;
   }
 
-  void Line::SetAngleYZ(const double& y)
+  void MCTrack::SetAngleYZ(const double& y)
   {
     fAngleYZ = y;
   }
 
-  void Line::SetLinePropertiesFromPhiTheta(const double& phi, const double& theta)
+  void MCTrack::SetMCTrackPropertiesFromPhiTheta(const double& phi, const double& theta)
   {
     fPhi = phi;
     fTheta = theta;
@@ -58,7 +58,7 @@ namespace geo {
     fBottomZ = 0.0;
   }
 
-  void Line::SetLinePropertiesFromAngles()
+  void MCTrack::SetMCTrackPropertiesFromAngles()
   {
     fSlopeXZ = -1/tan(fAngleXZ);
     fSlopeYZ = -1/tan(fAngleYZ);
