@@ -41,7 +41,8 @@ namespace ev {
     fTree->Branch("SlopeYZ",         &fSlopeYZ,         "SlopeYZ/D");
     fTree->Branch("YintXZ",          &fYintXZ,          "YintXZ/D");
     fTree->Branch("YintYZ",          &fYintYZ,          "YintYZ/D");
-    fTree->Branch("Coincidence",     &fCoincidence,     "Conincidence/O");
+    fTree->Branch("IdentifierHit",    fIdentifierHit,   "IdentifierHit[4]/O");
+    fTree->Branch("Coincidence",     &fCoincidence,     "Coincidence/O");
     fTree->Branch("TVCoincidence",   &fTVCoincidence,   "TVCoincidence/O");
     fTree->Branch("Traj",             fTraj,            "Traj[3]/D");
     fTree->Branch("TrueMod0",         fTrueMod0,        "TrueMod0[256]/O");

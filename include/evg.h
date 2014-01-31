@@ -64,6 +64,7 @@ namespace ev {
     double                             fAngleXZ_RF; ///< xz projection angle from planar zenith reco form
     double                             fAngleYZ_RF; ///< yz projection angle from planar zenith reco form
     bool                               fCoincidence; ///< coincidence through detector bool
+    bool                               fIdentifierHit[4];
     bool                               fTrueMod0[256]; ///< mod0 array of hits
     bool                               fTrueMod1[256]; ///< mod1 array of hits
     bool                               fTrueMod2[256]; ///< mod2 array of hits
