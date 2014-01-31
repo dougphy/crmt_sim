@@ -258,7 +258,7 @@ namespace ev {
     for ( unsigned int ev = 0; ev < fNEvents; ev++ ) {
       fEventID = ev;
       geo::MCTrack *Muon = new geo::MCTrack();
-      double InitialZ = 542 + fGap;
+      double InitialZ = 576 + fGap;
       fInitialZ = InitialZ;
       if ( fOriginUniformDist ) {
 	fInitialX = gRandom->Uniform(fOriginUniformDistMin,fOriginUniformDistMax);
