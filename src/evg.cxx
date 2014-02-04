@@ -7,8 +7,6 @@
 #include <iostream>
 #include <algorithm>
 #include "evg.h"
-#include "MCTrack.h"
-#include "Module.h"
 #include "TRandom.h"
 #include "TF1.h"
 
@@ -244,21 +242,21 @@ namespace ev {
     InitCoupleMap();
     InitFiberPixelPinPairs();
     gRandom->SetSeed(0);
-    geo::Module *Mod0 = new geo::Module(0,fGap);
-    geo::Module *Mod1 = new geo::Module(1,fGap);
-    geo::Module *Mod2 = new geo::Module(2,fGap);
-    geo::Module *Mod3 = new geo::Module(3,fGap);
-    std::map<int, std::pair<double,double> > Mod0Loc = Mod0->GetMap();
-    std::map<int, std::pair<double,double> > Mod1Loc = Mod1->GetMap();
-    std::map<int, std::pair<double,double> > Mod2Loc = Mod2->GetMap();
-    std::map<int, std::pair<double,double> > Mod3Loc = Mod3->GetMap();
+    fMod0 = new geo::Module(0,fGap);
+    fMod1 = new geo::Module(1,fGap);
+    fMod2 = new geo::Module(2,fGap);
+    fMod3 = new geo::Module(3,fGap);
+    std::map<int, std::pair<double,double> > Mod0Loc = fMod0->GetMap();
+    std::map<int, std::pair<double,double> > Mod1Loc = fMod1->GetMap();
+    std::map<int, std::pair<double,double> > Mod2Loc = fMod2->GetMap();
+    std::map<int, std::pair<double,double> > Mod3Loc = fMod3->GetMap();
     std::map<int, std::pair<double,double> >::iterator FiberItr;
 
     TF1 *cossq = new TF1("cossq","cos(x)*cos(x)",PI/2.,PI);
     for ( unsigned int ev = 0; ev < fNEvents; ev++ ) {
       fEventID = ev;
       geo::MCTrack *Muon = new geo::MCTrack();
-      double InitialZ = 576 + fGap;
+      double InitialZ = 599 + fGap;
       fInitialZ = InitialZ;
       if ( fOriginUniformDist ) {
 	fInitialX = gRandom->Uniform(fOriginUniformDistMin,fOriginUniformDistMax);
@@ -503,7 +501,7 @@ namespace ev {
     }
 
     double xP = (FibJ - YintP)/SlopeP;
-    if ( (xP < 0) || (xP > 667) )
+    if ( (xP < 0) || (xP > fMod0->GetScintLength()) )
       return false;
 
     double           LeftEdge_h = FibI - fScintWidth/2.0;

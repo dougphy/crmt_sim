@@ -22,6 +22,7 @@ namespace geo {
     double       fScintGap    = 4.800;
     double       fModGap      = 6.400;
     double       fScintShift  = 3.333;
+    double       fScintLength = 650.0;
     double       fGap;        
   
     std::map<int, std::pair<double,double> > fFiberMap; ///< map of fiber locations
@@ -37,12 +38,14 @@ namespace geo {
     /// Virtual destructor
     virtual ~Module();
     
-    const std::map<int, std::pair<double,double> > GetMap()        const;
-    const unsigned int                             GetModuleType() const;
+    const std::map<int, std::pair<double,double> > GetMap()         const;
+    const unsigned int                             GetModuleType()  const;
+    const double                                   GetScintLength() const;
   };
 }
 
-inline const std::map<int, std::pair<double,double> > geo::Module::GetMap()        const { return fFiberMap;   }
-inline const unsigned int                             geo::Module::GetModuleType() const { return fModuleType; } 
+inline const std::map<int, std::pair<double,double> > geo::Module::GetMap()         const { return fFiberMap;    }
+inline const unsigned int                             geo::Module::GetModuleType()  const { return fModuleType;  } 
+inline const double                                   geo::Module::GetScintLength() const { return fScintLength; }
 
 #endif

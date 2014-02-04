@@ -12,6 +12,7 @@
 #include "TTree.h"
 #include "MCTrack.h"
 #include "TestVolume.h"
+#include "Module.h"
 #include <map>
 #include <vector>
 #include <string>
@@ -107,6 +108,11 @@ namespace ev {
     std::vector<int>                   fHitPinsBot3; ///< contains hit pin ids (mod3 bottom pmt)
     std::map<int, std::vector<int> >   fFiberCouplingMap;
   
+    geo::Module                       *fMod0;
+    geo::Module                       *fMod1;
+    geo::Module                       *fMod2;
+    geo::Module                       *fMod3;
+
     double                             fScintWidth  = 10.4; ///< scintillator width
     double                             fScintHeight = 30.8; ///< scintillator height 
     double                             fScintLength = 650.0; ///< scintillator length
