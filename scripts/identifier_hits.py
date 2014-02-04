@@ -1,6 +1,9 @@
+#!/usr/bin/env python
+
+import sys
 import ROOT
 
-the_file = ROOT.TFile('afile.root','read')
+the_file = ROOT.TFile(sys.argv[1],'read')
 the_tree = the_file.Get('SimulationTree')
 
 for entry in the_tree:

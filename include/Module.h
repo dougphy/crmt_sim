@@ -16,13 +16,13 @@ namespace geo {
   class Module {
   
   private:
-    unsigned int fModuleType;           ///< Module type (1, 2, 3, or 4)
-    double       fScintWidth  = 10.40;  ///< scintillator width
-    double       fScintHeight = 30.80;  ///< scintillator height
-    double       fScintGap    = 4.800;  ///< gap between rows
-    double       fModGap      = 6.400;  ///< gap between modules
-    double       fScintShift  = 3.333;  ///< 1/3 cm shift for rows (needed repeat)
-    double       fGap;                  ///< gap between 2 halves
+    unsigned int fModuleType; 
+    double       fScintWidth  = 10.40;
+    double       fScintHeight = 30.80;
+    double       fScintGap    = 4.800;
+    double       fModGap      = 6.400;
+    double       fScintShift  = 3.333;
+    double       fGap;        
   
     std::map<int, std::pair<double,double> > fFiberMap; ///< map of fiber locations
   
