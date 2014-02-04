@@ -22,16 +22,16 @@ namespace geo {
     
     switch ( fModuleType ) {
     case 0:
-      raise = 3*(4*fScintHeight+3*fScintGap+fModGap)+gap;
+      raise = 3*(4*fScintHeight+3*fScintGap)+gap+7*fModGap;
       break;
     case 1:
-      raise = 2*(4*fScintHeight+3*fScintGap+fModGap)+gap;
+      raise = 2*(4*fScintHeight+3*fScintGap)+gap+5*fModGap;
       break;
     case 2:
-      raise = 1*(4*fScintHeight+3*fScintGap+fModGap);
+      raise = 1*(4*fScintHeight+3*fScintGap)+3*fModGap;
       break;
     case 3:
-      raise = 0;
+      raise = fModGap;
       break;
     default:
       raise = 0;
