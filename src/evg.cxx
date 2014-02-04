@@ -64,7 +64,6 @@ namespace ev {
     fTree->Branch("PinsArray2",fPinsArray2,"PinsArray2[32]/O");
     fTree->Branch("PinsArray3",fPinsArray3,"PinsArray3[32]/O");
 
-
     fTreeMod0 = new TTree("Mod0Tree","Mod0Tree");
     fTreeMod1 = new TTree("Mod1Tree","Mod1Tree");
     fTreeMod2 = new TTree("Mod2Tree","Mod2Tree");
@@ -358,10 +357,30 @@ namespace ev {
 	}
       }
       
-      bool Mod0Checker = false;
-      bool Mod1Checker = false;
-      bool Mod2Checker = false;
-      bool Mod3Checker = false;
+      bool Mod0Checker   = false;
+      bool Mod1Checker   = false;
+      bool Mod2Checker   = false;
+      bool Mod3Checker   = false;
+      fIdentifierHit[0] = false;
+      fIdentifierHit[1] = false;
+      fIdentifierHit[2] = false;
+      fIdentifierHit[3] = false;
+      
+      int ident_counter[4] = {0};
+      for ( int i = 0; i < 64; i++ ) {
+	if ( fTrueMod0[i] )
+	  ident_counter[0]++;
+	if ( fTrueMod1[i] )
+	  ident_counter[1]++;
+	if ( fTrueMod2[i] )
+	  ident_counter[2]++;
+	if ( fTrueMod3[i] )
+	  ident_counter[3]++;
+      }
+
+      for ( int i = 0; i < 4; i++ )
+	if ( ident_counter[i] > 0 )
+	  fIdentifierHit[i] = true;
       
       int top_counter = 0;
       for ( int i = 0; i < 64; i++ ) {
@@ -484,7 +503,7 @@ namespace ev {
     }
 
     double xP = (FibJ - YintP)/SlopeP;
-    if ( (xP < 0) || (xP > 660) )
+    if ( (xP < 0) || (xP > 667) )
       return false;
 
     double           LeftEdge_h = FibI - fScintWidth/2.0;
