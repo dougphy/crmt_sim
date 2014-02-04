@@ -128,5 +128,6 @@ void Draw3DGL(const std::string& file_name, const bool& true_view, const unsigne
   muon_line->SetPoint(0,topx,topy,topz);
   muon_line->SetPoint(1,botx,boty,botz);
   muon_line->SetLineColor(kRed);
+  muon_line->SetLineWidth(3);
   muon_line->Draw();
 }
