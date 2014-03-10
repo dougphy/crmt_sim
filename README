@@ -1,34 +1,4 @@
+THIS STUFF IS OLD GO HERE:
 
+https://github.com/dougphy/crmt
 
-   ===========================
-   +      crmt_sim           +
-   +      Douglas Davis      +
-   +      UTKL               +
-   ===========================
-
-   * See UTKLDocDB-doc-780 for a description of this software *
-   * The compilation  method from this document is outdated   *
-   * Use the below instructions to compile                    *
-
-   === Compile with cmake  ===
-     $ mkdir build
-     $ cd build
-     $ cmake -DROOT_HOME=<ROOTSYS> ..
-     $ make
-
-
-   === Running ===
-     (* Return back to main directory (cd .. from compile step) *)
-     execute with:
-     $ bin/crmt
-     usage will be displayed, see document for details
-
-   === Configuration file setting ===
-     See above DocDB entry for description
-
-   === Tested Compilers ===
-     * LLVM/Clang 3.3 on OS X
-     * LLVM/Clang 3.2 on Ubuntu
-     * LLVM/Clang 3.0 on FreeBSD
-     * GCC g++ 4.8.1 on Ubuntu
-     * GCC g++ 4.8.2 on FreeBSD
